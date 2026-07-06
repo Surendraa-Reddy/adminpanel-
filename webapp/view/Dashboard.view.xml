@@ -1,0 +1,93 @@
+<mvc:View
+    controllerName="employee.controller.Dashboard"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f">
+
+<Page title="Dashboard">
+
+    <content>
+
+        <VBox class="sapUiMediumMargin">
+
+            <Title
+                text="Welcome Administrator"
+                level="H2"/>
+
+            <Text
+                text="HR Management Dashboard"/>
+
+            <HBox
+                wrap="Wrap"
+                justifyContent="SpaceAround"
+                class="sapUiMediumMarginTop">
+
+                <GenericTile
+                    header="Employees"
+                    subheader="Total Employees"
+                    press="onEmployee">
+
+                    <TileContent>
+
+                        <NumericContent
+                            value="{dashboard>/Employees}"
+                            icon="sap-icon://employee"/>
+
+                    </TileContent>
+
+                </GenericTile>
+
+                <GenericTile
+                    header="Departments"
+                    subheader="Departments"
+                    press="onDepartment">
+
+                    <TileContent>
+
+                        <NumericContent
+                            value="{dashboard>/Departments}"
+                            icon="sap-icon://building"/>
+
+                    </TileContent>
+
+                </GenericTile>
+
+                <GenericTile
+                    header="Roles"
+                    subheader="Available Roles"
+                    press="onRole">
+
+                    <TileContent>
+
+                        <NumericContent
+                            value="{dashboard>/Roles}"
+                            icon="sap-icon://manager"/>
+
+                    </TileContent>
+
+                </GenericTile>
+
+                <GenericTile
+                    header="Leaves"
+                    subheader="Pending Leaves"
+                    press="onLeave">
+
+                    <TileContent>
+
+                        <NumericContent
+                            value="{dashboard>/Leaves}"
+                            icon="sap-icon://calendar"/>
+
+                    </TileContent>
+
+                </GenericTile>
+
+            </HBox>
+
+        </VBox>
+
+    </content>
+
+</Page>
+
+</mvc:View>

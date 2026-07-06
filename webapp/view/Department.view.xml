@@ -1,0 +1,153 @@
+<mvc:View
+    controllerName="employee.controller.Department"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+<Page
+    id="departmentPage"
+    title="Department Management"
+    showNavButton="true">
+
+    <headerContent>
+
+        <Button
+            icon="sap-icon://add"
+            text="New Department"
+            type="Emphasized"
+            press="onAdd"/>
+
+    </headerContent>
+
+    <content>
+
+        <!-- Top Toolbar -->
+        <OverflowToolbar  class="sapUiTinyMargin">
+
+            <Title text="Departments" level="H2"/>
+
+            <ToolbarSpacer/>
+
+          <SearchField
+              id="searchDepartment"
+             width="18rem"
+             placeholder="Search Department"
+             liveChange="onSearch"/>
+
+            <ToolbarSeparator/>
+
+            <Button
+                icon="sap-icon://refresh"
+                tooltip="Refresh"
+                press="onRefresh"/>
+
+        </OverflowToolbar>
+
+        <!-- Department Table -->
+        <Table
+            id="departmentTable"
+            class="sapUiTinyMargin"
+            inset="false"
+            alternateRowColors="true"
+            sticky="ColumnHeaders,HeaderToolbar"
+            growing="true"
+            growingThreshold="20"
+            growingScrollToLoad="true"
+            items="{/DepartmentSet}">
+
+            <headerToolbar>
+
+                <OverflowToolbar>
+
+                    <Title text="Department Directory"/>
+
+                    <ToolbarSpacer/>
+
+                    <ObjectStatus
+                        text="Loaded from OData"
+                        state="Success"/>
+
+                </OverflowToolbar>
+
+            </headerToolbar>
+
+            <columns>
+
+                <Column width="10rem">
+                    <Text text="Dept ID"/>
+                </Column>
+
+                <Column width="10rem">
+                    <Text text="Department Name"/>
+                </Column>
+
+                <Column width="10rem">
+                    <Text text="Location"/>
+                </Column>
+
+                <Column width="8rem" hAlign="Center">
+                    <Text text="Status"/>
+                </Column>
+
+                <Column width="10rem" hAlign="Center">
+                    <Text text="Actions"/>
+                </Column>
+
+            </columns>
+
+            <items>
+
+                <ColumnListItem type="Active" press="onView">
+
+                    <cells>
+
+                        <!-- Dept ID -->
+                        <ObjectIdentifier
+                            title="{DeptId}"/>
+
+                        <!-- Department Name -->
+                        <Text text="{DeptName}"/>
+
+                        <!-- Location -->
+                        <Text text="{Location}"/>
+
+                        <!-- Status -->
+                        <ObjectStatus
+                            text="{= ${Status} === '1' ? 'Active' : 'Inactive'}"
+                            state="{= ${Status} === '1' ? 'Success' : 'Error'}"/>
+
+                        <!-- Actions -->
+                        <HBox justifyContent="Center">
+
+                            <Button
+                                icon="sap-icon://display"
+                                type="Transparent"
+                                tooltip="View"
+                                press="onView"/>
+
+                            <Button
+                                icon="sap-icon://edit"
+                                type="Transparent"
+                                tooltip="Edit"
+                                press="onEdit"/>
+
+                            <Button
+                                icon="sap-icon://delete"
+                                type="Transparent"
+                                tooltip="Delete"
+                                press="onDelete"/>
+
+                        </HBox>
+
+                    </cells>
+
+                </ColumnListItem>
+
+            </items>
+
+        </Table>
+
+    </content>
+
+</Page>
+
+</mvc:View>

@@ -1,0 +1,275 @@
+<mvc:View
+    controllerName="employee.controller.CreateEmployee"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+
+<Page
+    title="Create Employee"
+    showNavButton="true"
+    navButtonPress="onBack">
+
+    <content>
+
+        <Panel
+            headerText="Employee Registration"
+            class="sapUiResponsiveMargin"
+            expandable="false">
+
+            <f:SimpleForm
+                id="employeeForm"
+                editable="true"
+                layout="ResponsiveGridLayout"
+                columnsXL="3"
+                columnsL="3"
+                columnsM="2"
+                columnsS="1"
+                labelSpanXL="4"
+                labelSpanL="4"
+                labelSpanM="4"
+                emptySpanXL="1"
+                emptySpanL="1"
+                emptySpanM="0">
+
+                <!-- ===================================================== -->
+                <!-- Employee Information -->
+                <!-- ===================================================== -->
+
+                <core:Title text="Employee Information"/>
+
+                <Label
+                    text="Employee ID"
+                    required="true"/>
+                <Input
+                    id="empId"
+                    maxLength="10"
+                    placeholder="Enter Employee ID"/>
+
+                <Label
+                    text="First Name"
+                    required="true"/>
+                <Input
+                    id="firstName"
+                    maxLength="50"
+                    placeholder="Enter First Name"/>
+
+                <Label
+                    text="Last Name"
+                    required="true"/>
+                <Input
+                    id="lastName"
+                    maxLength="50"
+                    placeholder="Enter Last Name"/>
+
+                <!-- ===================================================== -->
+                <!-- Personal Information -->
+                <!-- ===================================================== -->
+
+                <core:Title text="Personal Information"/>
+
+                <Label
+                    text="Gender"
+                    required="true"/>
+
+                <Select id="gender">
+
+                    <items>
+
+                        <core:Item
+                            key="M"
+                            text="Male"/>
+
+                        <core:Item
+                            key="F"
+                            text="Female"/>
+
+                        <core:Item
+                            key="O"
+                            text="Other"/>
+
+                    </items>
+
+                </Select>
+
+                <Label
+                    text="Date of Birth"
+                    required="true"/>
+
+                <DatePicker
+                    id="dob"
+                    width="100%"
+                    displayFormat="dd-MM-yyyy"
+                    valueFormat="yyyy-MM-dd"
+                    placeholder="Select Date"/>
+
+                <Label
+                    text="Joining Date"
+                    required="true"/>
+
+                <DatePicker
+                    id="joinDate"
+                    width="100%"
+                    displayFormat="dd-MM-yyyy"
+                    valueFormat="yyyy-MM-dd"
+                    placeholder="Select Date"/>
+
+                <!-- ===================================================== -->
+                <!-- Contact Information -->
+                <!-- ===================================================== -->
+
+                <core:Title text="Contact Information"/>
+
+                <Label
+                    text="Email"
+                    required="true"/>
+
+                <Input
+                    id="email"
+                    type="Email"
+                    placeholder="example@company.com"/>
+
+                <Label
+                    text="Phone"
+                    required="true"/>
+
+                <Input
+                    id="phone"
+                    type="Tel"
+                    maxLength="10"
+                    placeholder="10-digit Mobile Number"/>
+
+                <Label
+                    text="Salary"
+                    required="true"/>
+
+                <Input
+                    id="salary"
+                    type="Number"
+                    placeholder="Enter Salary"/>
+
+                <!-- ===================================================== -->
+                <!-- Organization Details -->
+                <!-- ===================================================== -->
+
+                <core:Title text="Organization Details"/>
+
+                <Label
+                    text="Currency"
+                    required="true"/>
+
+                <Select id="waers">
+
+                    <items>
+
+                        <core:Item
+                            key="INR"
+                            text="Indian Rupee (INR)"/>
+
+                        <core:Item
+                            key="USD"
+                            text="US Dollar (USD)"/>
+
+                        <core:Item
+                            key="EUR"
+                            text="Euro (EUR)"/>
+
+                    </items>
+
+                </Select>
+
+                <Label
+                    text="Department"
+                    required="true"/>
+
+                <ComboBox
+                    id="deptId"
+                    width="100%"
+                    placeholder="Select Department"
+                    items="{/DepartmentSet}">
+
+                    <core:Item
+                        key="{DeptId}"
+                        text="{DeptId} - {DeptName}"/>
+
+                </ComboBox>
+
+                <Label
+                    text="Role"
+                    required="true"/>
+
+                <ComboBox
+                    id="roleId"
+                    width="100%"
+                    placeholder="Select Role"
+                    items="{/RolesSet}">
+
+                    <core:Item
+                        key="{RoleId}"
+                        text="{RoleId} - {RoleName}"/>
+
+                </ComboBox>
+
+                <!-- ===================================================== -->
+                <!-- Employment Status -->
+                <!-- ===================================================== -->
+
+                <core:Title text="Employment Status"/>
+
+                <Label
+                    text="Status"
+                    required="true"/>
+
+                <Select id="status">
+
+                    <items>
+
+                        <core:Item
+                            key="1"
+                            text="Active"/>
+
+                        <core:Item
+                            key="0"
+                            text="Inactive"/>
+
+                    </items>
+
+                </Select>
+
+            </f:SimpleForm>
+
+        </Panel>
+
+    </content>
+
+    <footer>
+
+        <Toolbar>
+
+            <ToolbarSpacer/>
+
+            <Button
+                text="Reset"
+                icon="sap-icon://reset"
+                type="Transparent"
+                press="onReset"/>
+
+            <Button
+                text="Cancel"
+                icon="sap-icon://decline"
+                type="Transparent"
+                press="onBack"/>
+
+            <Button
+                text="Save Employee"
+                icon="sap-icon://save"
+                type="Emphasized"
+                press="onSave"/>
+
+        </Toolbar>
+
+    </footer>
+
+</Page>
+
+</mvc:View>

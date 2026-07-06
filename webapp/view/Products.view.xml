@@ -1,0 +1,142 @@
+<mvc:View
+    controllerName="admindemo.controller.Products"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page title="Product Management">
+
+        <headerContent>
+
+            <Button
+                icon="sap-icon://refresh"
+                tooltip="Refresh"
+                press="onRefresh"/>
+
+            <Button
+                icon="sap-icon://sort"
+                tooltip="Sort"
+                press="onSort"/>
+
+            <Button
+                icon="sap-icon://filter"
+                tooltip="Filter"
+                press="onFilter"/>
+
+        </headerContent>
+
+        <content>
+
+            <VBox class="sapUiResponsiveMargin">
+
+                <SearchField
+                    width="100%"
+                    placeholder="Search Product..."
+                    liveChange="onSearch"/>
+
+                <Table
+                    id="productsTable"
+                    class="sapUiSmallMarginTop"
+                    growing="true"
+                    growingThreshold="20"
+                    sticky="ColumnHeaders,HeaderToolbar"
+                    mode="SingleSelectMaster"
+                    selectionChange="onSelectionChange"
+                    items="{/Products}">
+
+                    <headerToolbar>
+
+                        <OverflowToolbar>
+
+                            <Title
+                                text="Products"
+                                level="H2"/>
+
+                            <ToolbarSpacer/>
+
+                            <ObjectStatus
+                                text="Northwind Products"
+                                state="Success"/>
+
+                        </OverflowToolbar>
+
+                    </headerToolbar>
+
+                    <columns>
+
+                        <Column width="6rem">
+                            <Text text="ID"/>
+                        </Column>
+
+                        <Column>
+                            <Text text="Product"/>
+                        </Column>
+
+                        <Column hAlign="Center">
+                            <Text text="Price"/>
+                        </Column>
+
+                        <Column hAlign="Center">
+                            <Text text="Stock"/>
+                        </Column>
+
+                        <Column hAlign="Center">
+                            <Text text="Status"/>
+                        </Column>
+
+                    </columns>
+
+                    <items>
+
+                        <ColumnListItem type="Navigation">
+
+                            <cells>
+
+                                <ObjectIdentifier
+                                    title="{ProductID}"/>
+
+                                <ObjectIdentifier
+                                    title="{ProductName}"
+                                    text="{QuantityPerUnit}"/>
+
+                                <ObjectNumber
+                                    number="{UnitPrice}"
+                                    unit="USD"/>
+
+                                <ObjectNumber
+                                    number="{UnitsInStock}"/>
+
+                                <ObjectStatus
+                                    text="{= ${Discontinued} ? 'Inactive' : 'Available'}"
+                                    state="{= ${Discontinued} ? 'Error' : 'Success'}"/>
+
+                            </cells>
+
+                        </ColumnListItem>
+
+                    </items>
+
+                </Table>
+
+            </VBox>
+
+        </content>
+
+        <footer>
+
+            <OverflowToolbar>
+
+                <ObjectStatus
+                    text="Ready"
+                    state="Success"/>
+
+                <ToolbarSpacer/>
+
+                <Text text="Northwind OData"/>
+
+            </OverflowToolbar>
+
+        </footer>
+
+    </Page>
+
+</mvc:View>

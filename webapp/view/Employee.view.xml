@@ -1,0 +1,178 @@
+<mvc:View
+    controllerName="employee.controller.Employee"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+<Page
+    id="employeePage"
+    title="Employee Management"
+    showNavButton="true">
+
+    <headerContent>
+
+        <Button
+            icon="sap-icon://add"
+            text="New Employee"
+            type="Emphasized"
+            press="onAdd"/>
+
+    </headerContent>
+
+    <content>
+
+        <!-- Top Toolbar -->
+        <OverflowToolbar class="sapUiResponsiveMargin">
+
+            <Title
+                text="Employees"
+                level="H2"/>
+
+            <ToolbarSpacer/>
+
+           <SearchField
+              id="searchEmployee"
+              width="18rem"
+              placeholder="Search by ID, Name, Email..."
+              liveChange="onSearch"/>          
+
+            <ToolbarSeparator/>
+
+            <Button
+                icon="sap-icon://refresh"
+                tooltip="Refresh"
+                press="onRefresh"/>
+
+        </OverflowToolbar>
+
+        <!-- Employee Table -->
+        <Table
+            id="employeeTable"
+            class="SapUiTinyMargin"
+            inset="false"
+            alternateRowColors="true"
+            sticky="ColumnHeaders,HeaderToolbar"
+            growing="true"
+            growingThreshold="20"
+            growingScrollToLoad="true"
+            items="{/EmployeeeSet}">
+
+            <headerToolbar>
+
+                <OverflowToolbar>
+
+                    <Title text="Employee Directory"/>
+
+                    <ToolbarSpacer/>
+
+                    <ObjectStatus
+                        text="Loaded from OData"
+                        state="Success"/>
+
+                </OverflowToolbar>
+
+            </headerToolbar>
+
+            <columns>
+
+                <Column width="11rem">
+                    <Text text="Employee"/>
+                </Column>
+
+                <Column width="8rem">
+                    <Text text="Department"/>
+                </Column>
+
+                <Column width="8rem">
+                    <Text text="Role"/>
+                </Column>
+
+                <Column width="15rem">
+                    <Text text="Email"/>
+                </Column>
+
+                <Column width="10rem">
+                    <Text text="Phone"/>
+                </Column>
+
+                <Column width="7rem" hAlign="Center">
+                    <Text text="Status"/>
+                </Column>
+
+                <Column width="10rem" hAlign="Center">
+                    <Text text="Actions"/>
+                </Column>
+
+            </columns>
+
+            <items>
+
+                <ColumnListItem
+                    type="Active"
+                    press="onView">
+
+                    <cells>
+
+                        <!-- Employee -->
+                        <ObjectIdentifier
+                            title="{FirstName} {LastName}"
+                            text="{EmpId}"/>
+
+                        <!-- Department -->
+                        <ObjectStatus
+                            text="{DeptId}"
+                            state="Information"/>
+
+                        <!-- Role -->
+                        <ObjectStatus
+                            text="{RoleId}"
+                            state="None"/>
+
+                        <!-- Email -->
+                        <Text text="{Email}"/>
+
+                        <!-- Phone -->
+                        <Text text="{Phone}"/>
+
+                        <!-- Status -->
+                        <ObjectStatus
+                            text="{= ${Status} === '1' ? 'Active' : 'Inactive'}"
+                            state="{= ${Status} === '1' ? 'Success' : 'Error'}"/>
+
+                        <!-- Actions -->
+                        <HBox
+                            justifyContent="Center"
+                            renderType="Bare">
+
+                            <Button
+                                icon="sap-icon://display"
+                                type="Transparent"
+                                tooltip="View"
+                                press="onView"/>
+
+                            <Button
+                                icon="sap-icon://edit"
+                                type="Transparent"
+                                tooltip="Edit"
+                                press="onEdit"/>
+
+                          <Button
+                               
+                               type="Reject"
+                               icon="sap-icon://delete"
+                               press="onDelete"/>
+
+                        </HBox>
+
+                    </cells>
+
+                </ColumnListItem>
+
+            </items>
+
+        </Table>
+
+    </content>
+
+</Page>
+
+</mvc:View>

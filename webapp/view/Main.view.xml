@@ -1,0 +1,80 @@
+<mvc:View
+    controllerName="employee.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:tnt="sap.tnt">
+
+<tnt:ToolPage id="toolPage">
+
+    <tnt:header>
+
+        <OverflowToolbar>
+
+            <Button
+                icon="sap-icon://menu2"
+                type="Transparent"
+                press="onToggleMenu"/>
+
+            <Title text="HR Admin Portal"/>
+
+            <ToolbarSpacer/>
+
+            <Avatar initials="A"/>
+
+            <Text text="Administrator"/>
+
+        </OverflowToolbar>
+
+    </tnt:header>
+
+    <tnt:sideContent>
+
+        <tnt:SideNavigation>
+
+            <tnt:NavigationList>
+
+                <tnt:NavigationListItem
+                    text="Dashboard"
+                    icon="sap-icon://home"
+                    select="onDashboard"/>
+
+                <tnt:NavigationListItem
+                    text="Employees"
+                    icon="sap-icon://employee"
+                    select="onEmployee"/>
+
+                <tnt:NavigationListItem
+                    text="Departments"
+                    icon="sap-icon://building"
+                    select="onDepartment"/>
+
+                <tnt:NavigationListItem
+                    text="Roles"
+                    icon="sap-icon://manager"
+                    select="onRole"/>
+
+                <tnt:NavigationListItem
+                    text="Attendance"
+                    icon="sap-icon://calendar"
+                    select="onAttendance"/>
+
+                <tnt:NavigationListItem
+                    text="Leaves"
+                    icon="sap-icon://flight"
+                    select="onLeave"/>
+
+            </tnt:NavigationList>
+
+        </tnt:SideNavigation>
+
+    </tnt:sideContent>
+
+    <tnt:mainContents>
+
+        <NavContainer id="mainNav"/>
+
+    </tnt:mainContents>
+
+</tnt:ToolPage>
+
+</mvc:View>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZODATA_ADMIN_SRV_01" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <EntityType Name="Subscription" sap:semantics="subscriptions" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" Nullable="false" MaxLength="32" sap:label="Sub. ID" sap:creatable="false" sap:updatable="false" sap:filterable="false"/>
+                <Property Name="user" Type="Edm.String" MaxLength="12" m:FC_TargetPath="SyndicationAuthorName" m:FC_KeepInContent="false" sap:label="User Name" sap:creatable="false" sap:filterable="false"/>
+                <Property Name="updated" Type="Edm.DateTime" Precision="0" m:FC_TargetPath="SyndicationUpdated" m:FC_KeepInContent="false" sap:label="Time Stamp" sap:creatable="false" sap:filterable="false"/>
+                <Property Name="title" Type="Edm.String" MaxLength="255" m:FC_TargetPath="SyndicationTitle" m:FC_KeepInContent="false" sap:label="Title" sap:filterable="false"/>
+                <Property Name="deliveryAddress" Type="Edm.String" sap:label="Delivery Address" sap:filterable="false"/>
+                <Property Name="persistNotifications" Type="Edm.Boolean" sap:label="Persist Notification" sap:filterable="false"/>
+                <Property Name="collection" Type="Edm.String" MaxLength="40" sap:label="Collection" sap:filterable="false"/>
+                <Property Name="filter" Type="Edm.String" sap:label="Filter" sap:filterable="false"/>
+                <Property Name="select" Type="Edm.String" MaxLength="255" sap:label="Select" sap:filterable="false"/>
+                <Property Name="changeType" Type="Edm.String" MaxLength="30" sap:label="Change Type"/>
+            </EntityType>
+            <EntityType Name="Notification" sap:semantics="notifications" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.String" Nullable="false" MaxLength="32" sap:label="Notification ID"/>
+                <Property Name="collection" Type="Edm.String" MaxLength="40" sap:label="Collection"/>
+                <Property Name="title" Type="Edm.String" m:FC_TargetPath="SyndicationTitle" m:FC_KeepInContent="false" sap:label="Notif. Text"/>
+                <Property Name="updated" Type="Edm.DateTime" Precision="0" m:FC_TargetPath="SyndicationUpdated" m:FC_KeepInContent="false" sap:label="Time Stamp"/>
+                <Property Name="changeType" Type="Edm.String" MaxLength="30" sap:label="Change Type"/>
+                <Property Name="entriesOfInterest" Type="Edm.Int32" sap:label="No. of Entries"/>
+                <Property Name="recipient" Type="Edm.String" MaxLength="112" sap:label="Recipient" sap:creatable="false" sap:updatable="false"/>
+            </EntityType>
+            <EntityType Name="Employeee" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="EmpId"/>
+                </Key>
+                <Property Name="Mandt" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Client" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="EmpId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Character Field with Length 10"/>
+                <Property Name="FirstName" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="c"/>
+                <Property Name="LastName" Type="Edm.String" MaxLength="50" sap:unicode="false" sap:label="c"/>
+                <Property Name="Gender" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Single-Character Flag"/>
+                <Property Name="Dob" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Date"/>
+                <Property Name="Email" Type="Edm.String" MaxLength="60" sap:unicode="false" sap:label="Logical System"/>
+                <Property Name="Phone" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="Char20"/>
+                <Property Name="DeptId" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Character Field with Length 10"/>
+                <Property Name="RoleId" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Character Field with Length 10"/>
+                <Property Name="JoinDate" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Date"/>
+                <Property Name="Salary" Type="Edm.Decimal" Precision="14" Scale="3" sap:unicode="false" sap:unit="Waers" sap:label="salary"/>
+                <Property Name="Waers" Type="Edm.String" MaxLength="5" sap:unicode="false" sap:label="Currency" sap:semantics="currency-code"/>
+                <Property Name="Status" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Single-Character Flag"/>
+                <NavigationProperty Name="Attendance" Relationship="ZODATA_ADMIN_SRV_01.emptoattendance" FromRole="FromRole_emptoattendance" ToRole="ToRole_emptoattendance"/>
+                <NavigationProperty Name="Leaves" Relationship="ZODATA_ADMIN_SRV_01.emptoleave" FromRole="FromRole_emptoleave" ToRole="ToRole_emptoleave"/>
+            </EntityType>
+            <EntityType Name="Department" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="DeptId"/>
+                </Key>
+                <Property Name="Mandt" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Client" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="DeptId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Character Field with Length 10"/>
+                <Property Name="DeptName" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="Char"/>
+                <Property Name="Location" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="Char"/>
+                <Property Name="Status" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Single-Character Flag"/>
+                <NavigationProperty Name="Dep" Relationship="ZODATA_ADMIN_SRV_01.emptodep" FromRole="FromRole_emptodep" ToRole="ToRole_emptodep"/>
+            </EntityType>
+            <EntityType Name="Roles" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="RoleId"/>
+                </Key>
+                <Property Name="Mandt" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Client" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="RoleId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Character Field with Length 10"/>
+                <Property Name="RoleName" Type="Edm.String" MaxLength="40" sap:unicode="false" sap:label="Char"/>
+                <Property Name="Description" Type="Edm.String" MaxLength="100" sap:unicode="false" sap:label="Character 100"/>
+                <NavigationProperty Name="Role" Relationship="ZODATA_ADMIN_SRV_01.roletoemp" FromRole="FromRole_roletoemp" ToRole="ToRole_roletoemp"/>
+            </EntityType>
+            <EntityType Name="Attendance" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="AttId"/>
+                </Key>
+                <Property Name="Mandt" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Client" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="AttId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Character Field with Length 10"/>
+                <Property Name="EmpId" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Character Field with Length 10"/>
+                <Property Name="AttDate" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Date"/>
+                <Property Name="Checkin" Type="Edm.Time" Precision="0" sap:unicode="false" sap:label="Field of type TIMS"/>
+                <Property Name="Checkout" Type="Edm.Time" Precision="0" sap:unicode="false" sap:label="Field of type TIMS"/>
+                <Property Name="Status" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Single-Character Flag"/>
+            </EntityType>
+            <EntityType Name="Leaves" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="LeaveId"/>
+                </Key>
+                <Property Name="Mandt" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Client" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="LeaveId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Character Field with Length 10"/>
+                <Property Name="EmpId" Type="Edm.String" MaxLength="10" sap:unicode="false" sap:label="Character Field with Length 10"/>
+                <Property Name="LeaveType" Type="Edm.String" MaxLength="20" sap:unicode="false" sap:label="Char20" sap:sortable="false"/>
+                <Property Name="FromDate" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Date"/>
+                <Property Name="ToDate" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Date"/>
+                <Property Name="Reason" Type="Edm.String" MaxLength="100" sap:unicode="false" sap:label="Character 100"/>
+                <Property Name="Status" Type="Edm.String" MaxLength="1" sap:unicode="false" sap:label="Single-Character Flag"/>
+            </EntityType>
+            <Association Name="roletoemp" sap:content-version="1">
+                <End Type="ZODATA_ADMIN_SRV_01.Roles" Multiplicity="1" Role="FromRole_roletoemp"/>
+                <End Type="ZODATA_ADMIN_SRV_01.Employeee" Multiplicity="*" Role="ToRole_roletoemp"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_roletoemp">
+                        <PropertyRef Name="RoleId"/>
+                    </Principal>
+                    <Dependent Role="ToRole_roletoemp">
+                        <PropertyRef Name="RoleId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="emptodep" sap:content-version="1">
+                <End Type="ZODATA_ADMIN_SRV_01.Department" Multiplicity="1" Role="FromRole_emptodep"/>
+                <End Type="ZODATA_ADMIN_SRV_01.Employeee" Multiplicity="*" Role="ToRole_emptodep"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_emptodep">
+                        <PropertyRef Name="DeptId"/>
+                    </Principal>
+                    <Dependent Role="ToRole_emptodep">
+                        <PropertyRef Name="DeptId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="emptoattendance" sap:content-version="1">
+                <End Type="ZODATA_ADMIN_SRV_01.Employeee" Multiplicity="1" Role="FromRole_emptoattendance"/>
+                <End Type="ZODATA_ADMIN_SRV_01.Attendance" Multiplicity="*" Role="ToRole_emptoattendance"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_emptoattendance">
+                        <PropertyRef Name="EmpId"/>
+                    </Principal>
+                    <Dependent Role="ToRole_emptoattendance">
+                        <PropertyRef Name="EmpId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="emptoleave" sap:content-version="1">
+                <End Type="ZODATA_ADMIN_SRV_01.Employeee" Multiplicity="1" Role="FromRole_emptoleave"/>
+                <End Type="ZODATA_ADMIN_SRV_01.Leaves" Multiplicity="*" Role="ToRole_emptoleave"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_emptoleave">
+                        <PropertyRef Name="EmpId"/>
+                    </Principal>
+                    <Dependent Role="ToRole_emptoleave">
+                        <PropertyRef Name="EmpId"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="ZODATA_ADMIN_SRV_01_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="SubscriptionCollection" EntityType="ZODATA_ADMIN_SRV_01.Subscription" sap:content-version="1"/>
+                <EntitySet Name="NotificationCollection" EntityType="ZODATA_ADMIN_SRV_01.Notification" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:addressable="false" sap:content-version="1"/>
+                <EntitySet Name="EmployeeeSet" EntityType="ZODATA_ADMIN_SRV_01.Employeee" sap:searchable="true" sap:requires-filter="true" sap:content-version="1"/>
+                <EntitySet Name="DepartmentSet" EntityType="ZODATA_ADMIN_SRV_01.Department" sap:searchable="true" sap:requires-filter="true" sap:content-version="1"/>
+                <EntitySet Name="RolesSet" EntityType="ZODATA_ADMIN_SRV_01.Roles" sap:searchable="true" sap:requires-filter="true" sap:content-version="1"/>
+                <EntitySet Name="AttendanceSet" EntityType="ZODATA_ADMIN_SRV_01.Attendance" sap:searchable="true" sap:requires-filter="true" sap:content-version="1"/>
+                <EntitySet Name="LeavesSet" EntityType="ZODATA_ADMIN_SRV_01.Leaves" sap:searchable="true" sap:requires-filter="true" sap:content-version="1"/>
+                <AssociationSet Name="emptoleaveSet" Association="ZODATA_ADMIN_SRV_01.emptoleave" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="EmployeeeSet" Role="FromRole_emptoleave"/>
+                    <End EntitySet="LeavesSet" Role="ToRole_emptoleave"/>
+                </AssociationSet>
+                <AssociationSet Name="emptodepSet" Association="ZODATA_ADMIN_SRV_01.emptodep" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="DepartmentSet" Role="FromRole_emptodep"/>
+                    <End EntitySet="EmployeeeSet" Role="ToRole_emptodep"/>
+                </AssociationSet>
+                <AssociationSet Name="roletoempSet" Association="ZODATA_ADMIN_SRV_01.roletoemp" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="RolesSet" Role="FromRole_roletoemp"/>
+                    <End EntitySet="EmployeeeSet" Role="ToRole_roletoemp"/>
+                </AssociationSet>
+                <AssociationSet Name="emptoattendanceSet" Association="ZODATA_ADMIN_SRV_01.emptoattendance" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="EmployeeeSet" Role="FromRole_emptoattendance"/>
+                    <End EntitySet="AttendanceSet" Role="ToRole_emptoattendance"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link rel="self" href="http://182.70.127.33:8001/sap/opu/odata/sap/ZODATA_ADMIN_SRV_01/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="http://182.70.127.33:8001/sap/opu/odata/sap/ZODATA_ADMIN_SRV_01/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

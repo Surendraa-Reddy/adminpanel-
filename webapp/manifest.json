@@ -1,0 +1,130 @@
+{
+  "_version": "1.85.0",
+  "sap.app": {
+    "id": "employee",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "dataSources": {
+  "mainService": {
+    "uri": "/sap/opu/odata/sap/ZODATA_ADMIN_SRV_01/",
+    "type": "OData",
+    "settings": {
+      "odataVersion": "2.0",
+      "localUri": "localService/metadata.xml"
+    }
+  }
+}
+  },
+  "sourceTemplate": {
+    "id": "@sap/generator-fiori:basic",
+    "version": "1.25.0",
+    "toolsId": "b4016843-7c16-494a-85dc-d3c5c75c3e90"
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.149.1",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.tnt": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "employee.i18n.i18n",
+          "supportedLocales": [
+            "en"
+          ],
+          "fallbackLocale": "en"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "useBatch": true,
+          "defaultBindingMode": "TwoWay"
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "employee.view",
+        "controlId": "app",
+        "controlAggregation": "pages",
+        "async": true
+      },
+      "routes": [
+        {
+          "pattern": "",
+          "name": "Dashboard",
+          "target": "Dashboard"
+        },
+        {
+          "pattern": "App",
+          "name": "App",
+          "target": "App"
+        },
+        {
+          "pattern": "Employee",
+          "name": "Employee",
+          "target": "Employee"
+        },
+        {"pattern": "Department",
+          "name": "Department",
+          "target": "Department"
+          }
+      ],
+      "targets": {
+        "App": {
+          "viewName": "App"
+        },
+        "Dashboard": {
+          "viewName": "Dashboard"
+        },
+        "Employee": {
+          "viewName": "Employee"
+        },
+        "Department": {
+          "viewName": "Department"
+        } 
+      }
+    },
+    "rootView": {
+      "viewName": "employee.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  }
+}

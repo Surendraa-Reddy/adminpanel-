@@ -1,0 +1,175 @@
+<mvc:View
+    controllerName="employee.controller.EditEmployee"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+
+<Page
+    title="Edit Employee"
+    showNavButton="true"
+    navButtonPress="onBack">
+
+    <content>
+
+        <Panel
+            headerText="Employee Details"
+            class="sapUiResponsiveMargin"
+            expandable="false">
+
+            <f:SimpleForm
+                editable="true"
+                layout="ResponsiveGridLayout"
+                columnsXL="3"
+                columnsL="3"
+                columnsM="2"
+                labelSpanXL="4"
+                labelSpanL="4"
+                labelSpanM="4"
+                emptySpanXL="1"
+                emptySpanL="1"
+                emptySpanM="0">
+
+
+                <Title text="Personal Information"/>
+
+                <Label text="Employee ID" required="true"/>
+                <Input
+                    id="empId"
+                    value="{employee>/EmpId}"
+                    editable="false"/>
+
+                <Label text="First Name" required="true"/>
+                <Input
+                    id="firstName"
+                    value="{employee>/FirstName}"/>
+
+                <Label text="Last Name" required="true"/>
+                <Input
+                    id="lastName"
+                    value="{employee>/LastName}"/>
+
+                <Label text="Gender"/>
+                <Select
+                    id="gender"
+                    selectedKey="{employee>/Gender}">
+                    <items>
+                        <core:Item key="M" text="Male"/>
+                        <core:Item key="F" text="Female"/>
+                        <core:Item key="O" text="Other"/>
+                    </items>
+                </Select>
+
+                <Label text="Date of Birth"/>
+                <DatePicker
+                    id="dob"
+                    value="{employee>/Dob}"
+                    valueFormat="yyyy-MM-dd'T'HH:mm:ss"
+                    displayFormat="dd-MM-yyyy"/>
+
+      
+                
+
+                <Label text="Email" required="true"/>
+                <Input
+                    id="email"
+                    type="Email"
+                    value="{employee>/Email}"/>
+
+                <Label text="Phone" required="true"/>
+                <Input
+                    id="phone"
+                    type="Tel"
+                    value="{employee>/Phone}"/>
+
+               
+
+                <Label text="Department" required="true"/>
+
+                <ComboBox
+                    id="deptId"
+                    selectedKey="{employee>/DeptId}"
+                    items="{/DepartmentSet}">
+                    <core:Item
+                        key="{DeptId}"
+                        text="{DeptId} - {DeptName}"/>
+                </ComboBox>
+
+                <Label text="Role" required="true"/>
+
+                <ComboBox
+                    id="roleId"
+                    selectedKey="{employee>/RoleId}"
+                    items="{/RolesSet}">
+                    <core:Item
+                        key="{RoleId}"
+                        text="{RoleId} - {RoleName}"/>
+                </ComboBox>
+
+                <Label text="Joining Date"/>
+                <DatePicker
+                    id="joinDate"
+                    value="{employee>/JoinDate}"
+                    valueFormat="yyyy-MM-dd'T'HH:mm:ss"
+                    displayFormat="dd-MM-yyyy"/>
+
+            
+
+           
+
+                <Label text="Salary"/>
+                <Input
+                    id="salary"
+                    type="Number"
+                    value="{employee>/Salary}"/>
+
+                <Label text="Currency"/>
+                <Input
+                    id="waers"
+                    value="{employee>/Waers}"/>
+
+                <Label text="Status"/>
+                <Select
+                    id="status"
+                    selectedKey="{employee>/Status}">
+                    <items>
+                        <core:Item
+                            key="1"
+                            text="Active"/>
+                        <core:Item
+                            key="0"
+                            text="Inactive"/>
+                    </items>
+                </Select>
+
+            </f:SimpleForm>
+
+        </Panel>
+
+    </content>
+
+    <footer>
+
+        <Toolbar>
+
+            <ToolbarSpacer/>
+
+            <Button
+                text="Cancel"
+                type="Transparent"
+                icon="sap-icon://decline"
+                press="onBack"/>
+
+            <Button
+                text="Update"
+                type="Emphasized"
+                icon="sap-icon://save"
+                press="onUpdate"/>
+
+        </Toolbar>
+
+    </footer>
+
+</Page>
+
+</mvc:View>

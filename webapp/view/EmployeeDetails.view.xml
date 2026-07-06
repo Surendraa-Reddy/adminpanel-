@@ -1,0 +1,134 @@
+<mvc:View
+    controllerName="employee.controller.EmployeeDetails"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form">
+
+<Page
+    id="employeeDetailsPage"
+    title="Employee Details"
+    showNavButton="true"
+    navButtonPress="onBack">
+
+    <headerContent>
+
+        <Button
+            icon="sap-icon://edit"
+            text="Edit"
+            type="Emphasized"/>
+
+    </headerContent>
+
+    <content>
+
+        <!-- Employee Header -->
+        <ObjectHeader
+            class="sapUiResponsiveMargin"
+            title="{employee>/FirstName} {employee>/LastName}"
+            number="{employee>/EmpId}"
+            intro="Employee Profile"
+            icon="sap-icon://employee">
+
+            <statuses>
+
+                <ObjectStatus
+                    text="{= ${employee>/Status} === '1' ? 'Active' : 'Inactive' }"
+                    state="{= ${employee>/Status} === '1' ? 'Success' : 'Error' }"/>
+
+            </statuses>
+
+        </ObjectHeader>
+
+        <!-- Information Tabs -->
+        <IconTabBar
+            class="sapUiResponsiveMargin"
+            expandable="false">
+
+            <!-- Personal Information -->
+            <items>
+
+                <IconTabFilter
+                    text="Personal Information"
+                    icon="sap-icon://person-placeholder">
+
+                    <Panel
+                        expandable="false"
+                        class="sapUiContentPadding">
+
+                        <f:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout">
+
+                            <Label text="Employee ID"/>
+                            <Text text="{employee>/EmpId}"/>
+
+                            <Label text="First Name"/>
+                            <Text text="{employee>/FirstName}"/>
+
+                            <Label text="Last Name"/>
+                            <Text text="{employee>/LastName}"/>
+
+                            <Label text="Gender"/>
+                            <Text text="{employee>/Gender}"/>
+
+                            <Label text="Date of Birth"/>
+                            <Text text="{employee>/Dob}"/>
+
+                            <Label text="Email"/>
+                            <Text text="{employee>/Email}"/>
+
+                            <Label text="Phone"/>
+                            <Text text="{employee>/Phone}"/>
+
+                        </f:SimpleForm>
+
+                    </Panel>
+
+                </IconTabFilter>
+
+                <!-- Employment Details -->
+                <IconTabFilter
+                    text="Employment"
+                     icon="sap-icon://briefcase">
+                    <Panel
+                        expandable="false"
+                        class="sapUiContentPadding">
+
+                        <f:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout">
+
+                            <Label text="Department"/>
+                            <Text text="{employee>/DeptId}"/>
+
+                            <Label text="Role"/>
+                            <Text text="{employee>/RoleId}"/>
+
+                            <Label text="Joining Date"/>
+                            <Text text="{employee>/JoinDate}"/>
+
+                            <Label text="Salary"/>
+                            <ObjectNumber
+                                number="{employee>/Salary}"
+                                unit="{employee>/Waers}"/>
+
+                            <Label text="Status"/>
+                            <ObjectStatus
+                                text="{= ${employee>/Status} === '1' ? 'Active' : 'Inactive' }"
+                                state="{= ${employee>/Status} === '1' ? 'Success' : 'Error' }"/>
+
+                        </f:SimpleForm>
+
+                    </Panel>
+
+                </IconTabFilter>
+
+            </items>
+
+        </IconTabBar>
+
+    </content>
+
+</Page>
+
+</mvc:View>

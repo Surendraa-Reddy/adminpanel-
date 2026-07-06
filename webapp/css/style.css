@@ -1,0 +1,19 @@
+/* Enter your custom styles here */.sapTntToolPage {
+    background: #f5f7fa;
+}
+
+.sapTntSideNavigation {
+    background: #dce2ea;
+}
+
+.sapTntNavLI {
+    color: white;
+}
+
+.sapTntNavLI:hover {
+    background: #2563eb;
+}
+
+.sapMTitle {
+    font-weight: bold;
+}

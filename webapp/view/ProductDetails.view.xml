@@ -1,0 +1,102 @@
+<mvc:View
+    controllerName="admindemo.controller.ProductDetails"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form">
+
+    <Page
+        title="Product Details"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+
+        <content>
+
+            <ObjectHeader
+                title="{ProductName}"
+                intro="Product ID : {ProductID}"
+                number="{UnitPrice}"
+                numberUnit="USD"
+                icon="sap-icon://product">
+
+                <statuses>
+
+                    <ObjectStatus
+                        text="{= ${Discontinued} ? 'Inactive' : 'Available'}"
+                        state="{= ${Discontinued} ? 'Error' : 'Success'}"/>
+
+                </statuses>
+
+            </ObjectHeader>
+
+            <f:SimpleForm
+                editable="false"
+                layout="ResponsiveGridLayout"
+                class="sapUiLargeMargin">
+
+                <f:content>
+
+                    <Title text="General Information"/>
+
+                    <Label text="Product ID"/>
+                    <Text text="{ProductID}"/>
+
+                    <Label text="Product Name"/>
+                    <Text text="{ProductName}"/>
+
+                    <Label text="Category"/>
+                    <Text text="{CategoryID}"/>
+
+                    <Label text="Supplier"/>
+                    <Text text="{SupplierID}"/>
+
+                    <Label text="Quantity Per Unit"/>
+                    <Text text="{QuantityPerUnit}"/>
+
+                    <Title text="Inventory"/>
+
+                    <Label text="Units In Stock"/>
+                    <ObjectNumber
+                        number="{UnitsInStock}"/>
+
+                    <Label text="Units On Order"/>
+                    <ObjectNumber
+                        number="{UnitsOnOrder}"/>
+
+                    <Label text="Reorder Level"/>
+                    <ObjectNumber
+                        number="{ReorderLevel}"/>
+
+                    <Label text="Discontinued"/>
+                    <ObjectStatus
+                        text="{= ${Discontinued} ? 'Yes' : 'No'}"
+                        state="{= ${Discontinued} ? 'Error' : 'Success'}"/>
+
+                </f:content>
+
+            </f:SimpleForm>
+
+        </content>
+
+        <footer>
+
+            <OverflowToolbar>
+
+                <Button
+                    text="Back"
+                    icon="sap-icon://nav-back"
+                    press="onNavBack"/>
+
+                <ToolbarSpacer/>
+
+                <Button
+                    text="Refresh"
+                    icon="sap-icon://refresh"
+                    press="onRefresh"/>
+
+            </OverflowToolbar>
+
+        </footer>
+
+    </Page>
+
+</mvc:View>

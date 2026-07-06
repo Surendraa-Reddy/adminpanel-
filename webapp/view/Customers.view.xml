@@ -1,0 +1,139 @@
+<mvc:View
+    controllerName="admindemo.controller.Customers"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+<Page title="Customer Management">
+
+<headerContent>
+
+<Button
+icon="sap-icon://refresh"
+tooltip="Refresh"
+press="onRefresh"/>
+
+<Button
+icon="sap-icon://sort"
+tooltip="Sort"
+press="onSort"/>
+
+<Button
+icon="sap-icon://filter"
+tooltip="Filter"
+press="onFilter"/>
+
+</headerContent>
+
+<content>
+
+<VBox class="sapUiResponsiveMargin">
+
+<SearchField
+placeholder="Search Customer..."
+width="100%"
+liveChange="onSearch"/>
+
+<Table
+id="customersTable"
+class="sapUiSmallMarginTop"
+growing="true"
+growingThreshold="20"
+mode="SingleSelectMaster"
+selectionChange="onSelectionChange"
+items="{/Customers}">
+
+<headerToolbar>
+
+<OverflowToolbar>
+
+<Title
+text="Customers"
+level="H2"/>
+
+<ToolbarSpacer/>
+
+<ObjectStatus
+text="91 Records"
+state="Success"/>
+
+</OverflowToolbar>
+
+</headerToolbar>
+
+<columns>
+
+<Column width="8rem">
+<Text text="Customer ID"/>
+</Column>
+
+<Column minScreenWidth="Tablet">
+<Text text="Company"/>
+</Column>
+
+<Column minScreenWidth="Tablet">
+<Text text="Contact"/>
+</Column>
+
+<Column demandPopin="true">
+<Text text="Country"/>
+</Column>
+
+<Column demandPopin="true">
+<Text text="Phone"/>
+</Column>
+
+</columns>
+
+<items>
+
+<ColumnListItem type="Navigation">
+
+<cells>
+
+<ObjectIdentifier
+title="{CustomerID}"/>
+
+<ObjectIdentifier
+title="{CompanyName}"
+text="{ContactTitle}"/>
+
+<Text text="{ContactName}"/>
+
+<ObjectStatus
+text="{Country}"
+state="Information"/>
+
+<Link
+text="{Phone}"/>
+
+</cells>
+
+</ColumnListItem>
+
+</items>
+
+</Table>
+
+</VBox>
+
+</content>
+
+<footer>
+
+<Toolbar>
+
+<ObjectStatus
+text="Ready"
+state="Success"/>
+
+<ToolbarSpacer/>
+
+<Text text="Northwind OData Service"/>
+
+</Toolbar>
+
+</footer>
+
+</Page>
+
+</mvc:View>

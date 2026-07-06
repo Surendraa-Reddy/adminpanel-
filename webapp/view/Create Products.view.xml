@@ -1,0 +1,68 @@
+<mvc:View
+    controllerName="admindemo.controller.Products"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page title="Products">
+
+        <content>
+
+            <SearchField
+                width="100%"
+                liveChange="onSearch"
+                placeholder="Search Product"/>
+
+            <Table
+                id="productsTable"
+                inset="false"
+                items="{/Products}">
+
+                <columns>
+
+                    <Column>
+                        <Text text="ID"/>
+                    </Column>
+
+                    <Column>
+                        <Text text="Product Name"/>
+                    </Column>
+
+                    <Column>
+                        <Text text="Price"/>
+                    </Column>
+
+                    <Column>
+                        <Text text="Stock"/>
+                    </Column>
+
+                </columns>
+
+                <items>
+
+                    <ColumnListItem
+                        type="Navigation"
+                        press="onPressProduct">
+
+                        <cells>
+
+                            <Text text="{ProductID}"/>
+
+                            <Text text="{ProductName}"/>
+
+                            <Text text="{UnitPrice}"/>
+
+                            <Text text="{UnitsInStock}"/>
+
+                        </cells>
+
+                    </ColumnListItem>
+
+                </items>
+
+            </Table>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

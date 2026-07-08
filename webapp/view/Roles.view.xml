@@ -1,0 +1,153 @@
+<mvc:View
+    controllerName="employee.controller.Roles"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        id="rolesPage"
+        title="Role Management"
+        showNavButton="true">
+
+        <headerContent>
+
+            <Button
+                icon="sap-icon://add"
+                text="New Role"
+                type="Emphasized"
+                press="onAdd"/>
+
+        </headerContent>
+
+        <content>
+
+            <!-- Toolbar -->
+            <OverflowToolbar class="sapUiTinyMargin">
+
+                <Title
+                    text="Roles"
+                    level="H2"/>
+
+                <ToolbarSpacer/>
+
+                <SearchField
+                    id="searchRole"
+                    width="18rem"
+                    placeholder="Search Id,Role,Description"
+                    liveChange="onSearch"/>
+
+                <ToolbarSeparator/>
+
+                <Button
+                    icon="sap-icon://refresh"
+                    tooltip="Refresh"
+                    press="onRefresh"/>
+
+            </OverflowToolbar>
+
+            <!-- Roles Table -->
+            <Table
+                id="rolesTable"
+                class="sapUiTinyMargin"
+                inset="false"
+                alternateRowColors="true"
+                sticky="ColumnHeaders,HeaderToolbar"
+                growing="true"
+                growingThreshold="20"
+                growingScrollToLoad="true"
+                items="{/RolesSet}">
+
+                <headerToolbar>
+
+                    <OverflowToolbar>
+
+                        <Title text="Role Directory"/>
+
+                        <ToolbarSpacer/>
+
+                        <ObjectStatus
+                            text="Loaded from OData"
+                            state="Success"/>
+
+                    </OverflowToolbar>
+
+                </headerToolbar>
+
+                <columns>
+
+                    <Column width="10rem">
+                        <Text text="Role ID"/>
+                    </Column>
+
+                    <Column width="15rem">
+                        <Text text="Role Name"/>
+                    </Column>
+
+                    <Column width="22rem">
+                        <Text text="Description"/>
+                    </Column>
+
+                    <Column width="10rem" hAlign="Center">
+                        <Text text="Actions"/>
+                    </Column>
+
+                </columns>
+
+                <items>
+
+                    <ColumnListItem
+                        type="Active"
+                        press="onView">
+
+                        <cells>
+
+                            <!-- Role ID -->
+                            <ObjectIdentifier
+                                title="{RoleId}"/>
+
+                            <!-- Role Name -->
+                            <ObjectIdentifier
+                                title="{RoleName}"/>
+
+                            <!-- Description -->
+                            <Text
+                                text="{Description}"
+                                wrapping="true"/>
+
+                            <!-- Actions -->
+                            <HBox
+                                justifyContent="Center"
+                                renderType="Bare">
+
+                                <Button
+                                    icon="sap-icon://display"
+                                    type="Transparent"
+                                    tooltip="View"
+                                    press="onView"/>
+
+                                <Button
+                                    icon="sap-icon://edit"
+                                    type="Transparent"
+                                    tooltip="Edit"
+                                    press="onEdit"/>
+
+                                <Button
+                                    icon="sap-icon://delete"
+                                    type="Transparent"
+                                    tooltip="Delete"
+                                    press="onDelete"/>
+
+                            </HBox>
+
+                        </cells>
+
+                    </ColumnListItem>
+
+                </items>
+
+            </Table>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

@@ -1,0 +1,106 @@
+<mvc:View
+    controllerName="employee.controller.LeaveAdd"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+
+    <Page
+        title="{i18n>NewLeaveTitle}"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+        backgroundDesign="Standard">
+
+        <content>
+            <f:SimpleForm
+                id="leaveForm"
+                editable="true"
+                layout="ResponsiveGridLayout"
+                title="Leave Application Details"
+                labelSpanXL="3"
+                labelSpanL="3"
+                labelSpanM="4"
+                labelSpanS="12"
+                adjustLabelSpan="false"
+                emptySpanXL="4"
+                emptySpanL="4"
+                emptySpanM="2"
+                emptySpanS="0"
+                columnsXL="1"
+                columnsL="1"
+                columnsM="1"
+                class="sapUiResponsiveMargin">
+                <f:content>
+
+                    <Label text="Leave ID" />
+                    <Input
+                        id="leaveId"
+                        placeholder="Auto-generated or entered ID..." />
+
+                    <Label text="Employee ID" required="true" />
+                    <Input
+                        id="empId"
+                        placeholder="Enter employee ID..."
+                        type="Text" />
+
+                    <Label text="Leave Type" required="true" />
+                    <Select id="leaveType">
+                        <core:Item key="Casual" text="Casual Leave" />
+                        <core:Item key="Sick" text="Sick Leave" />
+                        <core:Item key="Earned" text="Earned Leave" />
+                        <core:Item key="Maternity" text="Maternity Leave" />
+                    </Select>
+
+                    <Label text="From Date" required="true" />
+                    <DatePicker
+                        id="fromDate"
+                        displayFormat="dd-MM-yyyy"
+                        valueFormat="yyyy-MM-dd"
+                        placeholder="Select start date"
+                        change="onDateChange" />
+
+                    <Label text="To Date" required="true" />
+                    <DatePicker
+                        id="toDate"
+                        displayFormat="dd-MM-yyyy"
+                        valueFormat="yyyy-MM-dd"
+                        placeholder="Select end date"
+                        change="onDateChange" />
+
+                    <Label text="Reason for Leave" />
+                    <TextArea
+                        id="reason"
+                        rows="4"
+                        growing="true"
+                        growingMaxLines="6"
+                        placeholder="Please provide a brief reason for your leave request..." />
+
+                    <Label text="Status" />
+                    <Select id="status" enabled="true" selectedKey="P">
+                        <core:Item key="P" text="Pending Approval" />
+                        <core:Item key="A" text="Approved" />
+                        <core:Item key="R" text="Rejected" />
+                    </Select>
+
+                </f:content>
+            </f:SimpleForm>
+        </content>
+
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+                <Button
+                    text="Submit Request"
+                    type="Emphasized"
+                    icon="sap-icon://paper-plane"
+                    press="onSave" />
+                <Button
+                    text="Cancel"
+                    type="Transparent"
+                    icon="sap-icon://decline"
+                    press="onNavBack" />
+            </OverflowToolbar>
+        </footer>
+
+    </Page>
+</mvc:View>

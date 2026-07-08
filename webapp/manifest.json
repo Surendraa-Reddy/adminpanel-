@@ -11,15 +11,15 @@
     "description": "{{appDescription}}",
     "resources": "resources.json",
     "dataSources": {
-  "mainService": {
-    "uri": "/sap/opu/odata/sap/ZODATA_ADMIN_SRV_01/",
-    "type": "OData",
-    "settings": {
-      "odataVersion": "2.0",
-      "localUri": "localService/metadata.xml"
+      "mainService": {
+        "uri": "/sap/opu/odata/sap/ZODATA_ADMIN_SRV_01/",
+        "type": "OData",
+        "settings": {
+          "odataVersion": "2.0",
+          "localUri": "localService/metadata.xml"
+        }
+      }
     }
-  }
-}
   },
   "sourceTemplate": {
     "id": "@sap/generator-fiori:basic",
@@ -100,10 +100,48 @@
           "name": "Employee",
           "target": "Employee"
         },
-        {"pattern": "Department",
+        {
+          "pattern": "Department",
           "name": "Department",
           "target": "Department"
-          }
+        },
+        {
+          "pattern": "Roles",
+          "name": "Roles",
+          "target": "Roles"
+        },
+        {
+          "pattern": "Attendance",
+          "name": "Attendance",
+          "target": "Attendance"
+        },
+        {
+          "pattern": "AttendanceAdd",
+          "name": "AttendanceAdd",
+          "target": "AttendanceAdd"
+        },
+        {
+          "pattern": "AttendanceEdit/{AttId}",
+          "name": "AttendanceEdit",
+          "target": "AttendanceEdit"
+        },
+        {
+          "name": "Leave",
+          "pattern": "Leave",
+          "target": "Leave"
+        },
+        {
+          "name": "LeaveAdd",
+          "pattern": "LeaveAdd",
+          "target": "LeaveAdd"
+        },
+        {
+          "name": "LeaveEdit",
+          "pattern": "LeaveEdit/{leaveId}",
+          "target": [
+            "LeaveEdit"
+          ]
+        }
       ],
       "targets": {
         "App": {
@@ -117,6 +155,31 @@
         },
         "Department": {
           "viewName": "Department"
+        },
+        "Roles": {
+          "viewName": "Roles"
+        },
+        "Attendance": {
+          "viewName": "Attendance"
+        },
+        "AttendanceAdd": {
+          "viewName": "AttendanceAdd",
+          "viewLevel": 2
+        },
+        "AttendanceEdit": {
+          "viewName": "AttendanceEdit",
+          "viewLevel": 2
+        },
+        "Leave": {
+          "viewName": "Leave"
+        },
+        "LeaveAdd": {
+          "viewName": "LeaveAdd",
+          "viewType": "XML"
+        },
+        "LeaveEdit": {
+          "viewName": "LeaveEdit",
+          "viewType": "XML"
         } 
       }
     },

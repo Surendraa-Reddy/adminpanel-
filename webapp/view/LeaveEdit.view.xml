@@ -1,0 +1,80 @@
+<mvc:View
+    controllerName="employee.controller.LeaveEdit"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+
+    <Page
+        title="Edit Leave Request"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+
+        <content>
+            <f:SimpleForm
+                id="editLeaveForm"
+                editable="true"
+                layout="ResponsiveGridLayout"
+                title="Modify Leave Details"
+                labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
+                emptySpanXL="3" emptySpanL="3" emptySpanM="3" emptySpanS="0"
+                columnsXL="1" columnsL="1" columnsM="1"
+                class="sapUiSmallMargin">
+                <f:content>
+                    
+                    <Label text="Leave ID" required="true" />
+                    <Input id="inputLeaveId" value="{LeaveId}" editable="false" />
+
+                    <Label text="Employee ID" required="true" />
+                    <Input id="inputEmpId" value="{EmpId}" editable="false" />
+
+                    <Label text="Leave Type" required="true" />
+                    <Select id="selectLeaveType" selectedKey="{LeaveType}">
+                        <core:Item key="Sick Leave" text="Sick Leave" />
+                        <core:Item key="Casual Leave" text="Casual Leave" />
+                        <core:Item key="Annual Leave" text="Annual Leave" />
+                    </Select>
+
+                    <Label text="From Date" required="true" />
+                    <DatePicker 
+                        id="inputFromDate" 
+                        value="{
+                            path: 'FromDate',
+                            type: 'sap.ui.model.type.Date',
+                            formatOptions: { pattern: 'yyyy-MM-dd', UTC: true }
+                        }" 
+                        displayFormat="dd-MM-yyyy" />
+
+                    <Label text="To Date" required="true" />
+                    <DatePicker 
+                        id="inputToDate" 
+                        value="{
+                            path: 'ToDate',
+                            type: 'sap.ui.model.type.Date',
+                            formatOptions: { pattern: 'yyyy-MM-dd', UTC: true }
+                        }" 
+                        displayFormat="dd-MM-yyyy" />
+
+                    <Label text="Reason" />
+                    <TextArea id="inputReason" value="{Reason}" rows="4" growing="true" />
+                 <Label text="Status" required="true" />
+                  <Select id="selectStatus" selectedKey="{Status}" enabled="true">
+                  <core:Item key="P" text="Pending Approval" />
+                    <core:Item key="A" text="Approved" />
+                  <core:Item key="R" text="Rejected" />
+                </Select>
+
+                </f:content>
+            </f:SimpleForm>
+        </content>
+
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+                <Button text="Save Changes" type="Emphasized" icon="sap-icon://save" press="onSave" />
+                <Button text="Cancel" type="Transparent" press="onNavBack" />
+            </OverflowToolbar>
+        </footer>
+
+    </Page>
+</mvc:View>

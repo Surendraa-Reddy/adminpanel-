@@ -1,0 +1,207 @@
+<mvc:View
+    controllerName="employee.controller.Attendance"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        id="attendancePage"
+        title="Attendance Management"
+        showNavButton="true">
+
+        <headerContent>
+
+            <Button
+                icon="sap-icon://add"
+                text="New Attendance"
+                type="Emphasized"
+                press="onAdd"/>
+
+        </headerContent>
+
+        <content>
+
+            <!-- Toolbar -->
+
+            <OverflowToolbar class="sapUiTinyMargin">
+
+                <Title
+                    text="Attendance"
+                    level="H2"/>
+
+                <ToolbarSpacer/>
+
+              <SearchField
+                    id="searchAttendance"
+                    liveChange="onSearch"
+                    placeholder="Search Attendance..."
+                    width="18rem"/>
+                <ToolbarSeparator/>
+
+                <Button
+                    icon="sap-icon://refresh"
+                    tooltip="Refresh"
+                    press="onRefresh"/>
+
+            </OverflowToolbar>
+
+            <!-- Attendance Table -->
+
+            <Table
+                id="attendanceTable"
+                class="sapUiTinyMargin"
+                inset="false"
+                alternateRowColors="true"
+                sticky="ColumnHeaders,HeaderToolbar"
+                growing="true"
+                growingThreshold="20"
+                growingScrollToLoad="true"
+                items="{/AttendanceSet}">
+
+                <headerToolbar>
+
+                    <OverflowToolbar>
+
+                        <Title text="Attendance Records"/>
+
+                        <ToolbarSpacer/>
+
+                        <ObjectStatus
+                            text="Loaded from OData"
+                            state="Success"/>
+
+                    </OverflowToolbar>
+
+                </headerToolbar>
+
+                <columns>
+
+                    <Column width="9rem">
+                        <Text text="Attendance ID"/>
+                    </Column>
+
+                    <Column width="8rem">
+                        <Text text="Employee ID"/>
+                    </Column>
+
+                    <Column width="10rem">
+                        <Text text="Attendance Date"/>
+                    </Column>
+
+                    <Column width="8rem">
+                        <Text text="Check In"/>
+                    </Column>
+
+                    <Column width="8rem">
+                        <Text text="Check Out"/>
+                    </Column>
+
+                    <Column
+                        width="8rem"
+                        hAlign="Center">
+
+                        <Text text="Status"/>
+
+                    </Column>
+
+                    <Column
+                        width="10rem"
+                        hAlign="Center">
+
+                        <Text text="Actions"/>
+
+                    </Column>
+
+                </columns>
+
+                <items>
+
+                    <ColumnListItem
+                        type="Active"
+                        press="onView">
+
+                        <cells>
+
+                            <!-- Attendance ID -->
+
+                            <ObjectIdentifier
+                                title="{AttId}"/>
+
+                            <!-- Employee -->
+
+                            <ObjectIdentifier
+                                title="{EmpId}"/>
+
+                            <!-- Date -->
+
+                            <Text
+                                text="{path:'AttDate', type:'sap.ui.model.type.Date', formatOptions:{pattern:'dd-MM-yyyy'}}"/>
+
+                            <!-- Check In -->
+
+                            <Text
+                                text="{
+                                    path:'Checkin',
+                                 type:'sap.ui.model.odata.type.Time',
+                                    formatOptions:{
+                                     pattern:'HH:mm:ss'
+                                                                }
+                                }"/>
+
+                            <!-- Check Out -->
+
+                            <Text
+                              text="{
+                                  path:'Checkout',
+                                  type:'sap.ui.model.odata.type.Time',
+                                  formatOptions:{
+                                      pattern:'HH:mm:ss'
+                                  }
+                              }"/>                          
+
+                            <!-- Status -->
+
+                            <ObjectStatus
+
+                                text="{= ${Status} === 'P' ? 'Present' : 'Absent'}"
+
+                                state="{= ${Status} === 'P' ? 'Success' : 'Error'}"/>
+
+                            <!-- Actions -->
+
+                            <HBox
+                                justifyContent="Center"
+                                renderType="Bare">
+
+                                <Button
+                                    icon="sap-icon://display"
+                                    tooltip="View"
+                                    type="Transparent"
+                                    press="onView"/>
+
+                                <Button
+                                    icon="sap-icon://edit"
+                                    tooltip="Edit"
+                                    type="Transparent"
+                                    press="onEdit"/>
+
+                                <Button
+                                    icon="sap-icon://delete"
+                                    tooltip="Delete"
+                                    type="Transparent"
+                                    press="onDelete"/>
+
+                            </HBox>
+
+                        </cells>
+
+                    </ColumnListItem>
+
+                </items>
+
+            </Table>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

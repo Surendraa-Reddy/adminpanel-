@@ -2,12 +2,30 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
-    "sap/m/MessageToast"
+    "sap/m/MessageToast",
+    "sap/m/Dialog",
+    "sap/m/Button",
+    "sap/m/VBox",
+    "sap/m/HBox",
+    "sap/m/Text",
+    "sap/m/Title",
+    "sap/ui/core/Icon",
+    "sap/m/ObjectStatus",
+    "sap/m/MessageBox"
 ], function (
     Controller,
     Filter,
     FilterOperator,
-    MessageToast
+    MessageToast,
+    Dialog,
+    Button,
+    VBox,
+    HBox,
+    Text,
+    Title,
+    Icon,
+    ObjectStatus,
+    MessageBox
 ) {
     "use strict";
 
@@ -42,7 +60,7 @@ sap.ui.define([
 
             oBinding.filter([oFilter]);
         },
-         onRefresh: function () {
+        onRefresh: function () {
 
             var oSearch = this.byId("searchDepartment");
             if (oSearch) {
@@ -64,38 +82,165 @@ sap.ui.define([
         },
 
 
-        
+
         onAdd: function () {
-            MessageToast.show("Add Department Clicked");
+
+            var oNav = this.getView().getParent();
+
+            sap.ui.core.mvc.XMLView.create({
+
+                viewName: "employee.view.CreateDepartment"
+
+            }).then(function (oView) {
+
+                oNav.addPage(oView);
+
+                oNav.to(oView);
+
+            });
+
         },
 
-       
         onView: function (oEvent) {
 
-            var oContext = oEvent.getSource().getBindingContext();
+            var oDepartment = oEvent.getSource()
+                .getBindingContext()
+                .getObject();
 
-            if (!oContext) {
-                return;
-            }
+            var oDialog = new Dialog({
 
-            var oDepartment = oContext.getObject();
+                title: "Department Details",
 
-            MessageToast.show("Department: " + oDepartment.DeptId);
+                contentWidth: "450px",
 
-            // If you want navigation later, we can add like employee detail page
+                draggable: true,
+
+                resizable: true,
+
+                content: [
+
+                    new VBox({
+
+                        class: "sapUiResponsiveMargin",
+
+                        items: [
+
+                            new Title({
+                                text: "Department Information"
+                            }),
+
+                            new VBox({
+
+                                class: "sapUiLargeMarginBegin",
+
+                                items: [
+
+                                    new HBox({
+                                        items: [
+                                            new Text({
+                                                text: "Department ID : "
+                                            }).addStyleClass("sapUiTinyMarginEnd"),
+
+                                            new Text({
+                                                text: oDepartment.DeptId
+                                            })
+                                        ]
+                                    }),
+
+                                    new HBox({
+                                        items: [
+                                            new Text({
+                                                text: "Department Name : "
+                                            }).addStyleClass("sapUiTinyMarginEnd"),
+
+                                            new Text({
+                                                text: oDepartment.DeptName
+                                            })
+                                        ]
+                                    }),
+
+                                    new HBox({
+                                        items: [
+                                            new Text({
+                                                text: "Location : "
+                                            }).addStyleClass("sapUiTinyMarginEnd"),
+
+                                            new Text({
+                                                text: oDepartment.Location
+                                            })
+                                        ]
+                                    }),
+
+                                    new HBox({
+                                        items: [
+                                            new Text({
+                                                text: "Status : "
+                                            }).addStyleClass("sapUiTinyMarginEnd"),
+
+                                            new Text({
+                                                text: oDepartment.Status === "1" ? "Active" : "Inactive"
+                                            })
+                                        ]
+                                    })
+
+                                ]
+
+                            })
+
+                        ]
+
+                    })
+
+                ],
+
+                beginButton: new Button({
+
+                    text: "Close",
+
+                    press: function () {
+
+                        oDialog.close();
+
+                    }
+
+                }),
+
+                afterClose: function () {
+
+                    oDialog.destroy();
+
+                }
+
+            });
+
+            oDialog.open();
+
         },
 
         onEdit: function (oEvent) {
 
-            var oContext = oEvent.getSource().getBindingContext();
+            var oDepartment = oEvent.getSource()
+                .getBindingContext()
+                .getObject();
 
-            if (!oContext) {
-                return;
-            }
+            var oNav = this.getView().getParent();
 
-            var oDept = oContext.getObject();
+            sap.ui.core.mvc.XMLView.create({
 
-            MessageToast.show("Edit Department: " + oDept.DeptId);
+                viewName: "employee.view.EditDepartment"
+
+            }).then(function (oView) {
+
+                var oModel = new sap.ui.model.json.JSONModel(oDepartment);
+
+                oView.setModel(oModel, "department");
+
+                oNav.addPage(oView);
+
+                oNav.to(oView);
+
+            });
+
         },
 
         onDelete: function (oEvent) {
@@ -103,12 +248,61 @@ sap.ui.define([
             var oContext = oEvent.getSource().getBindingContext();
 
             if (!oContext) {
+                MessageBox.error("Unable to determine the selected department.");
                 return;
             }
 
-            var oDept = oContext.getObject();
+            var sDeptId = oContext.getProperty("DeptId");
 
-            MessageToast.show("Delete Department: " + oDept.DeptId);
+            var oModel = this.getView().getModel();
+
+            var sPath = "/DepartmentSet('" + sDeptId + "')";
+
+            var that = this;
+
+            MessageBox.confirm(
+                "Are you sure you want to delete Department '" + sDeptId + "'?",
+                {
+                    title: "Confirm Delete",
+
+                    actions: [
+                        MessageBox.Action.YES,
+                        MessageBox.Action.NO
+                    ],
+
+                    emphasizedAction: MessageBox.Action.YES,
+
+                    onClose: function (sAction) {
+
+                        if (sAction === MessageBox.Action.YES) {
+
+                            oModel.remove(sPath, {
+
+                                success: function () {
+
+                                    MessageToast.show("Department deleted successfully.");
+
+                                    oModel.refresh(true);
+
+                                },
+
+                                error: function (oError) {
+
+                                    console.log(oError);
+
+                                    MessageBox.error("Unable to delete department.");
+
+                                }
+
+                            });
+
+                        }
+
+                    }
+
+                }
+            );
+
         }
 
     });

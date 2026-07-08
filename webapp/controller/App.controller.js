@@ -32,7 +32,7 @@ sap.ui.define([
 
         // Roles
         onRole: function () {
-            this.getOwnerComponent().getRouter().navTo("Role");
+            this.getOwnerComponent().getRouter().navTo("Roles");
         },
 
         // Attendance

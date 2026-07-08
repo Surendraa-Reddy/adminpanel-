@@ -1,0 +1,80 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:layout="sap.ui.layout">
+    <Dialog 
+        id="leaveDetailsDialog" 
+        title="Leave Request Overview" 
+        type="Message"
+        contentWidth="500px">
+        <content>
+            <layout:VerticalLayout width="100%" class="sapUiContentPadding">
+                
+                <f:SimpleForm
+                    editable="false"
+                    layout="ResponsiveGridLayout"
+                    labelSpanXL="4"
+                    labelSpanL="4"
+                    labelSpanM="4"
+                    labelSpanS="4"
+                    emptySpanXL="0"
+                    emptySpanL="0"
+                    emptySpanM="0"
+                    emptySpanS="0"
+                    columnsXL="1"
+                    columnsL="1"
+                    columnsM="1"
+                    singleContainerFullWidth="true">
+                    <f:content>
+                        
+                        <core:Title text="Request Information" />
+
+                        <Label text="Leave ID" />
+                        <Text text="{LeaveId}" class="sapUiSelectable ObjectIdentifierTitle" />
+
+                        <Label text="Employee ID" />
+                        <Text text="{EmpId}" />
+
+                        <Label text="Leave Type" />
+                        <Token text="{LeaveType}" editable="false" readOnly="true" />
+
+                        <core:Title text="Duration &amp; Timeline" />
+
+                        <Label text="From Date" />
+                        <Text text="{
+                            path: 'FromDate',
+                            type: 'sap.ui.model.type.Date',
+                            formatOptions: { pattern: 'dd-MM-yyyy', UTC: true }
+                        }" />
+
+                        <Label text="To Date" />
+                        <Text text="{
+                            path: 'ToDate',
+                            type: 'sap.ui.model.type.Date',
+                            formatOptions: { pattern: 'dd-MM-yyyy', UTC: true }
+                        }" />
+
+                        <core:Title text="Additional Details" />
+
+                        <Label text="Reason" />
+                        <Text text="{Reason}" wrapping="true" />
+
+                        <Label text="Status" />
+                        <ObjectStatus 
+                            text="{= ${Status} === 'A' ? 'Approved' : ${Status} === 'R' ? 'Rejected' : 'Pending Approval'}" 
+                            state="{= ${Status} === 'A' ? 'Success' : ${Status} === 'R' ? 'Error' : 'Warning'}"
+                            icon="{= ${Status} === 'A' ? 'sap-icon://sys-enter-2' : ${Status} === 'R' ? 'sap-icon://error' : 'sap-icon://alert'}" />
+                    </f:content>
+                </f:SimpleForm>
+
+            </layout:VerticalLayout>
+        </content>
+        <beginButton>
+            <Button 
+                text="Close" 
+                type="Transparent"
+                press=".onCloseDetailsDialog" />
+        </beginButton>
+    </Dialog>
+</core:FragmentDefinition>

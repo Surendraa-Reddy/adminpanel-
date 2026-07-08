@@ -1,0 +1,85 @@
+<mvc:View
+    controllerName="employee.controller.AttendanceEdit"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+
+    <Page
+        title="Edit Attendance"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+
+        <content>
+
+            <f:SimpleForm
+                editable="true"
+                layout="ResponsiveGridLayout"
+                class="sapUiLargeMargin">
+
+                <Label text="Attendance ID"/>
+                <Input
+                    id="attId"
+                    editable="false" width="100px"/>
+
+                <Label text="Employee ID"/>
+                <Input id="empId" width="100px"/>
+
+                <Label text="Attendance Date"/>
+               <DatePicker
+                id="attDate"
+                displayFormat="dd-MM-yyyy"
+                valueFormat="yyyy-MM-dd" width="200px"/>
+
+                <Label text="Check In"/>
+                <TimePicker
+                  id="checkIn"
+                   displayFormat="HH:mm:ss"
+                  valueFormat="HH:mm:ss" width="200px"/>
+
+                <Label text="Check Out"/>
+                <TimePicker
+                  id="checkOut"
+                  displayFormat="HH:mm:ss"
+                  valueFormat="HH:mm:ss" width="200px"/>              
+
+                <Label text="Status"/>
+
+                <Select id="status" width="200px">
+
+                    <core:Item
+                        key="P"
+                        text="Present"/>
+
+                    <core:Item
+                        key="A"
+                        text="Absent"/>
+
+                </Select>
+
+            </f:SimpleForm>
+
+        </content>
+
+        <footer>
+
+            <Toolbar>
+
+                <ToolbarSpacer/>
+
+                <Button
+                    text="Save"
+                    type="Emphasized"
+                    press="onSave"/>
+
+                <Button
+                    text="Cancel"
+                    press="onNavBack"/>
+
+            </Toolbar>
+
+        </footer>
+
+    </Page>
+
+</mvc:View>

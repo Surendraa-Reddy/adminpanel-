@@ -12,8 +12,8 @@ sap.ui.define([
 
                 Employees: 0,
                 Departments: 0,
-                Roles: 12,
-                Leaves: 6
+                Roles: 0,
+                Leaves: 0
 
             });
 
@@ -26,8 +26,6 @@ sap.ui.define([
 
             var oModel = this.getOwnerComponent().getModel();
 
-            console.log("Model =", oModel);
-
             if (!oModel) {
                 console.log("Model not available");
                 return;
@@ -35,24 +33,56 @@ sap.ui.define([
 
             var oDashboard = this.getView().getModel("dashboard");
 
+            // Employees
             oModel.read("/EmployeeeSet", {
+
                 success: function (oData) {
+
                     oDashboard.setProperty("/Employees", oData.results.length);
+
                 },
+
                 error: function () {
+
                     console.log("Employee Read Failed");
+
                 }
+
             });
 
+            // Departments
             oModel.read("/DepartmentSet", {
+
                 success: function (oData) {
+
                     oDashboard.setProperty("/Departments", oData.results.length);
+
                 },
+
                 error: function () {
+
                     console.log("Department Read Failed");
+
                 }
+
             });
 
+            // Roles
+            oModel.read("/RolesSet", {
+
+                success: function (oData) {
+
+                    oDashboard.setProperty("/Roles", oData.results.length);
+
+                },
+
+                error: function () {
+
+                    console.log("Roles Read Failed");
+
+                }
+
+            });
 
         },
 
@@ -71,7 +101,7 @@ sap.ui.define([
 
         onRole: function () {
 
-            this.getOwnerComponent().getRouter().navTo("Role");
+            this.getOwnerComponent().getRouter().navTo("Roles");
 
         },
 

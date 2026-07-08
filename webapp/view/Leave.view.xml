@@ -1,0 +1,171 @@
+<mvc:View
+    controllerName="employee.controller.Leave"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        title="Leave Management"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+
+        <content>
+
+            <!-- Header Toolbar -->
+            <Toolbar class="sapUiSmallMarginBottom">
+
+                <Title
+                    text="Leave Management"
+                    level="H2"/>
+
+                <ToolbarSpacer/>
+
+                <Button
+                    text="New Leave"
+                    icon="sap-icon://add"
+                    type="Emphasized"
+                    press="onAdd"/>
+
+                <Button
+                    icon="sap-icon://refresh"
+                    tooltip="Refresh"
+                    press="onRefresh"/>
+
+            </Toolbar>
+
+            <!-- Search -->
+            <SearchField
+                id="searchLeave"
+                width="100%"
+                placeholder="Search by Leave ID, Employee ID, Leave Type, Reason or Status..."
+                liveChange="onSearch"
+                class="sapUiSmallMarginBottom"/>
+
+            <!-- Leave Table -->
+            <Table
+                id="leaveTable"
+                inset="false"
+                growing="true"
+                growingThreshold="10"
+                growingScrollToLoad="true"
+                sticky="ColumnHeaders"
+                items="{/LeavesSet}">
+
+                <columns>
+
+                    <Column width="8rem">
+                        <Text text="Leave ID"/>
+                    </Column>
+
+                    <Column width="8rem">
+                        <Text text="Employee ID"/>
+                    </Column>
+
+                    <Column width="10rem">
+                        <Text text="Leave Type"/>
+                    </Column>
+
+                    <Column width="9rem">
+                        <Text text="From Date"/>
+                    </Column>
+
+                    <Column width="9rem">
+                        <Text text="To Date"/>
+                    </Column>
+
+                    <Column minScreenWidth="Tablet">
+                        <Text text="Reason"/>
+                    </Column>
+
+                    <Column width="8rem">
+                        <Text text="Status"/>
+                    </Column>
+
+                    <Column
+                        hAlign="Center"
+                        width="11rem">
+                        <Text text="Actions"/>
+                    </Column>
+
+                </columns>
+
+                <items>
+
+                    <ColumnListItem
+                        type="Active"
+                        vAlign="Middle">
+
+                        <cells>
+
+                            <ObjectIdentifier
+                                title="{LeaveId}"/>
+
+                            <Text text="{EmpId}"/>
+
+                            <ObjectStatus
+                                text="{LeaveType}"
+                                state="Information"/>
+
+                            <Text
+                                text="{
+                                    path:'FromDate',
+                                    type:'sap.ui.model.type.Date',
+                                    formatOptions:{pattern:'dd-MM-yyyy'}
+                                }"/>
+
+                            <Text
+                                text="{
+                                    path:'ToDate',
+                                    type:'sap.ui.model.type.Date',
+                                    formatOptions:{pattern:'dd-MM-yyyy'}
+                                }"/>
+
+                            <Text
+                                text="{Reason}"
+                                maxLines="2"/>
+
+                            <ObjectStatus
+                                text="{= ${Status} === 'A' ? 'Approved' :
+                                       ${Status} === 'R' ? 'Rejected' :
+                                       'Pending'}"
+
+                                state="{= ${Status} === 'A' ? 'Success' :
+                                        ${Status} === 'R' ? 'Error' :
+                                        'Warning'}"/>
+
+                            <HBox
+                                justifyContent="Center"
+                                renderType="Bare">
+
+                                <Button
+                                    icon="sap-icon://display"
+                                    type="Transparent"
+                                    tooltip="View"
+                                    press="._openDetailsDialog"/>
+
+                                <Button
+                                    icon="sap-icon://edit"
+                                    type="Transparent"
+                                    tooltip="Edit"
+                                    press="onEdit"/>
+
+                                <Button
+                                    icon="sap-icon://delete"
+                                    type="Transparent"
+                                    tooltip="Delete"
+                                    press="onDelete"/>
+
+                            </HBox>
+
+                        </cells>
+
+                    </ColumnListItem>
+
+                </items>
+
+            </Table>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

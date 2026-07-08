@@ -118,17 +118,16 @@
                         <!-- Actions -->
                         <HBox justifyContent="Center">
 
-                            <Button
+                           <Button
                                 icon="sap-icon://display"
                                 type="Transparent"
                                 tooltip="View"
                                 press="onView"/>
-
-                            <Button
-                                icon="sap-icon://edit"
-                                type="Transparent"
-                                tooltip="Edit"
-                                press="onEdit"/>
+                                 <Button
+                                     icon="sap-icon://edit"
+                                     type="Transparent"
+                                     tooltip="Edit"
+                                     press="onEdit"/>
 
                             <Button
                                 icon="sap-icon://delete"

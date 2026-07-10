@@ -1,0 +1,350 @@
+<mvc:View
+    controllerName="employee.controller.Reports"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+
+    <Page
+        id="reportsPage"
+        title="Reports">
+
+        <content>
+            <VBox class="sapUiMediumMargin">
+
+                <Title
+                    text="HR Reports"
+                    level="H2"/>
+
+                <Text
+                    text="Generate, filter and export HR reports."
+                    class="sapUiTinyMarginBottom"/>
+
+                <OverflowToolbar class="sapUiSmallMarginTop sapUiSmallMarginBottom">
+                    <Title text="Reports"/>
+                    <ToolbarSpacer/>
+                    <Button
+                        text="Export Excel"
+                        icon="sap-icon://excel-attachment"
+                        type="Emphasized"
+                        press="onExportExcel"/>
+                    <Button
+                        text="Export PDF"
+                        icon="sap-icon://pdf-attachment"
+                        press="onExportPDF"/>
+                    <Button
+                        text="Print"
+                        icon="sap-icon://print"
+                        press="onPrint"/>
+                </OverflowToolbar>
+
+                <HBox
+                    justifyContent="Center"
+                    class="sapUiMediumMarginTop sapUiSmallMarginBottom">
+                    <SegmentedButton
+                        id="reportSelector"
+                        width="700px"
+                        selectionChange="onReportChange">
+                        <items>
+                            <SegmentedButtonItem key="EMPLOYEE" text="Employees"/>
+                            <SegmentedButtonItem key="DEPARTMENT" text="Departments"/>
+                            <SegmentedButtonItem key="ATTENDANCE" text="Attendance"/>
+                            <SegmentedButtonItem key="LEAVE" text="Leaves"/>
+                        </items>
+                    </SegmentedButton>
+                </HBox>
+
+                <Panel
+                    headerText="Filters"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiMediumMarginTop">
+
+                    <f:SimpleForm
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                        columnsXL="2"
+                        columnsL="2"
+                        columnsM="2"
+                        labelSpanXL="3"
+                        labelSpanL="3"
+                        labelSpanM="3"
+                        emptySpanXL="1"
+                        emptySpanL="1"
+                        emptySpanM="1">
+
+                        <Label text="From Date"/>
+                        <DatePicker
+                            id="fromDate"
+                            displayFormat="dd-MM-yyyy"/>
+
+                        <Label text="To Date"/>
+                        <DatePicker
+                            id="toDate"
+                            displayFormat="dd-MM-yyyy"/>
+
+                        <Label text="Department"/>
+                        <ComboBox
+                            id="departmentFilter"
+                            width="100%"
+                            items="{/DepartmentSet}">
+                            <core:Item
+                                key="{DeptId}"
+                                text="{DeptName}"/>
+                        </ComboBox>
+
+                        <Label text="Role"/>
+                        <ComboBox
+                            id="roleFilter"
+                            width="100%"
+                            items="{/RolesSet}">
+                            <core:Item
+                                key="{RoleId}"
+                                text="{RoleName}"/>
+                        </ComboBox>
+
+                        <Label text="Status"/>
+                        <ComboBox id="statusFilter">
+                            <items>
+                                <core:Item key="" text="All"/>
+                                <core:Item key="1" text="Active"/>
+                                <core:Item key="0" text="Inactive"/>
+                            </items>
+                        </ComboBox>
+
+                        <Label text="Employee"/>
+                        <SearchField
+                            id="employeeSearch"
+                            width="250px"
+                            placeholder="Search Employee"/>
+                    </f:SimpleForm>
+
+                    <HBox
+                        justifyContent="End"
+                        class="sapUiSmallMargin">
+                        <Button
+                            text="Search"
+                            type="Emphasized"
+                            icon="sap-icon://search"
+                            press="onSearch"/>
+                        <Button
+                            text="Reset"
+                            icon="sap-icon://reset"
+                            class="sapUiTinyMarginBegin"
+                            press="onReset"/>
+                    </HBox>
+                </Panel>
+
+                <VBox
+                    id="reportContainer"
+                    class="sapUiMediumMarginTop">
+
+                    <Panel
+                        id="employeePanel"
+                        headerText="Employee Report"
+                        expandable="false"
+                        class="sapUiLargeMarginTop">
+
+                        <Table
+                            id="employeeReportTable"
+                            inset="false"
+                            growing="true"
+                            growingScrollToLoad="true"
+                            items="{/EmployeeeSet}">
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                    <Title text="Employee Report"/>
+                                    <ToolbarSpacer/>
+                                    <Text text="Employee Details"/>
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <columns>
+                                <Column width="8rem"><Text text="Employee ID"/></Column>
+                                <Column width="14rem"><Text text="Employee Name"/></Column>
+                                <Column width="10rem"><Text text="Department"/></Column>
+                                <Column width="10rem"><Text text="Role"/></Column>
+                                <Column width="8rem"><Text text="Gender"/></Column>
+                                <Column width="14rem"><Text text="Email"/></Column>
+                                <Column width="10rem"><Text text="Phone"/></Column>
+                                <Column width="8rem"><Text text="Status"/></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem type="Navigation" press="onViewEmployee">
+                                    <cells>
+                                        <ObjectIdentifier title="{EmpId}"/>
+                                        <ObjectIdentifier title="{= ${FirstName} + ' ' + ${LastName}}"/>
+                                        <Text text="{DeptId}"/>
+                                        <Text text="{RoleId}"/>
+                                        <Text text="{= ${Gender} === 'M' ? 'Male' : ${Gender} === 'F' ? 'Female' : 'Others'}"/>
+                                        <Text text="{Email}"/>
+                                        <Text text="{Phone}"/>
+                                        <ObjectStatus
+                                            icon="{= ${Status} === '1' ? 'sap-icon://accept' : 'sap-icon://decline'}"
+                                            text="{= ${Status} === '1' ? 'Active' : 'Inactive'}"
+                                            state="{= ${Status} === '1' ? 'Success' : 'Error'}"/>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </Panel>
+
+                    <Panel
+                        id="departmentPanel"
+                        headerText="Department Report"
+                        visible="false"
+                        class="sapUiLargeMarginTop">
+
+                        <Table
+                            id="departmentReportTable"
+                            growing="true"
+                            inset="false"
+                            items="{department>/Departments}">
+                            <columns>
+                                <Column width="8rem"><Text text="Department ID"/></Column>
+                                <Column width="16rem"><Text text="Department Name"/></Column>
+                                <Column width="12rem"><Text text="Location"/></Column>
+                                <Column width="10rem"><Text text="Status"/></Column>
+                                <Column hAlign="Center"><Text text="Total Employees"/></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <ObjectIdentifier title="{department>DeptId}"/>
+                                        <Text text="{department>DeptName}"/>
+                                        <Text text="{department>Location}"/>
+                                        <ObjectStatus
+                                            text="{= ${department>Status} === '1' ? 'Active' : 'Inactive'}"
+                                            state="{= ${department>Status} === '1' ? 'Success' : 'Error'}"/>
+                                        <ObjectNumber
+                                            number="{department>TotalEmployees}"
+                                            unit="Employees"/>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </Panel>
+
+                    <Panel
+                        id="attendancePanel"
+                        headerText="Attendance Report"
+                        visible="false"
+                        class="sapUiLargeMarginTop">
+
+                        <Table
+                            id="attendanceReportTable"
+                            growing="true"
+                            growingScrollToLoad="true"
+                            items="{/AttendanceSet}">
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                    <Title text="Attendance Report"/>
+                                    <ToolbarSpacer/>
+                                    <Text text="Attendance Details"/>
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <columns>
+                                <Column width="8rem"><Text text="Attendance ID"/></Column>
+                                <Column width="8rem"><Text text="Employee ID"/></Column>
+                                <Column width="10rem"><Text text="Attendance Date"/></Column>
+                                <Column width="8rem"><Text text="Check In"/></Column>
+                                <Column width="8rem"><Text text="Check Out"/></Column>
+                                <Column width="8rem"><Text text="Status"/></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <ObjectIdentifier title="{AttId}"/>
+                                        <Text text="{EmpId}"/>
+                                        <Text text="{path:'AttDate', type:'sap.ui.model.type.Date', formatOptions:{pattern:'dd-MM-yyyy'}}"/>
+                                        <Text text="{path:'Checkin', formatter: '.formatTime'}"/>
+                                        <Text text="{path:'Checkout', formatter: '.formatTime'}"/>
+                                        <ObjectStatus
+                                            text="{= ${Status}==='P' ? 'Present' : ${Status}==='A' ? 'Absent' : ${Status}==='L' ? 'Leave' : 'Unknown'}"
+                                            state="{= ${Status}==='P' ? 'Success' : ${Status}==='A' ? 'Error' : ${Status}==='L' ? 'Warning' : 'None'}"/>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </Panel>
+<Panel
+    id="leavePanel"
+    headerText="Leave Report"
+    visible="false"
+    class="sapUiLargeMarginTop">
+
+    <Table
+        id="leaveReportTable"
+        growing="true"
+        growingScrollToLoad="true"
+        inset="false"
+        items="{/LeavesSet}">
+
+        <headerToolbar>
+            <OverflowToolbar>
+                <Title text="Leave Report"/>
+                <ToolbarSpacer/>
+                <Text text="Leave Details"/>
+            </OverflowToolbar>
+        </headerToolbar>
+
+        <columns>
+            <Column width="8rem">
+                <Text text="Leave ID"/>
+            </Column>
+            <Column width="8rem">
+                <Text text="Employee ID"/>
+            </Column>
+            <Column width="10rem">
+                <Text text="Leave Type"/>
+            </Column>
+            <Column width="10rem">
+                <Text text="Start Date"/>
+            </Column>
+            <Column width="10rem">
+                <Text text="End Date"/>
+            </Column>
+            <Column width="6rem" hAlign="Center">
+                <Text text="Days"/>
+            </Column>
+            <Column width="8rem">
+                <Text text="Status"/>
+            </Column>
+        </columns>
+
+        <items>
+            <ColumnListItem>
+                <cells>
+                    <ObjectIdentifier title="{LeaveId}"/>
+                    
+                    <Text text="{EmpId}"/>
+                    
+                    <Text text="{LeaveType}"/>
+                    
+                    <Text text="{
+                        path: 'FromDate',
+                        type: 'sap.ui.model.type.Date',
+                        formatOptions: {pattern: 'dd-MM-yyyy'}
+                    }"/>
+                    
+                    <Text text="{
+                        path: 'ToDate',
+                        type: 'sap.ui.model.type.Date',
+                        formatOptions: {pattern: 'dd-MM-yyyy'}
+                    }"/>
+                    
+                    <ObjectNumber 
+                        number="{= ${FromDate} &amp;&amp; ${ToDate} ? Math.round((${ToDate}.getTime() - ${FromDate}.getTime()) / 86400000) + 1 : 0}"
+                        unit="days"/>
+                    
+                    <ObjectStatus
+                        text="{= ${Status} === 'A' ? 'Approved' : ${Status} === 'P' ? 'Pending' : ${Status} === 'R' ? 'Rejected' : 'Unknown'}"
+                        state="{= ${Status} === 'A' ? 'Success' : ${Status} === 'P' ? 'Warning' : ${Status} === 'R' ? 'Error' : 'None'}"/>
+                </cells>
+            </ColumnListItem>
+        </items>
+    </Table>
+</Panel>
+
+                </VBox> </VBox> </content>
+    </Page>
+</mvc:View>

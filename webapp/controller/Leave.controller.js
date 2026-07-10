@@ -5,7 +5,8 @@ sap.ui.define([
     "sap/m/MessageToast",
     "sap/ui/model/json/JSONModel",
     "sap/ui/core/Fragment",
-    "sap/ui/core/library"
+    "sap/ui/core/library",
+    "sap/m/MessageBox"
 ], function (
     Controller,
     Filter,
@@ -13,7 +14,8 @@ sap.ui.define([
     MessageToast,
     JSONModel,
     Fragment,
-    coreLibrary
+    coreLibrary,
+    MessageBox
 ) {
     "use strict";
 
@@ -43,12 +45,12 @@ sap.ui.define([
             var oTable = this.byId("leaveTable");
             var oBinding = oTable.getBinding("items");
 
-            // Safeguard check to ensure binding exists before execution
+            
             if (!oBinding) {
                 return;
             }
 
-            // Clear filter if search text is empty
+            
             if (!sValue || sValue.trim() === "") {
                 oBinding.filter([]);
                 return;
@@ -63,7 +65,7 @@ sap.ui.define([
                 sStatus = "R";
             }
 
-            // Generate clean multi-field OR query array
+            
             var oFilter = new Filter({
                 filters: [
                     new Filter("LeaveId", FilterOperator.Contains, sValue),
@@ -120,6 +122,56 @@ sap.ui.define([
             this.getOwnerComponent().getRouter().navTo("LeaveEdit", {
                 leaveId: sLeaveId
             });
+        },
+        onDelete: function (oEvent) {
+
+            var oModel = this.getView().getModel();
+
+            var sLeaveId = oEvent.getSource()
+                .getBindingContext()
+                .getProperty("LeaveId");
+
+            var sPath = "/LeavesSet('" + sLeaveId + "')";
+
+            var that = this;
+
+            sap.m.MessageBox.confirm("Are you sure you want to delete this leave request?", {
+
+                title: "Confirm Delete",
+
+                actions: [
+                    sap.m.MessageBox.Action.YES,
+                    sap.m.MessageBox.Action.NO
+                ],
+
+                onClose: function (sAction) {
+
+                    if (sAction === sap.m.MessageBox.Action.YES) {
+
+                        oModel.remove(sPath, {
+
+                            success: function () {
+
+                                sap.m.MessageToast.show("Leave deleted successfully");
+
+                                that.getView().getModel().refresh(true);
+
+                            },
+
+                            error: function () {
+
+                                sap.m.MessageToast.show("Delete failed");
+
+                            }
+
+                        });
+
+                    }
+
+                }
+
+            });
+
         }
     });
 });

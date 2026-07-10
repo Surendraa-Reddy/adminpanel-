@@ -53,12 +53,9 @@ sap.ui.define([
         },
 
         onSearch: function (oEvent) {
-
             var sValue = oEvent.getParameter("newValue") || oEvent.getParameter("query");
-
             var oTable = this.byId("attendanceTable");
             var oBinding = oTable.getBinding("items");
-
 
             if (!oBinding) {
                 return;
@@ -69,26 +66,26 @@ sap.ui.define([
                 return;
             }
 
-
-            var sStatusValue = sValue;
-            if (sValue.toLowerCase().startsWith("p")) {
-                sStatusValue = "P";
-            } else if (sValue.toLowerCase().startsWith("a")) {
-                sStatusValue = "A";
-            }
-
+            // Create the search filters for ID strings (using Contains)
             var aSubFilters = [
                 new Filter("AttId", FilterOperator.Contains, sValue),
-                new Filter("EmpId", FilterOperator.Contains, sValue),
-                new Filter("Status", FilterOperator.Contains, sStatusValue)
+                new Filter("EmpId", FilterOperator.Contains, sValue)
             ];
 
+            // If they typed something starting with 'p' or 'a', use absolute match (EQ) for Status
+            if (sValue.toLowerCase().startsWith("p")) {
+                aSubFilters.push(new Filter("Status", FilterOperator.EQ, "P"));
+            } else if (sValue.toLowerCase().startsWith("a")) {
+                aSubFilters.push(new Filter("Status", FilterOperator.EQ, "A"));
+            } else if (sValue.length === 1) {
+                // If they typed a single character that isn't P or A, try a direct match anyway
+                aSubFilters.push(new Filter("Status", FilterOperator.EQ, sValue.toUpperCase()));
+            }
 
             var oSearchFilter = new Filter({
                 filters: aSubFilters,
                 and: false
             });
-
 
             oBinding.filter([oSearchFilter]);
         },

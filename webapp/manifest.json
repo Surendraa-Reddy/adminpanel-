@@ -141,6 +141,11 @@
           "target": [
             "LeaveEdit"
           ]
+        },
+        {
+          "name": "Reports",
+          "pattern": "reports",
+          "target": "Reports"
         }
       ],
       "targets": {
@@ -180,6 +185,9 @@
         "LeaveEdit": {
           "viewName": "LeaveEdit",
           "viewType": "XML"
+        },
+        "Reports": {
+          "viewName": "Reports"
         } 
       }
     },

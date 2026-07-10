@@ -2,87 +2,518 @@
     controllerName="employee.controller.Dashboard"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
-    xmlns:f="sap.f">
+    xmlns:f="sap.f"
+    xmlns:l="sap.ui.layout"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds">
 
-<Page title="Dashboard">
+<Page title="HR Management Dashboard">
 
     <content>
 
         <VBox class="sapUiMediumMargin">
 
+            <!-- Header -->
             <Title
                 text="Welcome Administrator"
                 level="H2"/>
 
             <Text
-                text="HR Management Dashboard"/>
+                text="Monitor your organization using real-time HR insights."
+                class="sapUiTinyMarginBottom"/>
 
-            <HBox
-                wrap="Wrap"
-                justifyContent="SpaceAround"
+            <!-- KPI Tiles -->
+            <l:Grid
+                defaultSpan="XL2 L2 M4 S6"
+                hSpacing="1"
+                vSpacing="1"
                 class="sapUiMediumMarginTop">
 
+                <!-- Employees -->
                 <GenericTile
                     header="Employees"
                     subheader="Total Employees"
                     press="onEmployee">
 
                     <TileContent>
-
                         <NumericContent
                             value="{dashboard>/Employees}"
                             icon="sap-icon://employee"/>
-
                     </TileContent>
 
                 </GenericTile>
 
+                <!-- Departments -->
                 <GenericTile
                     header="Departments"
                     subheader="Departments"
                     press="onDepartment">
 
                     <TileContent>
-
                         <NumericContent
                             value="{dashboard>/Departments}"
                             icon="sap-icon://building"/>
-
                     </TileContent>
 
                 </GenericTile>
 
+                <!-- Roles -->
                 <GenericTile
                     header="Roles"
                     subheader="Available Roles"
                     press="onRole">
 
                     <TileContent>
-
                         <NumericContent
                             value="{dashboard>/Roles}"
                             icon="sap-icon://manager"/>
-
                     </TileContent>
 
                 </GenericTile>
 
+                <!-- Leaves -->
                 <GenericTile
                     header="Leaves"
                     subheader="Pending Leaves"
                     press="onLeave">
 
                     <TileContent>
-
                         <NumericContent
                             value="{dashboard>/Leaves}"
                             icon="sap-icon://calendar"/>
-
                     </TileContent>
 
                 </GenericTile>
 
-            </HBox>
+                <!-- Active Employees -->
+                <GenericTile
+                    header="Active"
+                    subheader="Active Employees">
+
+                    <TileContent>
+                        <NumericContent
+                            value="{dashboard>/ActiveEmployees}"
+                            icon="sap-icon://accept"/>
+                    </TileContent>
+
+                </GenericTile>
+
+                <!-- Attendance -->
+                <GenericTile
+                    header="Attendance"
+                    subheader="Today's Attendance">
+
+                    <TileContent>
+                        <NumericContent
+                            value="{dashboard>/Attendance}"
+                            icon="sap-icon://activity-individual"/>
+                    </TileContent>
+
+                </GenericTile>
+
+            </l:Grid>
+
+            <!-- Charts -->
+            <l:Grid
+                defaultSpan="XL6 L6 M12 S12"
+                hSpacing="1"
+                vSpacing="1"
+                class="sapUiLargeMarginTop">
+
+                <!-- Employees by Department -->
+
+                <Panel
+                    headerText="Employees by Department"
+                    expandable="true"
+                    expanded="true">
+
+                    <viz:VizFrame
+                        id="departmentChart"
+                        vizType="column"
+                        width="100%"
+                        height="200px"
+                        uiConfig="{applicationSet:'fiori'}">
+
+                        <viz:dataset>
+
+                            <viz.data:FlattenedDataset
+                                data="{chart>/DepartmentChart}">
+
+                                <viz.data:dimensions>
+
+                                    <viz.data:DimensionDefinition
+                                        name="Department"
+                                        value="{chart>Department}"/>
+
+                                </viz.data:dimensions>
+
+                                <viz.data:measures>
+
+                                    <viz.data:MeasureDefinition
+                                        name="Employees"
+                                        value="{chart>Count}"/>
+
+                                </viz.data:measures>
+
+                            </viz.data:FlattenedDataset>
+
+                        </viz:dataset>
+
+                        <viz:feeds>
+
+                            <viz.feeds:FeedItem
+                                uid="valueAxis"
+                                type="Measure"
+                                values="Employees"/>
+
+                            <viz.feeds:FeedItem
+                                uid="categoryAxis"
+                                type="Dimension"
+                                values="Department"/>
+
+                        </viz:feeds>
+
+                    </viz:VizFrame>
+
+                </Panel>
+
+                <!-- Gender Chart -->
+
+                <Panel
+                    headerText="Gender Distribution"
+                    expandable="true"
+                    expanded="true">
+
+                    <viz:VizFrame
+                        id="genderChart"
+                        vizType="donut"
+                        width="100%"
+                        height="200px"
+                        uiConfig="{applicationSet:'fiori'}">
+
+                        <viz:dataset>
+
+                            <viz.data:FlattenedDataset
+                                data="{chart>/GenderChart}">
+
+                                <viz.data:dimensions>
+
+                                    <viz.data:DimensionDefinition
+                                        name="Gender"
+                                        value="{chart>Gender}"/>
+
+                                </viz.data:dimensions>
+
+                                <viz.data:measures>
+
+                                    <viz.data:MeasureDefinition
+                                        name="Employees"
+                                        value="{chart>Count}"/>
+
+                                </viz.data:measures>
+
+                            </viz.data:FlattenedDataset>
+
+                        </viz:dataset>
+
+                        <viz:feeds>
+
+                            <viz.feeds:FeedItem
+                                uid="size"
+                                type="Measure"
+                                values="Employees"/>
+
+                            <viz.feeds:FeedItem
+                                uid="color"
+                                type="Dimension"
+                                values="Gender"/>
+
+                        </viz:feeds>
+
+                    </viz:VizFrame>
+
+                </Panel>
+                <Panel
+                   headerText="Attendance Trend"
+                   expandable="true"
+                   expanded="true"
+                    class="sapUiLargeMarginTop">
+
+    <viz:VizFrame
+        id="attendanceChart"
+        vizType="line"
+        width="100%"
+        height="200px"
+        uiConfig="{applicationSet:'fiori'}">
+
+        <viz:dataset>
+
+            <viz.data:FlattenedDataset
+                data="{chart>/AttendanceChart}">
+
+                <viz.data:dimensions>
+
+                    <viz.data:DimensionDefinition
+                        name="Date"
+                        value="{chart>Date}"/>
+
+                </viz.data:dimensions>
+
+                <viz.data:measures>
+
+                    <viz.data:MeasureDefinition
+                        name="Present Employees"
+                        value="{chart>PresentCount}"/>
+
+                </viz.data:measures>
+
+            </viz.data:FlattenedDataset>
+
+        </viz:dataset>
+
+        <viz:feeds>
+
+            <viz.feeds:FeedItem
+                uid="valueAxis"
+                type="Measure"
+                values="Present Employees"/>
+
+            <viz.feeds:FeedItem
+                uid="categoryAxis"
+                type="Dimension"
+                values="Date"/>
+
+        </viz:feeds>
+
+    </viz:VizFrame>
+
+</Panel>
+    <Panel
+        headerText="Leave Status"
+       expandable="true"
+        expanded="true"
+       class="sapUiLargeMarginTop">
+
+          <viz:VizFrame
+                id="leaveChart"
+                 vizType="donut"
+                 width="100%"
+               height="200px"
+              uiConfig="{applicationSet:'fiori'}">
+
+              <viz:dataset>
+
+               <viz.data:FlattenedDataset
+                data="{chart>/LeaveChart}">
+
+                <viz.data:dimensions>
+
+                    <viz.data:DimensionDefinition
+                        name="Leave Status"
+                        value="{chart>Status}"/>
+
+                </viz.data:dimensions>
+
+                <viz.data:measures>
+
+                    <viz.data:MeasureDefinition
+                        name="Count"
+                        value="{chart>Count}"/>
+
+                </viz.data:measures>
+
+                   </viz.data:FlattenedDataset>
+
+               </viz:dataset>
+
+                <viz:feeds>
+
+               <viz.feeds:FeedItem
+                uid="size"
+                type="Measure"
+                values="Count"/>
+
+              <viz.feeds:FeedItem
+                uid="color"
+                type="Dimension"
+                values="Leave Status"/>
+
+                          </viz:feeds>
+
+                           </viz:VizFrame>
+
+        </Panel>
+
+            </l:Grid>
+            <!-- ================================================= -->
+<!-- Recent Employees -->
+<!-- ================================================= -->
+
+<Panel
+    headerText="Recent Employees"
+    expandable="true"
+    expanded="true"
+    class="sapUiLargeMarginTop">
+
+    <Table
+        items="{recent>/RecentEmployees}"
+        growing="true"
+        growingScrollToLoad="true">
+
+        <columns>
+
+            <Column width="8rem">
+                <Text text="Employee ID"/>
+            </Column>
+
+            <Column width="14rem">
+                <Text text="Employee Name"/>
+            </Column>
+
+            <Column width="10rem">
+                <Text text="Department"/>
+            </Column>
+
+            <Column width="10rem">
+                <Text text="Role"/>
+            </Column>
+
+            <Column width="8rem">
+                <Text text="Status"/>
+            </Column>
+
+            <Column hAlign="Center" width="6rem">
+                <Text text="Action"/>
+            </Column>
+
+        </columns>
+
+        <items>
+
+            <ColumnListItem>
+
+                <cells>
+
+                    <ObjectIdentifier
+                        title="{recent>EmpId}"/>
+
+                    <Text
+                        text="{= ${recent>FirstName} + ' ' + ${recent>LastName}}"/>
+
+                    <Text
+                        text="{recent>DeptId}"/>
+
+                    <Text
+                        text="{recent>RoleId}"/>
+
+                    <ObjectStatus
+                        text="{= ${recent>Status} === '1' ? 'Active' : 'Inactive'}"
+                        state="{= ${recent>Status} === '1' ? 'Success' : 'Error'}"/>
+
+                    <Button
+                        icon="sap-icon://display"
+                        type="Transparent"
+                        tooltip="View Employee"
+                        press="onViewEmployee"/>
+
+                </cells>
+
+            </ColumnListItem>
+
+        </items>
+
+    </Table>
+
+</Panel>
+
+<!-- ================================================= -->
+<!-- Recent Leave Requests -->
+<!-- ================================================= -->
+
+<Panel
+    headerText="Recent Leave Requests"
+    expandable="true"
+    expanded="true"
+    class="sapUiLargeMarginTop sapUiMediumMarginBottom">
+
+    <Table
+        items="{recent>/RecentLeaves}"
+        growing="true"
+        growingScrollToLoad="true">
+
+        <columns>
+
+            <Column width="8rem">
+                <Text text="Leave ID"/>
+            </Column>
+
+            <Column width="8rem">
+                <Text text="Employee"/>
+            </Column>
+
+            <Column width="10rem">
+                <Text text="Leave Type"/>
+            </Column>
+
+            <Column width="10rem">
+                <Text text="From Date"/>
+            </Column>
+
+            <Column width="10rem">
+                <Text text="To Date"/>
+            </Column>
+
+            <Column width="10rem">
+                <Text text="Status"/>
+            </Column>
+
+        </columns>
+
+        <items>
+
+            <ColumnListItem>
+
+                <cells>
+
+                    <ObjectIdentifier
+                        title="{recent>LeaveId}"/>
+
+                    <Text
+                        text="{recent>EmpId}"/>
+
+                    <Text
+                        text="{recent>LeaveType}"/>
+
+                    <Text
+                        text="{
+                            path:'recent>FromDate',
+                            type:'sap.ui.model.type.Date',
+                            formatOptions:{pattern:'dd-MM-yyyy'}
+                        }"/>
+
+                    <Text
+                        text="{
+                            path:'recent>ToDate',
+                            type:'sap.ui.model.type.Date',
+                            formatOptions:{pattern:'dd-MM-yyyy'}
+                        }"/>
+
+                    <ObjectStatus
+                        text="{= ${recent>Status} === 'P' ? 'Pending' :
+                                 ${recent>Status} === 'A' ? 'Approved' : 'Rejected'}"
+                        state="{= ${recent>Status} === 'P' ? 'Warning' :
+                                  ${recent>Status} === 'A' ? 'Success' : 'Error'}"/>
+
+                </cells>
+
+            </ColumnListItem>
+
+        </items>
+
+    </Table>
+
+</Panel>
 
         </VBox>
 

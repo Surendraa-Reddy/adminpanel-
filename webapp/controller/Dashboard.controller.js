@@ -2,388 +2,218 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel"
 ], function (Controller, JSONModel) {
-
     "use strict";
 
     return Controller.extend("employee.controller.Dashboard", {
 
         onInit: function () {
-
-            var oDashboard = new JSONModel({
-
+          
+            var oDashboardModel = new JSONModel({
                 Employees: 0,
                 Departments: 0,
                 Roles: 0,
                 Leaves: 0,
-                ActiveEmployees: 0
-
+                ActiveEmployees: 0,
+                Attendance: 0
             });
+            this.getView().setModel(oDashboardModel, "dashboard");
 
-            this.getView().setModel(oDashboard, "dashboard");
-
-            var oChart = new JSONModel({
-
+            var oChartModel = new JSONModel({
                 DepartmentChart: [],
                 GenderChart: [],
                 AttendanceChart: [],
                 LeaveChart: []
-
             });
+            this.getView().setModel(oChartModel, "chart");
 
-
-            this.getView().setModel(oChart, "chart");
-
-            this._loadDashboard();
-            var oRecent = new JSONModel({
-
+           
+            var oRecentModel = new JSONModel({
                 RecentEmployees: [],
                 RecentLeaves: []
-
             });
+            this.getView().setModel(oRecentModel, "recent");
 
-            this.getView().setModel(oRecent, "recent");
-            this._loadRecentData();
+            
+            this._loadDashboardData();
+            this._loadRecentTablesData();
 
+           
+            this._configureChartProperties();
         },
 
-        _loadDashboard: function () {
+        
+        _configureChartProperties: function () {
+            var oVizProperties = {
+                title: { visible: false },
+                plotArea: {
+                    dataLabel: { visible: true }
+                }
+            };
 
+            this.byId("departmentChart").setVizProperties(oVizProperties);
+            this.byId("genderChart").setVizProperties(oVizProperties);
+            this.byId("attendanceChart").setVizProperties(oVizProperties);
+            this.byId("leaveChart").setVizProperties(oVizProperties);
+        },
+
+        
+        _loadDashboardData: function () {
             var oModel = this.getOwnerComponent().getModel();
-
             var oDashboard = this.getView().getModel("dashboard");
-
             var oChart = this.getView().getModel("chart");
 
-            // Employees
+            
             oModel.read("/EmployeeeSet", {
-
                 success: function (oData) {
-
                     var aEmployees = oData.results;
-
                     oDashboard.setProperty("/Employees", aEmployees.length);
 
-                    // Active Employees
-
-                    var iActive = 0;
-
-                    var mDept = {};
-
-                    var mGender = {};
+                    var iActiveCount = 0;
+                    var mDeptGroup = {};
+                    var mGenderGroup = {};
 
                     aEmployees.forEach(function (oEmp) {
+                       
+                        if (oEmp.Status === "1") { iActiveCount++; }
 
-                        if (oEmp.Status === "1") {
-                            iActive++;
-                        }
+                        
+                        if (!mDeptGroup[oEmp.DeptId]) { mDeptGroup[oEmp.DeptId] = 0; }
+                        mDeptGroup[oEmp.DeptId]++;
 
-                        if (!mDept[oEmp.DeptId]) {
-                            mDept[oEmp.DeptId] = 0;
-                        }
-
-                        mDept[oEmp.DeptId]++;
-
-                        var sGender =
-                            oEmp.Gender === "M" ? "Male" :
-                                oEmp.Gender === "F" ? "Female" :
-                                    "Others";
-
-                        if (!mGender[sGender]) {
-                            mGender[sGender] = 0;
-                        }
-
-                        mGender[sGender]++;
-
+                        
+                        var sGenderText = oEmp.Gender === "M" ? "Male" : oEmp.Gender === "F" ? "Female" : "Others";
+                        if (!mGenderGroup[sGenderText]) { mGenderGroup[sGenderText] = 0; }
+                        mGenderGroup[sGenderText]++;
                     });
 
-                    oDashboard.setProperty("/ActiveEmployees", iActive);
+                    oDashboard.setProperty("/ActiveEmployees", iActiveCount);
 
-                    var aDept = [];
-
-                    Object.keys(mDept).forEach(function (sKey) {
-
-                        aDept.push({
-
-                            Department: sKey,
-                            Count: mDept[sKey]
-
-                        });
-
+                    
+                    var aDeptChartData = Object.keys(mDeptGroup).map(function (sKey) {
+                        return { Department: sKey, Count: mDeptGroup[sKey] };
                     });
+                    oChart.setProperty("/DepartmentChart", aDeptChartData);
 
-                    var aGender = [];
-
-                    Object.keys(mGender).forEach(function (sKey) {
-
-                        aGender.push({
-
-                            Gender: sKey,
-                            Count: mGender[sKey]
-
-                        });
-
+                    
+                    var aGenderChartData = Object.keys(mGenderGroup).map(function (sKey) {
+                        return { Gender: sKey, Count: mGenderGroup[sKey] };
                     });
-
-                    oChart.setProperty("/DepartmentChart", aDept);
-
-                    oChart.setProperty("/GenderChart", aGender);
-
+                    oChart.setProperty("/GenderChart", aGenderChartData);
                 }
-
             });
 
-            // Departments
-
+            
             oModel.read("/DepartmentSet", {
-
                 success: function (oData) {
-
                     oDashboard.setProperty("/Departments", oData.results.length);
-
                 }
-
             });
 
-            // Roles
-
+          
             oModel.read("/RolesSet", {
-
                 success: function (oData) {
-
                     oDashboard.setProperty("/Roles", oData.results.length);
-
                 }
-
             });
 
-            // Leaves
-
+            
             oModel.read("/LeavesSet", {
-
                 success: function (oData) {
-
                     oDashboard.setProperty("/Leaves", oData.results.length);
-
                 }
-
             });
-            // Attendance Chart
 
+           
             oModel.read("/AttendanceSet", {
-
                 success: function (oData) {
-
                     var aAttendance = oData.results;
+                    var mAttendanceTrend = {};
+                    var iTodayAttendanceCount = 0;
 
-                    var mAttendance = {};
+                    
+                    var sTodayStr = new Date().toLocaleDateString('en-GB').replace(/\//g, '-'); 
 
                     aAttendance.forEach(function (oItem) {
-
-                        /*
-                         Status should be something like
-                         P = Present
-                         A = Absent
-            
-                         If your backend uses
-                         1 / 0
-                         change below accordingly.
-                        */
-
                         if (oItem.Status === "P") {
-
-                            // Convert OData DateTime to JS Date
-
                             var dDate = new Date(oItem.AttDate);
+                            var sDateStr = dDate.getDate().toString().padStart(2, "0") + "-" +
+                                           (dDate.getMonth() + 1).toString().padStart(2, "0") + "-" +
+                                           dDate.getFullYear();
 
-                            var sDate =
-                                dDate.getDate().toString().padStart(2, "0") + "-" +
-                                (dDate.getMonth() + 1).toString().padStart(2, "0") + "-" +
-                                dDate.getFullYear();
+                            if (!mAttendanceTrend[sDateStr]) { mAttendanceTrend[sDateStr] = 0; }
+                            mAttendanceTrend[sDateStr]++;
 
-                            if (!mAttendance[sDate]) {
-                                mAttendance[sDate] = 0;
-                            }
-
-                            mAttendance[sDate]++;
-
+                            if (sDateStr === sTodayStr) { iTodayAttendanceCount++; }
                         }
-
                     });
 
-                    var aChart = [];
+                    oDashboard.setProperty("/Attendance", iTodayAttendanceCount);
 
-                    Object.keys(mAttendance).forEach(function (sDate) {
-
-                        aChart.push({
-
-                            Date: sDate,
-                            PresentCount: mAttendance[sDate]
-
-                        });
-
+                    
+                    var aAttendanceChartData = Object.keys(mAttendanceTrend).map(function (sDate) {
+                        return { Date: sDate, PresentCount: mAttendanceTrend[sDate] };
                     });
-
-                    oChart.setProperty("/AttendanceChart", aChart);
-
-                },
-
-                error: function () {
-
-                    console.log("Attendance Read Failed");
-
+                    oChart.setProperty("/AttendanceChart", aAttendanceChartData);
                 }
-
             });
-            // Leave Status Chart
 
+            
             oModel.read("/LeavesSet", {
-
                 success: function (oData) {
-
                     var aLeaves = oData.results;
+                    var mLeaveStatus = { Pending: 0, Approved: 0, Rejected: 0 };
 
-                    var mLeave = {
-                        Pending: 0,
-                        Approved: 0,
-                        Rejected: 0
-                    };
-
-                    aLeaves.forEach(function (oItem) {
-
-                        switch (oItem.Status) {
-
-                            case "P":
-                                mLeave.Pending++;
-                                break;
-
-                            case "A":
-                                mLeave.Approved++;
-                                break;
-
-                            case "R":
-                                mLeave.Rejected++;
-                                break;
-
-                        }
-
+                    aLeaves.forEach(function (oLeave) {
+                        if (oLeave.Status === "P") { mLeaveStatus.Pending++; }
+                        else if (oLeave.Status === "A") { mLeaveStatus.Approved++; }
+                        else if (oLeave.Status === "R") { mLeaveStatus.Rejected++; }
                     });
 
-                    var aLeaveChart = [
-
-                        {
-                            Status: "Pending",
-                            Count: mLeave.Pending
-                        },
-                        {
-                            Status: "Approved",
-                            Count: mLeave.Approved
-                        },
-                        {
-                            Status: "Rejected",
-                            Count: mLeave.Rejected
-                        }
-
+                    var aLeaveChartData = [
+                        { Status: "Pending", Count: mLeaveStatus.Pending },
+                        { Status: "Approved", Count: mLeaveStatus.Approved },
+                        { Status: "Rejected", Count: mLeaveStatus.Rejected }
                     ];
-
-                    oChart.setProperty("/LeaveChart", aLeaveChart);
-
-                },
-
-                error: function () {
-
-                    console.log("Leave Read Failed");
-
+                    oChart.setProperty("/LeaveChart", aLeaveChartData);
                 }
-
             });
-
         },
-        _loadRecentData: function () {
 
+    
+        _loadRecentTablesData: function () {
             var oModel = this.getOwnerComponent().getModel();
-
             var oRecent = this.getView().getModel("recent");
 
-            //==========================
-            // Recent Employees
-            //==========================
-
+      
             oModel.read("/EmployeeeSet", {
-
                 success: function (oData) {
-
-                    var aEmployees = oData.results;
-
-                    // Latest 5 Employees
-                    aEmployees = aEmployees.slice(-5).reverse();
-
-                    oRecent.setProperty("/RecentEmployees", aEmployees);
-
-                },
-
-                error: function () {
-
-                    console.log("Employee Read Failed");
-
+                    var aEmployees = oData.results || [];
+                    var aRecentEmp = aEmployees.slice(-5).reverse();
+                    oRecent.setProperty("/RecentEmployees", aRecentEmp);
                 }
-
             });
 
-            //==========================
-            // Recent Leave Requests
-            //==========================
-
+            // Recent Leave Requests Table
             oModel.read("/LeavesSet", {
-
                 success: function (oData) {
-
-                    var aLeaves = oData.results;
-
-                    // Latest 5 Leave Requests
-                    aLeaves = aLeaves.slice(-5).reverse();
-
-                    oRecent.setProperty("/RecentLeaves", aLeaves);
-
-                },
-
-                error: function () {
-
-                    console.log("Leave Read Failed");
-
+                    var aLeaves = oData.results || [];
+                    // Take the last 5 records and reverse to show newest first
+                    var aRecentLeaves = aLeaves.slice(-5).reverse();
+                    oRecent.setProperty("/RecentLeaves", aRecentLeaves);
                 }
-
             });
-
         },
+
+        // Navigational Press Event Routing Handlers
         onViewEmployee: function (oEvent) {
-
             var oContext = oEvent.getSource().getBindingContext("recent");
-
             var sEmpId = oContext.getProperty("EmpId");
-
-            this.getOwnerComponent().getRouter().navTo("EmployeeDetails", {
-
-                empId: sEmpId
-
-            });
-
-        },
-        onEmployee: function () {
-            this.getOwnerComponent().getRouter().navTo("Employee");
+            this.getOwnerComponent().getRouter().navTo("EmployeeDetails", { empId: sEmpId });
         },
 
-        onDepartment: function () {
-            this.getOwnerComponent().getRouter().navTo("Department");
-        },
-
-        onRole: function () {
-            this.getOwnerComponent().getRouter().navTo("Roles");
-        },
-
-        onLeave: function () {
-            this.getOwnerComponent().getRouter().navTo("Leave");
-        }
-
+        onEmployee: function () { this.getOwnerComponent().getRouter().navTo("Employee"); },
+        onDepartment: function () { this.getOwnerComponent().getRouter().navTo("Department"); },
+        onRole: function () { this.getOwnerComponent().getRouter().navTo("Roles"); },
+        onLeave: function () { this.getOwnerComponent().getRouter().navTo("Leave"); }
     });
-
 });

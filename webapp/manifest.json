@@ -87,6 +87,11 @@
       "routes": [
         {
           "pattern": "",
+          "name": "Login",
+          "target": "Login"
+        },
+        {
+          "pattern": "Dashboard",
           "name": "Dashboard",
           "target": "Dashboard"
         },
@@ -152,6 +157,9 @@
         "App": {
           "viewName": "App"
         },
+        "Login": {
+          "viewName": "Login"
+        },  
         "Dashboard": {
           "viewName": "Dashboard"
         },
@@ -188,7 +196,7 @@
         },
         "Reports": {
           "viewName": "Reports"
-        } 
+        }
       }
     },
     "rootView": {

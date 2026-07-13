@@ -1,0 +1,78 @@
+<mvc:View
+    controllerName="employee.controller.Login"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout">
+
+    <Page
+        showHeader="false"
+        class="sapUiContentPadding">
+
+        <content>
+
+            <VBox
+                justifyContent="Center"
+                alignItems="Center"
+                width="100%"
+                height="100%">
+
+                <Panel
+                    width="400px"
+                    class="sapUiResponsiveMargin"
+                    headerText="HR Management System">
+
+                    <content>
+
+                        <VBox
+                            class="sapUiMediumMargin"
+                            renderType="Bare">
+
+                            <Image
+                                src="sap-icon://employee-pane"
+                                width="80px"
+                                height="80px"
+                                densityAware="false"
+                                class="sapUiSmallMarginBottom"/>
+
+                            <Title
+                                text="Login"
+                                level="H2"
+                                class="sapUiSmallMarginBottom"/>
+
+                            <Label text="Username"/>
+
+                            <Input
+                                id="idUsername"
+                                placeholder="Enter Username"
+                                width="100%"/>
+
+                            <Label
+                                text="Password"
+                                class="sapUiSmallMarginTop"/>
+
+                            <Input
+                                id="idPassword"
+                                type="Password"
+                                placeholder="Enter Password"
+                                width="100%"/>
+
+                            <Button
+                                text="Login"
+                                type="Emphasized"
+                                width="100%"
+                                class="sapUiMediumMarginTop"
+                                press="onLogin"/>
+
+                        </VBox>
+
+                    </content>
+
+                </Panel>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

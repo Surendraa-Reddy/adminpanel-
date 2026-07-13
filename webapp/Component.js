@@ -21,10 +21,26 @@ sap.ui.define([
 
             // enable routing
             this.getRouter().initialize();
-            
+
             sap.ui.require(["sap/ui/dom/includeStylesheet"], function (includeStylesheet) {
                 includeStylesheet("css/style.css");
             });
+            var oSession = new sap.ui.model.json.JSONModel({
+
+                loggedIn: false,
+
+                username: "",
+
+                empId: "",
+
+                role: "",
+
+                status: ""
+
+            });
+
+            this.setModel(oSession, "session");
+
         }
     });
 });

@@ -9,18 +9,44 @@ sap.ui.define([
     MessageToast,
     BusyIndicator
 ) {
-
     "use strict";
 
     return Controller.extend("employee.controller.Login", {
 
+        //==================================================
+        // Init
+        //==================================================
         onInit: function () {
+
+            var oSession = this.getOwnerComponent().getModel("session");
+
+            // Already logged in
+            if (oSession.getProperty("/loggedIn")) {
+
+                this.getOwnerComponent()
+                    .getRouter()
+                    .navTo("Dashboard", {}, true);
+
+                return;
+            }
+
+            // Focus Username
+            var that = this;
+
+            setTimeout(function () {
+
+                if (that.byId("idUsername")) {
+                    that.byId("idUsername").focus();
+                }
+
+            }, 300);
+
 
         },
 
-        //=========================
-        // Login Button
-        //=========================
+        //==================================================
+        // Login
+        //==================================================
         onLogin: function () {
 
             if (!this._validate()) {
@@ -33,6 +59,17 @@ sap.ui.define([
             var oModel = this.getOwnerComponent().getModel();
 
             var that = this;
+
+            // Clear old session
+            this.getOwnerComponent().getModel("session").setData({
+
+                loggedIn: false,
+                username: "",
+                empId: "",
+                role: "",
+                status: ""
+
+            });
 
             BusyIndicator.show(0);
 
@@ -47,26 +84,44 @@ sap.ui.define([
 
                     BusyIndicator.hide();
 
-                    MessageToast.show("Login Successful");
-
-                    // Store User Session
                     var oSession = that.getOwnerComponent().getModel("session");
 
-                    oSession.setData({
+                    var oSessionData = {
 
                         loggedIn: true,
-                        username: oData.Username,
-                        empId: oData.EmpId,
-                        role: oData.Role,
-                        status: oData.Status
 
-                    });
+                        username: oData.Username,
+
+                        empId: oData.EmpId,
+
+                        role: oData.Role,
+
+                        status: oData.Status,
+
+                        canDashboard: true,
+                        canEmployee: true,
+                        canDepartment: true,
+                        canRole: true,
+                        canAttendance: true,
+                        canLeave: true,
+                        canReports: true
+
+                    };
+
+                    oSession.setData(oSessionData);
+
+                    localStorage.setItem(
+                        "HR_SESSION",
+                        JSON.stringify(oSessionData)
+                    );
+
+                    MessageToast.show("Login Successful");
 
                     that._clear();
 
                     that.getOwnerComponent()
                         .getRouter()
-                        .navTo("Dashboard");
+                        .navTo("Dashboard", {}, true);
 
                 },
 
@@ -85,16 +140,18 @@ sap.ui.define([
                             oResponse.error.message &&
                             oResponse.error.message.value
                         ) {
-
                             sMessage = oResponse.error.message.value;
-
                         }
 
                     } catch (e) {
 
                     }
 
-                    that._showError(sMessage);
+                    // Clear only password
+                    that.byId("idPassword").setValue("");
+                    that.byId("idPassword").focus();
+
+                    MessageBox.error(sMessage);
 
                 }
 
@@ -102,36 +159,34 @@ sap.ui.define([
 
         },
 
-        //=========================
-        // Input Validation
-        //=========================
+        //==================================================
+        // Validation
+        //==================================================
         _validate: function () {
-
-            var bValid = true;
 
             var oUser = this.byId("idUsername");
             var oPass = this.byId("idPassword");
 
-            var sUsername = oUser.getValue().trim();
-            var sPassword = oPass.getValue().trim();
+            var sUser = oUser.getValue().trim();
+            var sPass = oPass.getValue().trim();
+
+            var bValid = true;
 
             oUser.setValueState("None");
             oPass.setValueState("None");
 
-            if (!sUsername) {
+            if (!sUser) {
 
                 oUser.setValueState("Error");
                 oUser.setValueStateText("Username is required");
-
                 bValid = false;
 
             }
 
-            if (!sPassword) {
+            if (!sPass) {
 
                 oPass.setValueState("Error");
                 oPass.setValueStateText("Password is required");
-
                 bValid = false;
 
             }
@@ -140,9 +195,9 @@ sap.ui.define([
 
         },
 
-        //=========================
-        // Clear Inputs
-        //=========================
+        //==================================================
+        // Clear Fields
+        //==================================================
         _clear: function () {
 
             this.byId("idUsername").setValue("");
@@ -153,18 +208,24 @@ sap.ui.define([
 
         },
 
-        //=========================
-        // Error Popup
-        //=========================
-        _showError: function (sMessage) {
+        //==================================================
+        // Live Change
+        //==================================================
+        onLiveChange: function (oEvent) {
 
-            MessageBox.error(sMessage);
+            var oInput = oEvent.getSource();
+
+            if (oInput.getValue().trim()) {
+
+                oInput.setValueState("None");
+
+            }
 
         },
 
-        //=========================
-        // Enter Key Login
-        //=========================
+        //==================================================
+        // Press Enter
+        //==================================================
         onSubmit: function () {
 
             this.onLogin();

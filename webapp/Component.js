@@ -25,22 +25,40 @@ sap.ui.define([
             sap.ui.require(["sap/ui/dom/includeStylesheet"], function (includeStylesheet) {
                 includeStylesheet("css/style.css");
             });
-            var oSession = new sap.ui.model.json.JSONModel({
+            var oSessionData = localStorage.getItem("HR_SESSION");
 
-                loggedIn: false,
+            if (oSessionData) {
 
-                username: "",
+                oSessionData = JSON.parse(oSessionData);
 
-                empId: "",
+            } else {
 
-                role: "",
+                oSessionData = {
 
-                status: ""
+                    loggedIn: false,
 
-            });
+                    username: "",
 
-            this.setModel(oSession, "session");
+                    empId: "",
 
+                    role: "",
+
+                    canDashboard: false,
+                    canEmployee: false,
+                    canDepartment: false,
+                    canRole: false,
+                    canAttendance: false,
+                    canLeave: false,
+                    canReports: false
+
+                };
+
+            }
+
+            this.setModel(
+                new sap.ui.model.json.JSONModel(oSessionData),
+                "session"
+            );
         }
     });
 });

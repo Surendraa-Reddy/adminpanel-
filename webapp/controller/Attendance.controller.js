@@ -30,6 +30,18 @@ sap.ui.define([
     return Controller.extend("employee.controller.Attendance", {
 
         onInit: function () {
+            var oSession = this.getOwnerComponent().getModel("session");
+
+            if (!oSession.getProperty("/loggedIn")) {
+
+                this.getOwnerComponent()
+                    .getRouter()
+                    .navTo("Login", {}, true);
+
+                return;
+
+            }
+
 
         },
 
@@ -52,61 +64,94 @@ sap.ui.define([
             );
         },
 
-        onSearch: function (oEvent) {
-            var sValue = oEvent.getParameter("newValue") || oEvent.getParameter("query");
-            var oTable = this.byId("attendanceTable");
-            var oBinding = oTable.getBinding("items");
+        onSearch: function () {
+            this._applyFilters();
+        },
+        onStatusFilter: function () {
+            this._applyFilters();
+        },
+        _applyFilters: function () {
+
+            var oBinding = this.byId("attendanceTable").getBinding("items");
 
             if (!oBinding) {
                 return;
             }
 
-            if (!sValue) {
-                oBinding.filter([]);
-                return;
+            var sAttId = this.byId("searchAttId").getValue().trim();
+            var sEmpId = this.byId("searchEmpId").getValue().trim();
+            var sStatus = this.byId("statusFilter").getSelectedKey();
+
+            var aFilters = [];
+
+            // Attendance ID Filter
+            if (sAttId) {
+
+                aFilters.push(
+                    new sap.ui.model.Filter(
+                        "AttId",
+                        sap.ui.model.FilterOperator.Contains,
+                        sAttId
+                    )
+                );
+
             }
 
-            // Create the search filters for ID strings (using Contains)
-            var aSubFilters = [
-                new Filter("AttId", FilterOperator.Contains, sValue),
-                new Filter("EmpId", FilterOperator.Contains, sValue)
-            ];
+            // Employee ID Filter
+            if (sEmpId) {
 
-            // If they typed something starting with 'p' or 'a', use absolute match (EQ) for Status
-            if (sValue.toLowerCase().startsWith("p")) {
-                aSubFilters.push(new Filter("Status", FilterOperator.EQ, "P"));
-            } else if (sValue.toLowerCase().startsWith("a")) {
-                aSubFilters.push(new Filter("Status", FilterOperator.EQ, "A"));
-            } else if (sValue.length === 1) {
-                // If they typed a single character that isn't P or A, try a direct match anyway
-                aSubFilters.push(new Filter("Status", FilterOperator.EQ, sValue.toUpperCase()));
+                aFilters.push(
+                    new sap.ui.model.Filter(
+                        "EmpId",
+                        sap.ui.model.FilterOperator.Contains,
+                        sEmpId
+                    )
+                );
+
             }
 
-            var oSearchFilter = new Filter({
-                filters: aSubFilters,
-                and: false
-            });
+            // Status Filter
+            if (sStatus) {
 
-            oBinding.filter([oSearchFilter]);
+                aFilters.push(
+                    new sap.ui.model.Filter(
+                        "Status",
+                        sap.ui.model.FilterOperator.EQ,
+                        sStatus
+                    )
+                );
+
+            }
+
+            // Apply all filters together (AND)
+            oBinding.filter(aFilters);
+
+        },
+
+        onRefresh: function () {
+
+            this.byId("searchAttId").setValue("");
+            this.byId("searchEmpId").setValue("");
+            this.byId("statusFilter").setSelectedKey("");
+
+            this._applyFilters();
+
         },
         onAdd: function () {
             this.getOwnerComponent()
                 .getRouter()
                 .navTo("AttendanceAdd");
         },
-        onRefresh: function () {
+
+        onResetFilters: function () {
 
             this.byId("searchAttendance").setValue("");
+            this.byId("statusFilter").setSelectedKey("");
 
-            this.getView().getModel().refresh(true);
-
-            this.byId("attendanceTable")
-                .getBinding("items")
-                .filter([]);
-
-            MessageToast.show("Attendance list refreshed");
+            this._applyFilters();
 
         },
+
 
         onView: function (oEvent) {
 

@@ -22,7 +22,19 @@ sap.ui.define([
     return Controller.extend("employee.controller.Leave", {
 
         onInit: function () {
-            // Initialization logic if required
+            var oSession = this.getOwnerComponent().getModel("session");
+
+            if (!oSession.getProperty("/loggedIn")) {
+
+                this.getOwnerComponent()
+                    .getRouter()
+                    .navTo("Login", {}, true);
+
+                return;
+
+            }
+
+         
         },
 
         onNavBack: function () {
@@ -45,12 +57,12 @@ sap.ui.define([
             var oTable = this.byId("leaveTable");
             var oBinding = oTable.getBinding("items");
 
-            
+
             if (!oBinding) {
                 return;
             }
 
-            
+
             if (!sValue || sValue.trim() === "") {
                 oBinding.filter([]);
                 return;
@@ -65,7 +77,7 @@ sap.ui.define([
                 sStatus = "R";
             }
 
-            
+
             var oFilter = new Filter({
                 filters: [
                     new Filter("LeaveId", FilterOperator.Contains, sValue),

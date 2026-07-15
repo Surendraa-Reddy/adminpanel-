@@ -16,6 +16,19 @@ sap.ui.define([
     return Controller.extend("employee.controller.Employee", {
 
         onInit: function () {
+            var oSession = this.getOwnerComponent().getModel("session");
+
+            if (!oSession.getProperty("/loggedIn")) {
+
+                this.getOwnerComponent()
+                    .getRouter()
+                    .navTo("Login", {}, true);
+
+                return;
+
+            }
+
+           
 
         },
 
@@ -172,7 +185,7 @@ sap.ui.define([
 
             var that = this;
 
-                 MessageBox.confirm(
+            MessageBox.confirm(
                 "Are you sure you want to delete Employee " + sEmpId + "?",
                 {
                     title: "Confirm Delete",

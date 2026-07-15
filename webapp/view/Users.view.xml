@@ -1,0 +1,210 @@
+<mvc:View
+    controllerName="employee.controller.Users"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page title="User Management">
+
+        <content>
+
+            <VBox class="sapUiMediumMargin">
+
+                <!-- Toolbar -->
+
+                <Toolbar class="sapUiLargeMarginBottom">
+
+                    <Title text="Application Users"/>
+
+                    <ToolbarSpacer/>
+
+                    <SearchField
+                        id="searchField"
+                        width="250px"
+                        placeholder="Search User..."
+                        liveChange="onSearch"
+                        class="sapUiTinyMarginEnd"/>
+
+                    <ToolbarSeparator/>
+
+                    <Select
+                        id="roleFilter"
+                        width="150px"
+                        change="onRoleFilter">
+
+                        <items>
+
+                            <core:Item
+                                key=""
+                                text="All Roles"
+                                xmlns:core="sap.ui.core"/>
+
+                            <core:Item
+                                key="ADMIN"
+                                text="Administrator"
+                                xmlns:core="sap.ui.core"/>
+
+                            <core:Item
+                                key="HR"
+                                text="HR"
+                                xmlns:core="sap.ui.core"/>
+
+                            <core:Item
+                                key="MANAGER"
+                                text="Manager"
+                                xmlns:core="sap.ui.core"/>
+
+                            <core:Item
+                                key="EMPLOYEE"
+                                text="Employee"
+                                xmlns:core="sap.ui.core"/>
+
+                        </items>
+
+                    </Select>
+
+                    <Select
+                        id="statusFilter"
+                        width="140px"
+                        change="onStatusFilter">
+
+                        <items>
+
+                            <core:Item
+                                key=""
+                                text="All Status"
+                                xmlns:core="sap.ui.core"/>
+
+                            <core:Item
+                                key="1"
+                                text="Active"
+                                xmlns:core="sap.ui.core"/>
+
+                            <core:Item
+                                key="0"
+                                text="Inactive"
+                                xmlns:core="sap.ui.core"/>
+
+                        </items>
+
+                    </Select>
+
+                    <Button
+                        icon="sap-icon://refresh"
+                        text="Reset"
+                        press="onResetFilters"/>
+
+                    <Button
+                        icon="sap-icon://excel-attachment"
+                        text="Export"
+                        type="Emphasized"
+                        press="onExportExcel"/>
+
+                    <Button
+                        icon="sap-icon://add"
+                        text="Add User"
+                        type="Accept"
+                        press="onAdd"/>
+
+                </Toolbar>
+
+
+                <!-- Users Table -->
+
+                <Table
+                    id="userTable"
+                    growing="true"
+                    growingScrollToLoad="true"
+                    inset="false"
+                    items="{users>/Users}">
+
+                    <columns>
+
+                        <Column width="10rem">
+                            <Text text="Username"/>
+                        </Column>
+
+                        <Column width="8rem">
+                            <Text text="Employee ID"/>
+                        </Column>
+
+                        <Column width="12rem">
+                            <Text text="Employee Name"/>
+                        </Column>
+
+                        <Column width="10rem">
+                            <Text text="Role"/>
+                        </Column>
+
+                        <Column width="8rem">
+                            <Text text="Status"/>
+                        </Column>
+
+                        <Column
+                            hAlign="Center"
+                            width="10rem">
+                            <Text text="Actions"/>
+                        </Column>
+
+                    </columns>
+
+                    <items>
+
+                        <ColumnListItem>
+
+                            <cells>
+
+                                <ObjectIdentifier
+                                    title="{users>Username}"
+                                    text="{users>EmpId}"/>
+
+                                <Text text="{users>EmpId}"/>
+
+                                <Text text="{users>Name}"/>
+
+                                <ObjectStatus
+                                    text="{users>Role}"
+                                    state="Information"/>
+
+                                <ObjectStatus
+                                    text="{= ${users>Status} === '1' ? 'Active' : 'Inactive'}"
+                                    state="{= ${users>Status} === '1' ? 'Success' : 'Error'}"/>
+
+                                <HBox
+                                    justifyContent="Center"
+                                    alignItems="Center">
+
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="Edit"
+                                        press="onEdit"/>
+
+                                    <Button
+                                        icon="sap-icon://delete"
+                                        type="Transparent"
+                                        tooltip="Delete"
+                                        press="onDelete"/>
+
+                                        <Button
+                                             icon="sap-icon://key"
+                                             type="Transparent"
+                                             tooltip="Reset Password"
+                                             press="onResetPassword"/>                                         
+
+                                </HBox>
+
+                            </cells>
+
+                        </ColumnListItem>
+
+                    </items>
+
+                </Table>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

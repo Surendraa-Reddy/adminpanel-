@@ -2,74 +2,126 @@
     controllerName="employee.controller.Login"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
-    xmlns:l="sap.ui.layout">
+    xmlns:core="sap.ui.core">
 
     <Page
         showHeader="false"
+        enableScrolling="false"
         class="sapUiContentPadding">
 
         <content>
 
-            <VBox
+            <FlexBox
                 justifyContent="Center"
                 alignItems="Center"
                 width="100%"
                 height="100%">
 
-                <Panel
-                    width="400px"
-                    class="sapUiResponsiveMargin"
-                    headerText="HR Management System">
+                <VBox
+                    width="430px"
+                    class="sapUiResponsiveMargin sapUiMediumMargin">
 
-                    <content>
+                    <Panel
+                        width="100%"
+                        class="sapUiResponsiveMargin">
 
-                        <VBox
-                            class="sapUiMediumMargin"
-                            renderType="Bare">
+                        <content>
 
-                            <Image
-                                src="sap-icon://employee-pane"
-                                width="80px"
-                                height="80px"
-                                densityAware="false"
-                                class="sapUiSmallMarginBottom"/>
+                            <VBox
+                                alignItems="Center"
+                                class="sapUiLargeMargin">
 
-                            <Title
-                                text="Login"
-                                level="H2"
-                                class="sapUiSmallMarginBottom"/>
+                                <!-- Logo -->
 
-                            <Label text="Username"/>
+                                <Avatar
+                                    displayShape="Circle"
+                                    displaySize="XL"
+                                    backgroundColor="Accent6"
+                                    icon="sap-icon://employee-pane"/>
 
-                            <Input
-                                id="idUsername"
-                                placeholder="Enter Username"
-                                width="100%"/>
+                                <Title
+                                    text="HR Management System"
+                                    level="H2"
+                                    class="sapUiMediumMarginTop"/>
 
-                            <Label
-                                text="Password"
-                                class="sapUiSmallMarginTop"/>
+                                <Text
+                                    text="Welcome Back"
+                                    class="sapUiTinyMarginTop"/>
 
-                            <Input
-                                id="idPassword"
-                                type="Password"
-                                placeholder="Enter Password"
-                                width="100%"/>
+                                <Text
+                                    text="Sign in to continue"
+                                    class="sapUiSmallMarginBottom"/>
 
-                            <Button
-                                text="Login"
-                                type="Emphasized"
-                                width="100%"
-                                class="sapUiMediumMarginTop"
-                                press="onLogin"/>
+                            </VBox>
 
-                        </VBox>
+                            <VBox class="sapUiMediumMargin">
 
-                    </content>
+                                <Label
+                                    text="Username"
+                                    required="true"/>
 
-                </Panel>
+                                <Input
+                                    id="idUsername"
+                                    placeholder="Enter Username"
+                                    submit="onSubmit"
+                                    liveChange="onLiveChange">
 
-            </VBox>
+                                    <layoutData>
+                                        <FlexItemData growFactor="1"/>
+                                    </layoutData>
+                                </Input>
+
+                                <Label
+                                    text="Password"
+                                    required="true"
+                                    class="sapUiMediumMarginTop"/>
+
+                                <Input
+                                    id="idPassword"
+                                    type="Password"
+                                    placeholder="Enter Password"
+                                    submit="onSubmit"
+                                    liveChange="onLiveChange"/>
+
+                                <HBox
+                                    justifyContent="End"
+                                    class="sapUiTinyMarginTop">
+
+                                    <Link
+                                        text="Forgot Password?"
+                                        enabled="false"/>
+
+                                </HBox>
+
+                                <Button
+                                    text="Sign In"
+                                    icon="sap-icon://log"
+                                    type="Emphasized"
+                                    width="100%"
+                                    class="sapUiLargeMarginTop"
+                                    press="onLogin"/>
+
+                            </VBox>
+
+                        </content>
+
+                    </Panel>
+
+                    <VBox
+                        alignItems="Center"
+                        class="sapUiSmallMarginTop">
+
+                        <Text
+                            text="HR Management System"/>
+
+                        <Text
+                            text="Version 1.0"/>
+
+                    </VBox>
+
+                </VBox>
+
+            </FlexBox>
 
         </content>
 

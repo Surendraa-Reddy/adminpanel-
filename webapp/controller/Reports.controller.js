@@ -29,6 +29,19 @@ sap.ui.define([
             });
 
             this.getView().setModel(oDepartmentModel, "department");
+            var oSession = this.getOwnerComponent().getModel("session");
+
+            if (!oSession.getProperty("/loggedIn")) {
+
+                this.getOwnerComponent()
+                    .getRouter()
+                    .navTo("Login", {}, true);
+
+                return;
+
+            }
+
+            
         },
         formatTime: function (oTime) {
 

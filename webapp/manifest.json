@@ -63,7 +63,7 @@
         "dataSource": "mainService",
         "preload": true,
         "settings": {
-          "useBatch": true,
+          "useBatch": false,
           "defaultBindingMode": "TwoWay"
         }
       }
@@ -151,6 +151,11 @@
           "name": "Reports",
           "pattern": "reports",
           "target": "Reports"
+        },
+        {
+          "pattern": "Users",
+          "name": "Users",
+          "target": "Users"
         }
       ],
       "targets": {
@@ -159,7 +164,7 @@
         },
         "Login": {
           "viewName": "Login"
-        },  
+        },
         "Dashboard": {
           "viewName": "Dashboard"
         },
@@ -196,6 +201,10 @@
         },
         "Reports": {
           "viewName": "Reports"
+        },
+        "Users": {
+          "viewName": "Users",
+          "viewType": "XML"
         }
       }
     },

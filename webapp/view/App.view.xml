@@ -11,29 +11,36 @@
         <!-- Header -->
         <tnt:header>
 
-            <OverflowToolbar>
+        <OverflowToolbar>
 
-                <Button
-                    icon="sap-icon://menu2"
-                    type="Transparent"
-                    press="onToggleMenu"/>
+    <Button
+        icon="sap-icon://menu2"
+        type="Transparent"
+        press="onToggleMenu"/>
 
-                <Title
-                    text="Employee Management System"/>
+    <Title text="Employee Management System"/>
 
-                <ToolbarSpacer/>
+    <ToolbarSpacer/>
 
-                <Button
-                    icon="sap-icon://bell"
-                    type="Transparent"/>
+    <Button
+        icon="sap-icon://bell"
+        type="Transparent"/>
 
-                <Avatar
-                    displayShape="Circle"
-                    initials="A"/>
+    <Avatar
+        displayShape="Circle"
+      initials="{= ${session>/username} ? ${session>/username}.substring(0,1).toUpperCase() : 'A'}"/>
 
-                <Text text="Administrator"/>
+    <Text
+        text="{session>/username}"
+        class="sapUiTinyMarginEnd"/>
 
-            </OverflowToolbar>
+    <Button
+        text="Logout"
+        icon="sap-icon://log"
+        type="Transparent"
+        press="onLogout"/>
+
+</OverflowToolbar>
 
         </tnt:header>
 
@@ -47,37 +54,68 @@
                     <tnt:NavigationListItem
                         text="Dashboard"
                         icon="sap-icon://home"
-                        select="onDashboard"/>
+                        select="onDashboard"
+                        visible="true"/>
 
                     <tnt:NavigationListItem
                         text="Employees"
                         icon="sap-icon://employee"
-                        select="onEmployee"/>
+                        select="onEmployee"
+                        visible="{=
+                            ${session>/role} === 'ADMIN'
+                            || ${session>/role} === 'HR'
+                        }"/>
 
                     <tnt:NavigationListItem
                         text="Departments"
                         icon="sap-icon://building"
-                        select="onDepartment"/>
+                        select="onDepartment"
+                        visible="{=
+                        ${session>/role} === 'ADMIN'
+                          }"/>
 
                     <tnt:NavigationListItem
                         text="Roles"
                         icon="sap-icon://manager"
-                        select="onRole"/>
+                        select="onRole"
+                         visible="{=
+                          ${session>/role} === 'ADMIN'
+                            }"/>
 
                     <tnt:NavigationListItem
                         text="Attendance"
                         icon="sap-icon://calendar"
-                        select="onAttendance"/>
+                        select="onAttendance"
+                        visible="{=
+                             ${session>/role} === 'ADMIN'
+                              || ${session>/role} === 'HR'
+                             || ${session>/role} === 'MANAGER'
+                         }"/>
 
                     <tnt:NavigationListItem
                         text="Leaves"
                         icon="sap-icon://leave-request"
-                        select="onLeave"/>
+                        select="onLeave"
+                        visible="true"/>
 
                     <tnt:NavigationListItem
                         text="Reports"
                         icon="sap-icon://business-objects-experience"
-                        select="onReports"/>
+                        select="onReports"
+                        visible="{=
+                               ${session>/role} === 'ADMIN'
+                               || ${session>/role} === 'MANAGER'
+                           }"/>
+                           <tnt:NavigationListItem
+                                text="Users"
+                                icon="sap-icon://group"
+                                visible="{= ${session>/role} === 'ADMIN' }"
+                                select="onUsers"/>
+                                 <tnt:NavigationListItem
+                                      text="Logout"
+                                      icon="sap-icon://log"
+                                      select="onLogout"/>
+                          
 
                 </tnt:NavigationList>
 

@@ -1,6 +1,7 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
-], function (Controller) {
+    "sap/ui/core/mvc/Controller",
+    "sap/m/MessageToast"
+], function (Controller, MessageToast) {
     "use strict";
 
     return Controller.extend("employee.controller.App", {
@@ -48,7 +49,42 @@ sap.ui.define([
         // Reports
         onReports: function () {
             this.getOwnerComponent().getRouter().navTo("Reports");
+        },
+        onLogout: function () {
+
+            localStorage.removeItem("HR_SESSION");
+
+
+            var oSession =
+                this.getOwnerComponent().getModel("session");
+
+            oSession.setData({
+
+                loggedIn: false,
+
+                username: "",
+
+                empId: "",
+
+                role: ""
+
+            });
+
+            MessageToast.show("Logged out successfully");
+
+            this.getOwnerComponent()
+                .getRouter()
+                .navTo("Login", {}, true);
+
+        },
+        onUsers: function () {
+
+            this.getOwnerComponent()
+                .getRouter()
+                .navTo("Users");
+
         }
+
 
     });
 });

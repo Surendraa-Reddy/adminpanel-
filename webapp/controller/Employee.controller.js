@@ -28,10 +28,40 @@ sap.ui.define([
 
             }
 
-           
+
 
         },
 
+        onMarkAttendance: function () {
+
+            var oModel = this.getView().getModel();
+
+            // Get logged-in employee ID
+            var oSession = this.getOwnerComponent().getModel("session");
+            var sEmpId = oSession.getProperty("/empId");
+
+            var sDate = sap.ui.core.format.DateFormat.getDateInstance({
+                pattern: "yyyy-MM-dd"
+            }).format(new Date());
+
+            oModel.callFunction("/MarkAttendance", {
+                method: "POST",
+                urlParameters: {
+                    EmpId: sEmpId,
+                    AttDate: sDate,
+                    Status: "P"
+                },
+                success: function () {
+                    sap.m.MessageToast.show("Attendance marked successfully!");
+                    oModel.refresh(true);
+                },
+                error: function (oError) {
+                    console.error(oError);
+                    sap.m.MessageBox.error("Failed to mark attendance.");
+                }
+            });
+
+        },
 
         onSearch: function (oEvent) {
 

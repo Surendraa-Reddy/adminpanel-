@@ -1,0 +1,129 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <ResponsivePopover
+        id="notificationPopover"
+        contentWidth="420px"
+        placement="Bottom"
+        class="sapUiResponsivePadding"
+    >
+        <!-- Header -->
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Title
+                        text="🔔 Notifications"
+                        level="H3"
+                    />
+                </contentLeft>
+
+                <contentRight>
+                    <Button
+                        icon="sap-icon://accept"
+                        text="Mark All Read"
+                        type="Transparent"
+                        press="onMarkAllRead"
+                    />
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <!-- Notification Groups -->
+        <List
+            items="{notification>/NotificationGroups}"
+            showSeparators="None"
+            noDataText="No unread notifications"
+        >
+            <CustomListItem>
+                <VBox width="100%">
+                    <!-- Group Heading -->
+                    <Title
+                        text="{notification>Title}"
+                        level="H4"
+                        class="sapUiSmallMarginTop sapUiTinyMarginBottom"
+                    />
+
+                    <!-- Notifications -->
+                    <List
+                        items="{
+        path:'notification>Items',
+        templateShareable:false
+    }"
+                        mode="SingleSelectMaster"
+                        itemPress="onNotificationSelect"
+                    >
+                        <CustomListItem type="Active">
+                            <HBox
+                                width="100%"
+                                alignItems="Center"
+                                class="sapUiSmallMargin"
+                            >
+                                <!-- Icon -->
+                                <Avatar
+                                    displayShape="Circle"
+                                    displaySize="S"
+                                    src="{
+                                        path:'notification>Type',
+                                        formatter:'.formatter.getNotificationIcon'
+                                    }"
+                                    backgroundColor="{
+                                        path:'notification>Type',
+                                        formatter:'.formatter.getAvatarColor'
+                                    }"
+                                />
+
+                                <!-- Text -->
+                                <VBox
+                                    width="250px"
+                                    class="sapUiTinyMarginBegin"
+                                >
+                                    <Title
+                                        text="{notification>Title}"
+                                        level="H5"
+                                        wrapping="true"
+                                    />
+
+                                    <Text
+                                        text="{notification>Message}"
+                                        wrapping="true"
+                                    />
+
+                                    <ObjectStatus
+                                        text="{
+                                            path:'notification>CreatedOn',
+                                            type:'sap.ui.model.type.Date',
+                                            formatOptions:{pattern:'dd MMM yyyy'}
+                                        }"
+                                        state="{
+                                            path:'notification>MsgType',
+                                            formatter:'.formatter.getStatusState'
+                                        }"
+                                    />
+                                </VBox>
+
+                                <ToolbarSpacer />
+
+                                <HBox alignItems="Center">
+                                    <core:Icon
+                                        src="sap-icon://notification-2"
+                                        color="red"
+                                        size="1rem"
+                                        visible="{= ${notification>Status} === 'U'}"
+                                        class="sapUiTinyMarginEnd"
+                                    />
+
+                                    <Button
+                                        icon="sap-icon://delete"
+                                        type="Transparent"
+                                        press="onDeleteNotification"
+                                    />
+                                </HBox>
+                            </HBox>
+                        </CustomListItem>
+                    </List>
+                </VBox>
+            </CustomListItem>
+        </List>
+    </ResponsivePopover>
+</core:FragmentDefinition>

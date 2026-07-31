@@ -3,33 +3,108 @@ sap.ui.define([], function () {
 
     return {
 
-        getStatusText: function (dShippedDate) {
+        getNotificationIcon: function (sType) {
 
-            if (!dShippedDate) {
-                return "Pending";
+            switch (sType) {
+
+                case "LEAVE_APPROVED":
+                    return "sap-icon://accept";
+
+                case "LEAVE_REJECTED":
+                    return "sap-icon://decline";
+
+                case "PAYROLL":
+                    return "sap-icon://money-bills";
+
+                case "BIRTHDAY":
+                    return "sap-icon://gift";
+
+                case "HOLIDAY":
+                    return "sap-icon://calendar";
+
+                default:
+                    return "sap-icon://bell";
             }
 
-            return "Delivered";
         },
 
-        getStatusState: function (dShippedDate) {
+        getAvatarColor: function (sType) {
 
-            if (!dShippedDate) {
-                return "Warning";
+            switch (sType) {
+
+                case "LEAVE_APPROVED":
+                    return "Accent8";
+
+                case "LEAVE_REJECTED":
+                    return "Accent1";
+
+                case "PAYROLL":
+                    return "Accent7";
+
+                case "BIRTHDAY":
+                    return "Accent2";
+
+                case "HOLIDAY":
+                    return "Accent6";
+
+                default:
+                    return "Accent5";
             }
 
-            return "Success";
         },
 
-        getStatusIcon: function (dShippedDate) {
+        getStatusState: function (sMsgType) {
 
-            if (!dShippedDate) {
-                return "sap-icon://pending";
+            switch (sMsgType) {
+
+                case "SUCCESS":
+                    return "Success";
+
+                case "ERROR":
+                    return "Error";
+
+                case "WARNING":
+                    return "Warning";
+
+                case "INFORMATION":
+                    return "Information";
+
+                default:
+                    return "None";
             }
 
-            return "sap-icon://accept";
+        },
+        getNotificationStatusText: function (sStatus) {
+
+            switch (sStatus) {
+                case "R":
+                    return "Read";
+
+                case "U":
+                    return "Unread";
+
+                default:
+                    return sStatus;
+            }
+
+        },
+
+        getNotificationStatusState: function (sStatus) {
+
+            switch (sStatus) {
+                case "R":
+                    return "Success";
+
+                case "U":
+                    return "Warning";
+
+                default:
+                    return "None";
+            }
+
         }
 
     };
+
 
 });

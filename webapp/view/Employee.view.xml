@@ -155,6 +155,12 @@
                                 tooltip="Edit"
                                 press="onEdit"/>
 
+                                <Button 
+                                     text="Mark Att" 
+                                     type="Emphasized" 
+                                     icon="sap-icon://accept" 
+                                     press="onMarkAttendance" />
+
                           <Button
                                
                                type="Reject"

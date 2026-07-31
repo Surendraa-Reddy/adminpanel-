@@ -1,0 +1,114 @@
+<mvc:View
+    controllerName="employee.controller.CreateHoliday"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form">
+
+    <Page
+        title="Create Holiday"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+
+        <content>
+
+            <VBox class="sapUiMediumMargin">
+
+                <Panel
+                    headerText="Holiday Information"
+                    expandable="false">
+
+                    <f:SimpleForm
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                        labelSpanXL="3"
+                        labelSpanL="3"
+                        labelSpanM="3"
+                        labelSpanS="12"
+                        columnsXL="2"
+                        columnsL="2"
+                        columnsM="2"
+                        emptySpanXL="1"
+                        emptySpanL="1"
+                        emptySpanM="0">
+
+                        <!-- Row 1 -->
+
+                        <Label text="Holiday ID"/>
+                        <Input
+                            id="txtHolidayId"
+                            placeholder="Enter Holiday ID"/>
+
+                        <Label text="Holiday Name"/>
+                        <Input
+                            id="txtHolidayName"
+                            placeholder="Enter Holiday Name"/>
+
+                        <!-- Row 2 -->
+
+                        <Label text="Holiday Date"/>
+                        <DatePicker
+                            id="dpHolidayDate"
+                            displayFormat="dd-MM-yyyy"
+                            valueFormat="yyyyMMdd"
+                            width="100%"/>
+
+                        <Label text="Holiday Year"/>
+                        <Input
+                            id="txtHolidayYear"
+                            placeholder="2026"
+                            maxLength="4"/>
+
+                        <!-- Row 3 -->
+
+                        <Label text="State"/>
+                        <Input
+                            id="txtState"
+                            placeholder="Example: ALL / Telangana"/>
+
+                        <Label text="Holiday Type"/>
+                        <Input
+                            id="txtHolidayType"
+                            placeholder="Example: NATIONAL"/>
+
+                        <!-- Row 4 -->
+
+                        <Label text="Description"/>
+                        <TextArea
+                            id="txtDescription"
+                            rows="3"
+                            growing="true"
+                            growingMaxLines="5"
+                            placeholder="Enter Holiday Description"/>
+
+                    </f:SimpleForm>
+
+                </Panel>
+
+            </VBox>
+
+        </content>
+
+        <footer>
+
+            <OverflowToolbar>
+
+                <ToolbarSpacer/>
+
+                <Button
+                    text="Clear"
+                    icon="sap-icon://decline"
+                    press="onClear"/>
+
+                <Button
+                    text="Save Holiday"
+                    icon="sap-icon://save"
+                    type="Emphasized"
+                    press="onSave"/>
+
+            </OverflowToolbar>
+
+        </footer>
+
+    </Page>
+
+</mvc:View>

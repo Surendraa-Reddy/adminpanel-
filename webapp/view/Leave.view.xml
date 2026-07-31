@@ -140,8 +140,19 @@
                                     icon="sap-icon://display"
                                     type="Transparent"
                                     tooltip="View"
-                                    press="._openDetailsDialog"/>
+                                    press="_openDetailsDialog"/>
 
+                                       <Button
+                                          icon="sap-icon://accept"
+                                          type="Transparent"
+                                          tooltip="Approve Leave"                             
+                                          visible="{= ${Status} === 'P'}"
+                                          press="onApproveLeave"/>                                     
+                                       <Button 
+                                           
+                                             type="Reject" 
+                                             icon="sap-icon://decline" 
+                                             press="onRejectLeave" />
                                 <Button
                                     icon="sap-icon://edit"
                                     type="Transparent"

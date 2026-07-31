@@ -1,0 +1,285 @@
+<mvc:View
+    controllerName="employee.controller.Holiday"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+>
+    <Page
+        title="Holiday Management"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <!-- ================= KPI Tiles ================= -->
+
+                <l:Grid
+                    defaultSpan="XL3 L3 M6 S12"
+                    hSpacing="1"
+                    vSpacing="1"
+                >
+                    <GenericTile header="Total Holidays">
+                        <TileContent>
+                            <NumericContent
+                                value="{summary>/Total}"
+                                valueColor="Neutral"
+                                icon="sap-icon://calendar"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile header="National Holidays">
+                        <TileContent>
+                            <NumericContent
+                                value="{summary>/National}"
+                                valueColor="Good"
+                                icon="sap-icon://world"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Festival Holidays">
+                        <TileContent>
+                            <NumericContent
+                                value="{summary>/Festival}"
+                                valueColor="Critical"
+                                icon="sap-icon://favorite"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile header="State Holidays">
+                        <TileContent>
+                            <NumericContent
+                                value="{summary>/State}"
+                                valueColor="Neutral"
+                                icon="sap-icon://map"
+                            />
+                        </TileContent>
+                    </GenericTile>
+                </l:Grid>
+
+                <!-- ================= Toolbar ================= -->
+
+                <OverflowToolbar class="sapUiMediumMarginTop">
+                    <SearchField
+                        id="searchHoliday"
+                        width="250px"
+                        placeholder="Search Holiday..."
+                        search="onSearch"
+                        liveChange="onSearch"
+                    />
+
+                    <ToolbarSeparator />
+
+                    <Select
+                        id="yearFilter"
+                        width="120px"
+                        change="onFilter"
+                    >
+                        <core:Item
+                            key=""
+                            text="All Years"
+                        />
+                        <core:Item
+                            key="2025"
+                            text="2025"
+                        />
+                        <core:Item
+                            key="2026"
+                            text="2026"
+                        />
+                        <core:Item
+                            key="2027"
+                            text="2027"
+                        />
+                        <core:Item
+                            key="2028"
+                            text="2028"
+                        />
+                    </Select>
+
+                    <Select
+                        id="stateFilter"
+                        width="180px"
+                        change="onFilter"
+                    >
+                        <core:Item
+                            key=""
+                            text="All States"
+                        />
+                        <core:Item
+                            key="ALL"
+                            text="ALL"
+                        />
+                        <core:Item
+                            key="TELANGANA"
+                            text="Telangana"
+                        />
+                        <core:Item
+                            key="ANDHRA PRADESH"
+                            text="Andhra Pradesh"
+                        />
+                        <core:Item
+                            key="KARNATAKA"
+                            text="Karnataka"
+                        />
+                    </Select>
+
+                    <Select
+                        id="typeFilter"
+                        width="150px"
+                        change="onFilter"
+                    >
+                        <core:Item
+                            key=""
+                            text="All Types"
+                        />
+                        <core:Item
+                            key="NATIONAL"
+                            text="National"
+                        />
+                        <core:Item
+                            key="FESTIVAL"
+                            text="Festival"
+                        />
+                        <core:Item
+                            key="STATE"
+                            text="State"
+                        />
+                    </Select>
+
+                    <ToolbarSpacer />
+
+                    <Button
+                        icon="sap-icon://refresh"
+                        tooltip="Refresh"
+                        press="onRefresh"
+                    />
+
+                    <Button
+                        icon="sap-icon://excel-attachment"
+                        tooltip="Export Excel"
+                        press="onExportCSV"
+                    />
+
+                    <Button
+                        icon="sap-icon://pdf-attachment"
+                        tooltip="Export PDF"
+                        press="onExportPDF"
+                    />
+
+                    <Button
+                        text="Add Holiday"
+                        icon="sap-icon://add"
+                        type="Emphasized"
+                        press="onAdd"
+                    />
+                </OverflowToolbar>
+
+                <!-- ================= Holiday Table ================= -->
+
+                <Table
+                    id="holidayTable"
+                    items="{/HolidaySet}"
+                    growing="true"
+                    growingThreshold="10"
+                    growingScrollToLoad="true"
+                    sticky="ColumnHeaders"
+                    updateFinished="onTableUpdateFinished"
+                >
+                    <columns>
+                        <Column width="13rem">
+                            <Text text="Holiday" />
+                        </Column>
+
+                        <Column width="10rem">
+                            <Text text="Date" />
+                        </Column>
+
+                        <Column width="11rem">
+                            <Text text="State" />
+                        </Column>
+
+                        <Column width="9rem">
+                            <Text text="Type" />
+                        </Column>
+
+                        <Column minScreenWidth="Tablet">
+                            <Text text="Description" />
+                        </Column>
+
+                        <Column
+                            hAlign="Center"
+                            width="10rem"
+                        >
+                            <Text text="Actions" />
+                        </Column>
+                    </columns>
+
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <ObjectIdentifier
+                                    title="{HolidayName}"
+                                    text="{HolidayId}"
+                                />
+
+                                <Text
+                                    text="{
+                                        path:'HolidayDate',
+                                        type:'sap.ui.model.type.Date',
+                                        formatOptions:{
+                                            pattern:'dd MMM yyyy'
+                                        }
+                                    }"
+                                />
+
+                                <ObjectStatus
+                                    text="{State}"
+                                    state="None"
+                                />
+
+                                <ObjectStatus
+                                    text="{HolidayType}"
+                                    state="{=
+                                        ${HolidayType} === 'NATIONAL'
+                                        ? 'Success'
+                                        : ${HolidayType} === 'FESTIVAL'
+                                        ? 'Warning'
+                                        : 'None'
+                                    }"
+                                />
+
+                                <Text text="{Description}" />
+
+                                <HBox justifyContent="Center">
+                                    <Button
+                                        icon="sap-icon://display"
+                                        type="Transparent"
+                                        tooltip="View"
+                                        press="onView"
+                                    />
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        tooltip="Edit"
+                                        press="onEdit"
+                                    />
+
+                                    <Button
+                                        icon="sap-icon://delete"
+                                        type="Transparent"
+                                        tooltip="Delete"
+                                        press="onDelete"
+                                    />
+                                </HBox>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

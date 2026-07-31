@@ -1,0 +1,231 @@
+<mvc:View
+    controllerName="employee.controller.Profile"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:u="sap.ui.unified">
+
+    <Page
+        id="profilePage"
+        title="My Profile"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+
+        <content>
+
+            <VBox class="sapUiMediumMargin">
+
+                <!-- Employee Profile -->
+                <Panel
+                    headerText="Employee Profile"
+                    class="sapUiResponsiveMargin">
+
+                    <HBox
+                        justifyContent="Start"
+                        alignItems="Center"
+                        class="sapUiMediumMargin">
+
+                        <!-- Employee Photo -->
+                        <VBox
+                            width="220px"
+                            alignItems="Center">
+
+                            <Avatar
+                                id="empAvatar"
+                                src="{profile>/Photodata}"
+                                displayShape="Circle"
+                                displaySize="XL"
+                                class="sapUiSmallMarginBottom"/>
+
+                            <Button
+                                text="Upload Photo"
+                                icon="sap-icon://camera"
+                                type="Emphasized"
+                                press="onOpenUpload"/>
+
+                        </VBox>
+
+                        <form:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            width="100%">
+
+                            <Label text="Employee ID"/>
+                            <Text text="{profile>/EmpId}"/>
+
+                            <Label text="Employee Name"/>
+                            <Text text="{profile>/Name}"/>
+
+                            <Label text="Username"/>
+                            <Text text="{profile>/Username}"/>
+
+                            <Label text="Role"/>
+                            <ObjectStatus text="{profile>/Role}" />
+
+                            <Label text="Email"/>
+                            <Text text="{profile>/Email}"/>
+
+                            <Label text="Phone"/>
+                            <Text text="{profile>/Phone}"/>
+
+                            <Label text="Department"/>
+                            <Text text="{profile>/DeptId}"/>
+
+                            <Label text="Gender"/>
+                            <Text text="{profile>/Gender}"/>
+
+                            <Label text="Join Date"/>
+                            <Text text="{profile>/JoinDate}"/>
+
+                            <Label text="Status"/>
+                            <ObjectStatus
+                                text="{= ${profile>/Status} === '1' ? 'Active' : 'Inactive'}"
+                                state="{= ${profile>/Status} === '1' ? 'Success' : 'Error'}"/>
+
+                        </form:SimpleForm>
+
+                    </HBox>
+
+                </Panel>
+
+                <!-- Account Settings -->
+                <Panel
+                    headerText="Account Settings"
+                    class="sapUiMediumMarginTop">
+
+                    <VBox class="sapUiMediumMargin">
+
+                        <Button
+                            width="220px"
+                            text="Change Password"
+                            icon="sap-icon://key"
+                            type="Emphasized"
+                            press="onChangePassword"/>
+
+                    </VBox>
+
+                </Panel>
+
+                <!-- Attendance Summary -->
+                <Panel
+                    headerText="Attendance Summary"
+                    class="sapUiMediumMarginTop">
+
+                    <HBox
+                        justifyContent="SpaceAround"
+                        class="sapUiMediumMargin">
+
+                        <VBox alignItems="Center">
+
+                            <Text
+                                text="Present"
+                                class="sapUiTinyMarginBottom"/>
+
+                            <ObjectStatus
+                                text="{profile>/PresentDays}"
+                                state="Success"/>
+
+                        </VBox>
+
+                        <VBox alignItems="Center">
+
+                            <Text
+                                text="Absent"
+                                class="sapUiTinyMarginBottom"/>
+
+                            <ObjectStatus
+                                text="{profile>/AbsentDays}"
+                                state="Error"/>
+
+                        </VBox>
+
+                        <VBox alignItems="Center">
+
+                            <Text
+                                text="Leaves"
+                                class="sapUiTinyMarginBottom"/>
+
+                            <ObjectStatus
+                                text="{profile>/LeaveDays}"
+                                state="Warning"/>
+
+                        </VBox>
+
+                    </HBox>
+
+                </Panel>
+
+                <!-- Leave Summary -->
+                <Panel
+                    headerText="Leave Summary"
+                    class="sapUiMediumMarginTop">
+
+                    <VBox class="sapUiMediumMargin">
+
+                        <Text
+                            text="Total Leave Taken : {profile>/LeaveDays}"/>
+
+                        <Text
+                            text="Present Days : {profile>/PresentDays}"/>
+
+                        <Text
+                            text="Absent Days : {profile>/AbsentDays}"/>
+
+                    </VBox>
+
+                </Panel>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+    <!-- Upload Photo Dialog -->
+    <Dialog
+        id="uploadDialog"
+        title="Upload Employee Photo"
+        draggable="true"
+        resizable="true">
+
+        <content>
+
+            <VBox class="sapUiMediumMargin">
+
+                <u:FileUploader
+                    id="fuPhoto"
+                    width="100%"
+                    buttonText="Choose Photo"
+                    placeholder="Select Image"
+                    uploadOnChange="false"
+                    useMultipart="false"
+                    sameFilenameAllowed="true"
+                    fileType="jpg,jpeg,png"
+                    mimeType="image/jpeg,image/png"
+                    change="onFileChange"/>
+
+            </VBox>
+
+        </content>
+
+        <beginButton>
+
+            <Button
+                text="Upload"
+                type="Emphasized"
+                press="onUploadPhoto"/>
+
+        </beginButton>
+
+        <endButton>
+
+            <Button
+                text="Cancel"
+                press="onCloseUpload"/>
+
+        </endButton>
+
+    </Dialog>
+
+</mvc:View>

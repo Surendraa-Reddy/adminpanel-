@@ -34,7 +34,7 @@ sap.ui.define([
 
             }
 
-         
+
         },
 
         onNavBack: function () {
@@ -183,6 +183,149 @@ sap.ui.define([
                 }
 
             });
+
+        },
+        onApproveLeave: function (oEvent) {
+
+            var oModel = this.getView().getModel();
+
+            // Get logged-in user's role
+            var oSession = this.getOwnerComponent().getModel("session");
+            var sRole = oSession.getProperty("/role");
+
+            var oContext = oEvent.getSource().getBindingContext();
+
+            var sLeaveId = oContext.getProperty("LeaveId");
+
+            MessageBox.confirm(
+                "Are you sure you want to approve this leave?",
+                {
+                    title: "Approve Leave",
+
+                    actions: [
+                        MessageBox.Action.YES,
+                        MessageBox.Action.NO
+                    ],
+
+                    onClose: function (sAction) {
+
+                        if (sAction === MessageBox.Action.YES) {
+
+                            oModel.callFunction("/ApproveLeave", {
+
+                                method: "POST",
+
+                                urlParameters: {
+
+                                    LeaveId: sLeaveId,
+                                    Role: sRole
+
+                                },
+
+                                success: function () {
+
+                                    MessageToast.show(
+                                        "Leave approved successfully"
+                                    );
+
+                                    oModel.refresh(true);
+
+                                },
+
+                                error: function (oError) {
+
+                                    MessageBox.error(
+                                        "Approval failed"
+                                    );
+
+                                    console.log(oError);
+
+                                }
+
+                            });
+
+                        }
+
+                    }
+
+                }
+            );
+
+        },
+        onRejectLeave: function (oEvent) {
+
+            var oModel = this.getView().getModel();
+
+            var oContext = oEvent
+                .getSource()
+                .getBindingContext();
+
+            var sLeaveId = oContext.getProperty("LeaveId");
+
+            var oSession = this.getOwnerComponent().getModel("session");
+
+            var sRole = oSession.getProperty("/role");
+
+            MessageBox.confirm(
+                "Are you sure you want to reject this leave?",
+                {
+                    title: "Reject Leave",
+
+                    actions: [
+                        MessageBox.Action.YES,
+                        MessageBox.Action.NO
+                    ],
+
+                    onClose: function (sAction) {
+
+                        if (sAction === MessageBox.Action.YES) {
+
+                            oModel.callFunction("/RejectLeave", {
+
+                                method: "POST",
+
+                                urlParameters: {
+                                    LeaveId: sLeaveId,
+                                    Role: sRole,
+                                    RejectionReason: ""
+                                },
+
+                                success: function () {
+
+                                    MessageToast.show(
+                                        "Leave rejected successfully"
+                                    );
+
+                                    oModel.refresh(true);
+
+                                },
+
+                                error: function (oError) {
+
+                                    var sMessage = "Rejection failed";
+
+                                    try {
+
+                                        sMessage = JSON.parse(
+                                            oError.responseText
+                                        ).error.message.value;
+
+                                    } catch (e) { }
+
+                                    MessageBox.error(sMessage);
+
+                                    console.log(oError);
+
+                                }
+
+                            });
+
+                        }
+
+                    }
+
+                }
+            );
 
         }
     });

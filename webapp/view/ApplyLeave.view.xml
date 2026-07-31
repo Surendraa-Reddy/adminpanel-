@@ -1,0 +1,220 @@
+<mvc:View
+    controllerName="employee.controller.ApplyLeave"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:unified="sap.ui.unified"
+>
+    <Page 
+        title="Apply Leave"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <headerContent>
+            <Button
+                icon="sap-icon://refresh"
+                type="Transparent"
+                tooltip="Refresh"
+                press="onRefresh"
+            />
+        </headerContent>
+
+        <content>
+            <VBox class="sapUiLargeMargin">
+                <!-- Header -->
+                <ObjectHeader
+                    title="Apply Leave"
+                    number="{session>/empId}"
+                    numberUnit="Employee ID"
+                />
+
+                <!-- Employee Information -->
+                <HBox
+                    justifyContent="SpaceAround"
+                    class="sapUiMediumMarginBottom"
+                >
+                    <GenericTile header="Casual Leave">
+                        <TileContent>
+                            <NumericContent
+                                value="{balance>/CL}"
+                                valueColor="Good"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Sick Leave">
+                        <TileContent>
+                            <NumericContent
+                                value="{balance>/SL}"
+                                valueColor="Critical"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Earned Leave">
+                        <TileContent>
+                            <NumericContent
+                                value="{balance>/EL}"
+                                valueColor="Neutral"
+                            />
+                        </TileContent>
+                    </GenericTile>
+                </HBox>
+                <Panel
+                    headerText="Employee Information"
+                    expandable="false"
+                    class="sapUiMediumMarginTop"
+                    width="50%"
+                >
+                    <f:SimpleForm
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                    >
+                        <Label text="Employee ID" />
+                        <Input
+                            value="{leave>/EmpId}"
+                            editable="false"
+                        />
+
+                        <Label text="Employee Name" />
+                        <Input
+                            value="{leave>/EmpName}"
+                            editable="false"
+                        />
+
+                        <Label text="Role" />
+                        <Input
+                            value="{leave>/Role}"
+                            editable="false"
+                        />
+                    </f:SimpleForm>
+                </Panel>
+
+                <!-- Leave Information -->
+
+                <Panel
+                    headerText="Leave Information"
+                    class="sapUiMediumMarginTop"
+                    width="50%"
+                >
+                    <f:SimpleForm
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                    >
+                        <Label text="Leave Type" />
+
+                        <ComboBox
+                            id="cmbLeaveType"
+                            selectedKey="{leave>/LeaveType}"
+                        >
+                            <core:Item
+                                key="Casual Leave"
+                                text="Casual Leave"
+                            />
+
+                            <core:Item
+                                key="Sick Leave"
+                                text="Sick Leave"
+                            />
+
+                            <core:Item
+                                key="Earned Leave"
+                                text="Earned Leave"
+                            />
+
+                            <core:Item
+                                key="Loss Of Pay"
+                                text="Loss Of Pay"
+                            />
+
+                            <core:Item
+                                key="Work From Home"
+                                text="Work From Home"
+                            />
+                        </ComboBox>
+
+                        <Label text="From Date" />
+
+                        <DatePicker
+                            id="dpFrom"
+                            value="{leave>/FromDate}"
+                            valueFormat="yyyy-MM-dd"
+                            displayFormat="dd-MM-yyyy"
+                            change="onDateChange"
+                        />
+
+                        <Label text="To Date" />
+
+                        <DatePicker
+                            id="dpTo"
+                            value="{leave>/ToDate}"
+                            valueFormat="yyyy-MM-dd"
+                            displayFormat="dd-MM-yyyy"
+                            change="onDateChange"
+                        />
+
+                        <Label text="Total Days" />
+
+                        <Text text="{leave>/TotalDays} Day(s)" />
+                    </f:SimpleForm>
+                </Panel>
+
+                <!-- Reason -->
+
+                <Panel
+                    headerText="Reason"
+                    class="sapUiMediumMarginTop"
+                >
+                    <VBox>
+                        <TextArea
+                            id="txtReason"
+                            rows="5"
+                            maxLength="250"
+                            value="{leave>/Reason}"
+                            placeholder="Enter Leave Reason"
+                        />
+
+                        <Text
+                            text="Minimum 10 Characters"
+                            class="sapUiTinyMarginTop"
+                        />
+                    </VBox>
+                </Panel>
+
+                <!-- Attachment -->
+
+                <Panel
+                    headerText="Attachment (Optional)"
+                    class="sapUiMediumMarginTop"
+                >
+                    <unified:FileUploader
+                        id="fileUploader"
+                        width="100%"
+                        placeholder="Choose attachment"
+                        change="onFileChange"
+                    />
+                </Panel>
+            </VBox>
+        </content>
+
+        <footer>
+            <Toolbar>
+                <ToolbarSpacer />
+
+                <Button
+                    text="Cancel"
+                    type="Transparent"
+                    press="onCancel"
+                />
+
+                <Button
+                    text="Apply Leave"
+                    icon="sap-icon://accept"
+                    type="Emphasized"
+                    press="onApply"
+                />
+            </Toolbar>
+        </footer>
+    </Page>
+</mvc:View>

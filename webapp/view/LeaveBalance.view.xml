@@ -1,0 +1,103 @@
+<mvc:View
+    controllerName="employee.controller.LeaveBalance"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        title="Leave Balance"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+
+        <content>
+
+            <VBox class="sapUiMediumMargin">
+
+                <!-- Leave Summary Cards -->
+                <HBox
+                    justifyContent="SpaceAround"
+                    wrap="Wrap">
+
+                    <GenericTile header="Casual Leave" class="sapUiTinyMargin">
+                        <TileContent>
+                            <NumericContent
+                                value="{balance>/RemainingCL}"
+                                scale="Days"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Sick Leave" class="sapUiTinyMargin">
+                        <TileContent>
+                            <NumericContent
+                                value="{balance>/RemainingSL}"
+                                scale="Days"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Earned Leave" class="sapUiTinyMargin">
+                        <TileContent>
+                            <NumericContent
+                                value="{balance>/RemainingEL}"
+                                scale="Days"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Total Remaining" class="sapUiTinyMargin">
+                        <TileContent>
+                            <NumericContent
+                                value="{balance>/TotalRemaining}"
+                                scale="Days"/>
+                        </TileContent>
+                    </GenericTile>
+
+                </HBox>
+
+                <Toolbar class="sapUiMediumMarginTop">
+                    <Title text="Leave Usage"/>
+                </Toolbar>
+
+                <!-- Casual Leave -->
+
+                <VBox class="sapUiSmallMargin">
+
+                    <Label text="Casual Leave"/>
+
+                    <ProgressIndicator
+                        percentValue="{= (${balance>/UsedCL}/${balance>/TotalCL})*100}"
+                        displayValue="{= ${balance>/UsedCL} + ' / ' + ${balance>/TotalCL} + ' Used'}"
+                        state="Success"/>
+
+                </VBox>
+
+                <!-- Sick Leave -->
+
+                <VBox class="sapUiSmallMarginTop">
+
+                    <Label text="Sick Leave"/>
+
+                    <ProgressIndicator
+                        percentValue="{= (${balance>/UsedSL}/${balance>/TotalSL})*100}"
+                        displayValue="{= ${balance>/UsedSL} + ' / ' + ${balance>/TotalSL} + ' Used'}"
+                        state="Warning"/>
+
+                </VBox>
+
+                <!-- Earned Leave -->
+
+                <VBox class="sapUiSmallMarginTop">
+
+                    <Label text="Earned Leave"/>
+
+                    <ProgressIndicator
+                        percentValue="{= (${balance>/UsedEL}/${balance>/TotalEL})*100}"
+                        displayValue="{= ${balance>/UsedEL} + ' / ' + ${balance>/TotalEL} + ' Used'}"
+                        state="Information"/>
+
+                </VBox>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

@@ -1,0 +1,189 @@
+<mvc:View
+    controllerName="employee.controller.MyAttendance"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.f">
+
+    <Page
+        title="My Attendance"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+
+        <content>
+
+            <!-- ========================================= -->
+            <!-- Summary Cards -->
+            <!-- ========================================= -->
+
+            <HBox
+                justifyContent="SpaceAround"
+                wrap="Wrap"
+                class="sapUiMediumMargin">
+
+                <GenericTile
+                    header="Present"
+                    frameType="OneByOne"
+                    class="sapUiTinyMargin">
+                    <TileContent>
+                        <NumericContent
+                            value="{summary>/Present}"
+                            valueColor="Good"/>
+                    </TileContent>
+                </GenericTile>
+
+                <GenericTile
+                    header="Absent"
+                    frameType="OneByOne"
+                    class="sapUiTinyMargin">
+                    <TileContent>
+                        <NumericContent
+                            value="{summary>/Absent}"
+                            valueColor="Error"/>
+                    </TileContent>
+                </GenericTile>
+
+                <GenericTile
+                    header="Late"
+                    frameType="OneByOne"
+                    class="sapUiTinyMargin">
+                    <TileContent>
+                        <NumericContent
+                            value="{summary>/Late}"
+                            valueColor="Critical"/>
+                    </TileContent>
+                </GenericTile>
+
+                <GenericTile
+                    header="Working Hours"
+                    frameType="OneByOne"
+                    class="sapUiTinyMargin">
+                    <TileContent>
+                        <NumericContent
+                            value="{summary>/WorkingHours}"
+                            scale="Hrs"/>
+                    </TileContent>
+                </GenericTile>
+
+            </HBox>
+
+            <!-- ========================================= -->
+            <!-- Filters -->
+            <!-- ========================================= -->
+
+            <Toolbar>
+
+                <SearchField
+                    id="searchAttendance"
+                    width="18rem"
+                    placeholder="Search"
+                    liveChange="onSearch"/>
+
+                <ToolbarSpacer/>
+
+                <DatePicker
+                    id="dpDate"
+                    placeholder="Select Date"
+                    change="onDateFilter"/>
+
+                <DatePicker
+                    id="dpMonth"
+                    displayFormat="MMMM yyyy"
+                    valueFormat="yyyy-MM"
+                    placeholder="Select Month"
+                    change="onMonthFilter"/>
+
+                <Button
+                    icon="sap-icon://refresh"
+                    text="Refresh"
+                    press="onRefresh"/>
+
+            </Toolbar>
+
+            <!-- ========================================= -->
+            <!-- Attendance Table -->
+            <!-- ========================================= -->
+
+            <Table
+                id="attendanceTable"
+                growing="true"
+                growingThreshold="20"
+                sticky="ColumnHeaders"
+                inset="false"
+                items="{attendance>/results}">
+
+                <columns>
+
+                    <Column width="9rem">
+                        <Text text="Date"/>
+                    </Column>
+
+                    <Column width="8rem">
+                        <Text text="Check In"/>
+                    </Column>
+
+                    <Column width="8rem">
+                        <Text text="Check Out"/>
+                    </Column>
+
+                    <Column width="9rem">
+                        <Text text="Working Hours"/>
+                    </Column>
+
+                    <Column width="8rem">
+                        <Text text="Status"/>
+                    </Column>
+
+                </columns>
+
+                <items>
+
+                    <ColumnListItem>
+
+                        <cells>
+
+                            <Text
+                                text="{
+                                path:'attendance>AttDate',
+                                type:'sap.ui.model.type.Date',
+                                formatOptions:{
+                                    pattern:'dd-MM-yyyy'
+                                }
+                            }"/>
+
+                            <ObjectStatus
+                                text="{attendance>CheckinText}"
+                                state="Success"/>
+
+                            <ObjectStatus
+                                   text="{attendance>CheckoutText}"
+                                state="Information"/>
+
+                            <Text
+                                text="{attendance>WorkingHours}"/>
+
+                            <ObjectStatus
+                                text="{= ${attendance>Status} === 'P'
+                                    ? 'Present'
+                                    : ${attendance>Status} === 'A'
+                                    ? 'Absent'
+                                    : 'Late'}"
+
+                                state="{= ${attendance>Status} === 'P'
+                                    ? 'Success'
+                                    : ${attendance>Status} === 'A'
+                                    ? 'Error'
+                                    : 'Warning'}"/>
+
+                        </cells>
+
+                    </ColumnListItem>
+
+                </items>
+
+            </Table>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

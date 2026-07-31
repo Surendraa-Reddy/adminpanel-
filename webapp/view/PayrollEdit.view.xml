@@ -1,0 +1,222 @@
+<mvc:View
+    controllerName="employee.controller.PayrollEdit"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+
+    <Page
+        title="Edit Payroll"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+
+        <content>
+
+            <VBox class="sapUiMediumMargin">
+
+                <Panel
+                    headerText="Edit Payroll"
+                    expandable="false">
+
+                    <f:SimpleForm
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                        columnsL="2"
+                        columnsM="2"
+                        labelSpanL="4"
+                        labelSpanM="4"
+                        emptySpanL="1"
+                        emptySpanM="1">
+
+                        <!-- Employee -->
+
+                        <Label text="Employee"/>
+
+                        <Select
+                            id="empSelect"
+                            editable="false"
+                            items="{/EmployeeeSet}">
+
+                            <core:Item
+                                key="{EmpId}"
+                                text="{EmpId} - {FirstName}"/>
+
+                        </Select>
+
+                        <!-- Month -->
+
+                        <Label text="Month"/>
+
+                        <Select
+                            id="monthSelect"
+                            editable="false">
+
+                            <core:Item key="JANUARY" text="January"/>
+                            <core:Item key="FEBRUARY" text="February"/>
+                            <core:Item key="MARCH" text="March"/>
+                            <core:Item key="APRIL" text="April"/>
+                            <core:Item key="MAY" text="May"/>
+                            <core:Item key="JUNE" text="June"/>
+                            <core:Item key="JULY" text="July"/>
+                            <core:Item key="AUGUST" text="August"/>
+                            <core:Item key="SEPTEMBER" text="September"/>
+                            <core:Item key="OCTOBER" text="October"/>
+                            <core:Item key="NOVEMBER" text="November"/>
+                            <core:Item key="DECEMBER" text="December"/>
+
+                        </Select>
+
+                        <!-- Year -->
+
+                        <Label text="Year"/>
+
+                        <Select
+                            id="yearSelect"
+                            editable="false">
+
+                            <core:Item key="2025" text="2025"/>
+                            <core:Item key="2026" text="2026"/>
+                            <core:Item key="2027" text="2027"/>
+
+                        </Select>
+
+                        <!-- Basic Salary -->
+
+                        <Label text="Basic Salary"/>
+
+                        <Input
+                            id="basicSalary"
+                            type="Number"
+                            liveChange="onSalaryChange"/>
+
+                        <!-- HRA -->
+
+                        <Label text="HRA"/>
+
+                        <Input
+                            id="hra"
+                            type="Number"
+                            liveChange="onSalaryChange"/>
+
+                        <!-- DA -->
+
+                        <Label text="DA"/>
+
+                        <Input
+                            id="da"
+                            type="Number"
+                            liveChange="onSalaryChange"/>
+
+                        <!-- Special Allowance -->
+
+                        <Label text="Special Allowance"/>
+
+                        <Input
+                            id="specialAllowance"
+                            type="Number"
+                            liveChange="onSalaryChange"/>
+
+                        <!-- Travel Allowance -->
+
+                        <Label text="Travel Allowance"/>
+
+                        <Input
+                            id="travelAllowance"
+                            type="Number"
+                            liveChange="onSalaryChange"/>
+
+                        <!-- Bonus -->
+
+                        <Label text="Bonus"/>
+
+                        <Input
+                            id="bonus"
+                            type="Number"
+                            liveChange="onSalaryChange"/>
+
+                        <!-- PF -->
+
+                        <Label text="PF"/>
+
+                        <Input
+                            id="pf"
+                            type="Number"
+                            liveChange="onSalaryChange"/>
+
+                        <!-- Tax -->
+
+                        <Label text="Tax"/>
+
+                        <Input
+                            id="tax"
+                            type="Number"
+                            liveChange="onSalaryChange"/>
+
+                        <!-- Professional Tax -->
+
+                        <Label text="Professional Tax"/>
+
+                        <Input
+                            id="professionalTax"
+                            type="Number"
+                            liveChange="onSalaryChange"/>
+
+                        <!-- Total Deductions -->
+
+                        <Label text="Total Deductions"/>
+
+                        <Input
+                            id="deductions"
+                            editable="false"/>
+
+                        <!-- Gross Salary -->
+
+                        <Label text="Gross Salary"/>
+
+                        <Input
+                            id="grossSalary"
+                            editable="false"/>
+
+                        <!-- Net Salary -->
+
+                        <Label text="Net Salary"/>
+
+                        <Input
+                            id="netSalary"
+                            editable="false"/>
+
+                    </f:SimpleForm>
+
+                </Panel>
+
+                <HBox
+                    justifyContent="Center"
+                    class="sapUiMediumMarginTop">
+
+                    <Button
+                        text="Update"
+                        icon="sap-icon://save"
+                        type="Emphasized"
+                        press="onUpdate"
+                        class="sapUiTinyMarginEnd"/>
+
+                    <Button
+                        text="Reset"
+                        icon="sap-icon://refresh"
+                        press="onReset"
+                        class="sapUiTinyMarginEnd"/>
+
+                    <Button
+                        text="Back"
+                        icon="sap-icon://nav-back"
+                        press="onNavBack"/>
+
+                </HBox>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

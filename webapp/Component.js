@@ -1,7 +1,8 @@
 sap.ui.define([
     "sap/ui/core/UIComponent",
-    "employee/model/models"
-], (UIComponent, models) => {
+    "employee/model/models",
+     "sap/ui/model/json/JSONModel"
+], (UIComponent, models,JSONModel) => {
     "use strict";
 
     return UIComponent.extend("employee.Component", {
@@ -39,6 +40,8 @@ sap.ui.define([
 
                     username: "",
 
+                    name: "",
+
                     empId: "",
 
                     role: "",
@@ -58,6 +61,11 @@ sap.ui.define([
             this.setModel(
                 new sap.ui.model.json.JSONModel(oSessionData),
                 "session"
+            );
+            this.setModel(
+                new JSONModel({  Notifications: [], UnreadCount: 0 }),
+                "notification"
+
             );
         }
     });

@@ -41,7 +41,10 @@
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
-        "sap.tnt": {}
+        "sap.tnt": {},
+        "sap.f": {},
+        "sap.ui.layout": {},
+        "sap.ui.unified": {}
       }
     },
     "contentDensities": {
@@ -156,6 +159,61 @@
           "pattern": "Users",
           "name": "Users",
           "target": "Users"
+        },
+        {
+          "pattern": "Profile",
+          "name": "Profile",
+          "target": "Profile"
+        },
+        {
+          "name": "MyAttendance",
+          "pattern": "MyAttendance",
+          "target": "MyAttendance"
+        },
+        {
+          "pattern": "ApplyLeave",
+          "name": "ApplyLeave",
+          "target": "ApplyLeave"
+        },
+        {
+          "pattern": "LeaveBalance",
+          "name": "LeaveBalance",
+          "target": "LeaveBalance"
+        },
+        {
+          "name": "Payroll",
+          "pattern": "Payroll",
+          "target": "Payroll"
+        },
+        {
+          "pattern": "Payslip",
+          "name": "Payslip",
+          "target": "Payslip"
+        },
+        {
+          "name": "PayrollCreate",
+          "pattern": "PayrollCreate",
+          "target": "PayrollCreate"
+        },
+        {
+          "name": "PayrollEdit",
+          "pattern": "PayrollEdit/{EmpId}/{PayMonth}/{PayYear}",
+          "target": "PayrollEdit"
+        },
+        {
+          "name": "Holiday",
+          "pattern": "Holiday",
+          "target": "Holiday"
+        },
+        {
+          "name": "CreateHoliday",
+          "pattern": "CreateHoliday",
+          "target": "CreateHoliday"
+        },
+        {
+          "name": "EditHoliday",
+          "pattern": "EditHoliday/{HolidayId}",
+          "target": "EditHoliday"
         }
       ],
       "targets": {
@@ -205,6 +263,57 @@
         "Users": {
           "viewName": "Users",
           "viewType": "XML"
+        },
+        "Profile": {
+          "viewName": "Profile",
+          "viewType": "XML"
+        },
+        "MyAttendance": {
+          "viewName": "MyAttendance",
+          "viewType": "XML"
+        },
+        "ApplyLeave": {
+          "viewName": "ApplyLeave",
+          "viewType": "XML"
+        },
+        "LeaveBalance": {
+          "viewName": "LeaveBalance",
+          "viewType": "XML"
+        },
+        "Payroll": {
+          "viewName": "Payroll",
+          "viewType": "XML"
+        },
+        "Payslip": {
+          "viewName": "Payslip",
+          "viewType": "XML"
+        },
+        "PayrollCreate": {
+          "viewType": "XML",
+          "viewName": "PayrollCreate",
+          "viewId": "PayrollCreate"
+        },
+        "PayrollEdit": {
+          "viewName": "PayrollEdit",
+          "viewType": "XML"
+        },
+        "Holiday": {
+          "viewType": "XML",
+          "viewId": "Holiday",
+          "viewName": "Holiday",
+          "transition": "slide",
+          "clearControlAggregation": false
+        },
+        "CreateHoliday": {
+          "viewName": "CreateHoliday",
+          "viewType": "XML"
+        },
+        "EditHoliday": {
+          "viewType": "XML",
+          "viewName": "EditHoliday",
+          "viewId": "EditHoliday",
+          "controlId": "app",
+          "controlAggregation": "pages"
         }
       }
     },

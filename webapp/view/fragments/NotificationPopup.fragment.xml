@@ -1,0 +1,75 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Dialog
+        id="notificationPopup"
+        title="🔔 New Notification"
+        contentWidth="380px"
+        draggable="true"
+        resizable="false"
+        showHeader="true">
+
+        <VBox class="sapUiMediumMargin">
+
+            <HBox alignItems="Center">
+
+                <Avatar
+                    displayShape="Circle"
+                    displaySize="M"
+                    src="{
+                        path:'notification>Type',
+                        formatter:'.formatter.getNotificationIcon'
+                    }"
+                    backgroundColor="{
+                        path:'notification>Type',
+                        formatter:'.formatter.getAvatarColor'
+                    }"/>
+
+                <VBox class="sapUiSmallMarginBegin">
+
+                    <Title
+                        text="{notification>Title}"
+                        level="H4"/>
+
+                    <Text
+                        text="{notification>Message}"
+                        wrapping="true"/>
+
+                </VBox>
+
+            </HBox>
+
+            <Toolbar/>
+
+            <ObjectStatus
+                text="{
+                    path:'notification>CreatedOn',
+                    type:'sap.ui.model.type.Date',
+                    formatOptions:{pattern:'dd MMM yyyy'}
+                }"/>
+
+        </VBox>
+
+        <beginButton>
+
+            <Button
+                text="View"
+                icon="sap-icon://display"
+                type="Emphasized"
+                press="onPopupView"/>
+
+        </beginButton>
+
+        <endButton>
+
+            <Button
+                text="Close"
+                icon="sap-icon://decline"
+                press="onPopupClose"/>
+
+        </endButton>
+
+    </Dialog>
+
+</core:FragmentDefinition>

@@ -1,0 +1,111 @@
+<mvc:View
+    controllerName="employee.controller.EditHoliday"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form">
+
+    <Page
+        title="Edit Holiday"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+
+        <content>
+
+            <VBox class="sapUiMediumMargin">
+
+                <Panel
+                    headerText="Holiday Information"
+                    class="sapUiResponsiveMargin">
+
+                    <f:SimpleForm
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                        columnsXL="2"
+                        columnsL="2"
+                        columnsM="2"
+                        labelSpanXL="3"
+                        labelSpanL="3"
+                        labelSpanM="3"
+                        labelSpanS="12">
+
+                        <!-- Row 1 -->
+
+                        <Label text="Holiday ID"/>
+
+                        <Input
+                            id="txtHolidayId"
+                            editable="false"/>
+
+                        <Label text="Holiday Name"/>
+
+                        <Input
+                            id="txtHolidayName"/>
+
+                        <!-- Row 2 -->
+
+                        <Label text="Holiday Date"/>
+
+                        <DatePicker
+                            id="dpHolidayDate"
+                            displayFormat="dd-MM-yyyy"
+                            valueFormat="yyyy-MM-dd"/>
+
+                        <Label text="Holiday Year"/>
+
+                        <Input
+                            id="txtHolidayYear"
+                            maxLength="4"/>
+
+                        <!-- Row 3 -->
+
+                        <Label text="State"/>
+
+                        <Input
+                            id="txtState"/>
+
+                        <Label text="Holiday Type"/>
+
+                        <Input
+                            id="txtHolidayType"/>
+
+                        <!-- Row 4 -->
+
+                        <Label text="Description"/>
+
+                        <TextArea
+                            id="txtDescription"
+                            rows="4"
+                            growing="true"/>
+
+                    </f:SimpleForm>
+
+                </Panel>
+
+            </VBox>
+
+        </content>
+
+        <footer>
+
+            <OverflowToolbar>
+
+                <ToolbarSpacer/>
+
+                <Button
+                    text="Reset"
+                    icon="sap-icon://reset"
+                    press="onReset"/>
+
+                <Button
+                    text="Update Holiday"
+                    icon="sap-icon://save"
+                    type="Emphasized"
+                    press="onUpdate"/>
+
+            </OverflowToolbar>
+
+        </footer>
+
+    </Page>
+
+</mvc:View>

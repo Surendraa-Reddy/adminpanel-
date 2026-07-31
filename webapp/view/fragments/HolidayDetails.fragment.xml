@@ -1,0 +1,127 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+
+    <Dialog
+        id="holidayDialog"
+        title="Holiday Details"
+        contentWidth="700px"
+        contentHeight="520px"
+        draggable="true"
+        resizable="true"
+        class="sapUiResponsivePadding">
+
+        <content>
+
+            <VBox class="sapUiMediumMargin">
+
+                
+                <ObjectHeader
+                    title="{HolidayName}"
+                    number="{HolidayId}"
+                    numberUnit="Holiday ID"
+                    icon="sap-icon://calendar"/>
+
+                <Toolbar design="Transparent">
+                    <Title
+                        text="Holiday Information"
+                        level="H3"/>
+                </Toolbar>
+
+                <f:SimpleForm
+                    editable="false"
+                    layout="ResponsiveGridLayout"
+                    columnsXL="2"
+                    columnsL="2"
+                    columnsM="2"
+                    labelSpanXL="3"
+                    labelSpanL="3"
+                    labelSpanM="3"
+                    labelSpanS="12"
+                    emptySpanXL="1"
+                    emptySpanL="1"
+                    emptySpanM="0"
+                    adjustLabelSpan="false">
+
+                    <!-- Row 1 -->
+
+                    <Label text="Holiday ID"/>
+                    <ObjectIdentifier
+                        title="{HolidayId}"/>
+
+                    <Label text="Holiday Name"/>
+                    <ObjectIdentifier
+                        title="{HolidayName}"/>
+
+                    <!-- Row 2 -->
+
+                    <Label text="Holiday Date"/>
+                    <ObjectStatus
+                        icon="sap-icon://calendar"
+                        text="{
+                            path:'HolidayDate',
+                            type:'sap.ui.model.type.Date',
+                            formatOptions:{
+                                pattern:'dd MMM yyyy'
+                            }
+                        }"
+                        state="Information"/>
+
+                    <Label text="Holiday Year"/>
+                    <Text text="{HolidayYear}"/>
+
+                    <!-- Row 3 -->
+
+                    <Label text="State"/>
+                    <ObjectStatus
+                        text="{State}"
+                        icon="sap-icon://map"
+                        state="Information"/>
+
+                    <Label text="Holiday Type"/>
+                    <ObjectStatus
+                        text="{HolidayType}"
+                        state="{=
+                            ${HolidayType} === 'NATIONAL'
+                                ? 'Success'
+                                : ${HolidayType} === 'FESTIVAL'
+                                    ? 'Warning'
+                                    : 'Information'
+                        }"/>
+
+                </f:SimpleForm>
+
+                <Toolbar design="Transparent">
+                    <Title
+                        text="Description"
+                        level="H3"/>
+                </Toolbar>
+
+                <Panel
+                    backgroundDesign="Transparent"
+                    expandable="false">
+
+                    <Text
+                        text="{Description}"
+                        wrapping="true"/>
+
+                </Panel>
+
+            </VBox>
+
+        </content>
+
+        <beginButton>
+
+            <Button
+                text="Close"
+                icon="sap-icon://decline"
+                type="Emphasized"
+                press="onCloseHolidayDialog"/>
+
+        </beginButton>
+
+    </Dialog>
+
+</core:FragmentDefinition>

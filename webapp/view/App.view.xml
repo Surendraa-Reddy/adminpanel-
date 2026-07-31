@@ -2,60 +2,62 @@
     controllerName="employee.controller.App"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
-    xmlns:tnt="sap.tnt">
-
+    xmlns:tnt="sap.tnt"
+>
     <tnt:ToolPage
         id="toolPage"
-        sideExpanded="true">
-
+        sideExpanded="true"
+    >
         <!-- Header -->
         <tnt:header>
+            <OverflowToolbar>
+                <Button
+                    icon="sap-icon://menu2"
+                    type="Transparent"
+                    press="onToggleMenu"
+                />
 
-        <OverflowToolbar>
+                <Title text="Employee Management System" />
 
-    <Button
-        icon="sap-icon://menu2"
-        type="Transparent"
-        press="onToggleMenu"/>
+                <ToolbarSpacer />
 
-    <Title text="Employee Management System"/>
+                <Button
+                    id="notificationButton"
+                    icon="sap-icon://bell"
+                    text="{notification>/UnreadCount}"
+                    type="Transparent"
+                    press="onNotificationPress"
+                />
 
-    <ToolbarSpacer/>
+                <Avatar
+                    displayShape="Circle"
+                    initials="{= ${session>/username} ? ${session>/username}.substring(0,1).toUpperCase() : 'A'}"
+                />
 
-    <Button
-        icon="sap-icon://bell"
-        type="Transparent"/>
+                <Text
+                    text="{session>/username}"
+                    class="sapUiTinyMarginEnd"
+                />
 
-    <Avatar
-        displayShape="Circle"
-      initials="{= ${session>/username} ? ${session>/username}.substring(0,1).toUpperCase() : 'A'}"/>
-
-    <Text
-        text="{session>/username}"
-        class="sapUiTinyMarginEnd"/>
-
-    <Button
-        text="Logout"
-        icon="sap-icon://log"
-        type="Transparent"
-        press="onLogout"/>
-
-</OverflowToolbar>
-
+                <Button
+                    text="Logout"
+                    icon="sap-icon://log"
+                    type="Transparent"
+                    press="onLogout"
+                />
+            </OverflowToolbar>
         </tnt:header>
 
         <!-- Sidebar -->
         <tnt:sideContent>
-
             <tnt:SideNavigation>
-
                 <tnt:NavigationList>
-
                     <tnt:NavigationListItem
                         text="Dashboard"
                         icon="sap-icon://home"
                         select="onDashboard"
-                        visible="true"/>
+                        visible="true"
+                    />
 
                     <tnt:NavigationListItem
                         text="Employees"
@@ -64,7 +66,9 @@
                         visible="{=
                             ${session>/role} === 'ADMIN'
                             || ${session>/role} === 'HR'
-                        }"/>
+                            || ${session>/role} === 'EMPLOYEE'
+                        }"
+                    />
 
                     <tnt:NavigationListItem
                         text="Departments"
@@ -72,15 +76,17 @@
                         select="onDepartment"
                         visible="{=
                         ${session>/role} === 'ADMIN'
-                          }"/>
+                          }"
+                    />
 
                     <tnt:NavigationListItem
                         text="Roles"
                         icon="sap-icon://manager"
                         select="onRole"
-                         visible="{=
+                        visible="{=
                           ${session>/role} === 'ADMIN'
-                            }"/>
+                            }"
+                    />
 
                     <tnt:NavigationListItem
                         text="Attendance"
@@ -90,13 +96,42 @@
                              ${session>/role} === 'ADMIN'
                               || ${session>/role} === 'HR'
                              || ${session>/role} === 'MANAGER'
-                         }"/>
+                         }"
+                    />
 
                     <tnt:NavigationListItem
                         text="Leaves"
                         icon="sap-icon://leave-request"
                         select="onLeave"
-                        visible="true"/>
+                        visible="true"
+                    />
+                    <tnt:NavigationListItem
+                        text="My Profile"
+                        icon="sap-icon://person-placeholder"
+                        select="onProfile"
+                    />
+
+                    <tnt:NavigationListItem
+                        text="Employee Self Service"
+                        icon="sap-icon://employee"
+                    >
+                        <tnt:NavigationListItem
+                            text="My Attendance"
+                            icon="sap-icon://activity-individual"
+                            select="onMyAttendance"
+                        />
+                        <tnt:NavigationListItem
+                            text="Apply Leave"
+                            icon="sap-icon://add-activity"
+                            press="onApplyLeave"
+                        />
+                        <tnt:NavigationListItem
+                            text="Leave Balance"
+                            icon="sap-icon://leave-request"
+                            key="LeaveBalance"
+                            select=".onLeaveBalance"
+                        />
+                    </tnt:NavigationListItem>
 
                     <tnt:NavigationListItem
                         text="Reports"
@@ -105,31 +140,48 @@
                         visible="{=
                                ${session>/role} === 'ADMIN'
                                || ${session>/role} === 'MANAGER'
-                           }"/>
-                           <tnt:NavigationListItem
-                                text="Users"
-                                icon="sap-icon://group"
-                                visible="{= ${session>/role} === 'ADMIN' }"
-                                select="onUsers"/>
-                                 <tnt:NavigationListItem
-                                      text="Logout"
-                                      icon="sap-icon://log"
-                                      select="onLogout"/>
-                          
+                           }"
+                    />
+                    <tnt:NavigationListItem
+                        text="Users"
+                        icon="sap-icon://group"
+                        visible="{= ${session>/role} === 'ADMIN' }"
+                        select="onUsers"
+                    />
+                    <tnt:NavigationListItem
+                        text="Payroll"
+                        icon="sap-icon://money-bills"
+                        key="Payroll"
+                        visible="{= ${session>/role} === 'ADMIN' || ${session>/role} === 'HR' }"
+                        select=".onPayroll"
+                    />
+                    <tnt:NavigationListItem
+                        text="Payslip"
+                        icon="sap-icon://pdf-attachment"
+                        key="Payslip"
+                        visible="{= ${session>/role} === 'ADMIN' || ${session>/role} === 'HR' }"
+                        select="onMenuSelect"
+                    />
+                    <!-- <tnt:NavigationListItem
+                        text="Create Payroll"
+                        icon="sap-icon://add"
+                        key="PayrollCreate"
+                        visible="{= ${session>/role} === 'ADMIN' || ${session>/role} === 'HR' }"
+                        select="onPayrollCreate"
+                    /> -->
 
+                    <tnt:NavigationListItem
+                        text="Logout"
+                        icon="sap-icon://log"
+                        select="onLogout"
+                    />
                 </tnt:NavigationList>
-
             </tnt:SideNavigation>
-
         </tnt:sideContent>
 
         <!-- Main Content -->
         <tnt:mainContents>
-
-            <App id="app"/>
-
+            <App id="app" />
         </tnt:mainContents>
-
     </tnt:ToolPage>
-
 </mvc:View>

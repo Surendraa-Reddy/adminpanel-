@@ -1,0 +1,393 @@
+<mvc:View
+    controllerName="employee.controller.Payroll"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Page
+        title="Payroll Management"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <!-- ================= Dashboard ================= -->
+
+                <Title
+                    text="Payroll Dashboard"
+                    level="H2"
+                    class="sapUiSmallMarginBottom"
+                />
+
+                <HBox
+                    wrap="Wrap"
+                    justifyContent="Center"
+                >
+                    <!-- Basic -->
+
+                    <Panel
+                        width="250px"
+                        class="sapUiTinyMargin"
+                    >
+                        <headerToolbar>
+                            <Toolbar>
+                                <core:Icon src="sap-icon://money-bills" />
+                                <Title
+                                    text="Basic Salary"
+                                    class="sapUiTinyMarginBegin"
+                                />
+                            </Toolbar>
+                        </headerToolbar>
+
+                        <content>
+                            <ObjectNumber
+                                number="{payroll>/BasicPay}"
+                                unit="₹"
+                                state="Success"
+                            />
+                        </content>
+                    </Panel>
+
+                    <!-- Gross -->
+
+                    <Panel
+                        width="250px"
+                        class="sapUiTinyMargin"
+                    >
+                        <headerToolbar>
+                            <Toolbar>
+                                <core:Icon src="sap-icon://trend-up" />
+                                <Title
+                                    text="Gross Salary"
+                                    class="sapUiTinyMarginBegin"
+                                />
+                            </Toolbar>
+                        </headerToolbar>
+
+                        <content>
+                            <ObjectNumber
+                                number="{payroll>/GrossSalary}"
+                                unit="₹"
+                                state="Success"
+                            />
+                        </content>
+                    </Panel>
+
+                    <!-- Net -->
+
+                    <Panel
+                        width="250px"
+                        class="sapUiTinyMargin"
+                    >
+                        <headerToolbar>
+                            <Toolbar>
+                                <core:Icon src="sap-icon://wallet" />
+                                <Title
+                                    text="Net Salary"
+                                    class="sapUiTinyMarginBegin"
+                                />
+                            </Toolbar>
+                        </headerToolbar>
+
+                        <content>
+                            <ObjectNumber
+                                number="{payroll>/NetSalary}"
+                                unit="₹"
+                                state="Success"
+                            />
+                        </content>
+                    </Panel>
+
+                    <!-- Deductions -->
+
+                    <Panel
+                        width="250px"
+                        class="sapUiTinyMargin"
+                    >
+                        <headerToolbar>
+                            <Toolbar>
+                                <core:Icon src="sap-icon://expense-report" />
+                                <Title
+                                    text="Deductions"
+                                    class="sapUiTinyMarginBegin"
+                                />
+                            </Toolbar>
+                        </headerToolbar>
+
+                        <content>
+                            <ObjectNumber
+                                number="{payroll>/Deductions}"
+                                unit="₹"
+                                state="Error"
+                            />
+                        </content>
+                    </Panel>
+                </HBox>
+
+                <!-- ================= Search ================= -->
+
+                <Panel
+                    headerText="Search Payroll"
+                    class="sapUiMediumMarginTop"
+                >
+                    <VBox class="sapUiSmallMargin">
+                        <HBox
+                            wrap="Wrap"
+                            justifyContent="SpaceBetween"
+                            alignItems="Center"
+                        >
+                            <HBox wrap="Wrap">
+                                <!-- Employee -->
+
+                                <VBox class="sapUiTinyMarginEnd">
+                                    <Label text="Employee" />
+
+                                    <Select
+                                        id="empFilter"
+                                        width="220px"
+                                        items="{/EmployeeeSet}"
+                                    >
+                                        <core:Item
+                                            key=""
+                                            text="All Employees"
+                                        />
+
+                                        <core:Item
+                                            key="{EmpId}"
+                                            text="{EmpId} - {FirstName}"
+                                        />
+                                    </Select>
+                                </VBox>
+
+                                <!-- Month -->
+
+                                <VBox class="sapUiTinyMarginEnd">
+                                    <Label text="Month" />
+
+                                    <Select
+                                        id="monthFilter"
+                                        width="180px"
+                                    >
+                                        <core:Item
+                                            key=""
+                                            text="All"
+                                        />
+
+                                        <core:Item
+                                            key="JANUARY"
+                                            text="January"
+                                        />
+                                        <core:Item
+                                            key="FEBRUARY"
+                                            text="February"
+                                        />
+                                        <core:Item
+                                            key="MARCH"
+                                            text="March"
+                                        />
+                                        <core:Item
+                                            key="APRIL"
+                                            text="April"
+                                        />
+                                        <core:Item
+                                            key="MAY"
+                                            text="May"
+                                        />
+                                        <core:Item
+                                            key="JUNE"
+                                            text="June"
+                                        />
+                                        <core:Item
+                                            key="JULY"
+                                            text="July"
+                                        />
+                                        <core:Item
+                                            key="AUGUST"
+                                            text="August"
+                                        />
+                                        <core:Item
+                                            key="SEPTEMBER"
+                                            text="September"
+                                        />
+                                        <core:Item
+                                            key="OCTOBER"
+                                            text="October"
+                                        />
+                                        <core:Item
+                                            key="NOVEMBER"
+                                            text="November"
+                                        />
+                                        <core:Item
+                                            key="DECEMBER"
+                                            text="December"
+                                        />
+                                    </Select>
+                                </VBox>
+
+                                <!-- Year -->
+
+                                <VBox>
+                                    <Label text="Year" />
+
+                                    <Select
+                                        id="yearFilter"
+                                        width="150px"
+                                    >
+                                        <core:Item
+                                            key=""
+                                            text="All"
+                                        />
+                                        <core:Item
+                                            key="2025"
+                                            text="2025"
+                                        />
+                                        <core:Item
+                                            key="2026"
+                                            text="2026"
+                                        />
+                                        <core:Item
+                                            key="2027"
+                                            text="2027"
+                                        />
+                                    </Select>
+                                </VBox>
+                            </HBox>
+
+                            <HBox>
+                                <Button
+                                    text="Search"
+                                    icon="sap-icon://search"
+                                    type="Emphasized"
+                                    press="onSearch"
+                                    class="sapUiTinyMarginEnd"
+                                />
+
+                                <Button
+                                    text="Refresh"
+                                    icon="sap-icon://refresh"
+                                    press="onRefresh"
+                                    class="sapUiTinyMarginEnd"
+                                />
+
+                                <Button
+                                    text="Create Payroll"
+                                    icon="sap-icon://add"
+                                    type="Accept"
+                                    press="onCreatePayroll"
+                                />
+                                <Button
+                                    icon="sap-icon://excel-attachment"
+                                    text="Export to CSV"
+                                    press="onExportCSV"
+                                    type="Emphasized"
+                                />
+                            </HBox>
+                        </HBox>
+                    </VBox>
+                </Panel>
+
+                <Panel
+                    headerText="Payroll Records"
+                    class="sapUiMediumMarginTop"
+                >
+                    <Table
+                        id="payrollTable"
+                        items="{payroll>/payrolls}"
+                        growing="true"
+                        growingThreshold="10"
+                    >
+                        <columns>
+                            <Column>
+                                <Text text="Employee" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Month" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Year" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Basic" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Gross" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Net" />
+                            </Column>
+                           
+                            <Column>
+                                <Text text="Actions" />
+                            </Column>
+                        </columns>
+
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <ObjectIdentifier title="{payroll>EmpId}" />
+
+                                    <Text text="{payroll>PayMonth}" />
+
+                                    <Text text="{payroll>PayYear}" />
+
+                                    <ObjectNumber
+                                        number="{payroll>BasicPay}"
+                                        unit="₹"
+                                    />
+
+                                    <ObjectNumber
+                                        number="{payroll>GrossSalary}"
+                                        unit="₹"
+                                        state="Success"
+                                    />
+
+                                    <ObjectNumber
+                                        number="{payroll>NetSalary}"
+                                        unit="₹"
+                                        state="Success"
+                                    />
+                                    <!-- <Button
+                                        text="Generate"
+                                        type="Emphasized"
+                                        icon="sap-icon://pdf-attachment"
+                                        press="onGeneratePayslip"
+                                    /> -->
+
+                                    <HBox>
+                                        <Button
+                                            icon="sap-icon://edit"
+                                            type="Transparent"
+                                            tooltip="Edit Payroll"
+                                            press="onEdit"
+                                            class="sapUiTinyMarginEnd"
+                                        />
+
+                                        <Button
+                                            icon="sap-icon://delete"
+                                            type="Transparent"
+                                            tooltip="Delete Payroll"
+                                            press="onDelete"
+                                            class="sapUiTinyMarginEnd"
+                                        />
+
+                                        <Button
+                                            icon="sap-icon://pdf-attachment"
+                                            type="Transparent"
+                                            tooltip="View Payslip"
+                                            press="onViewPayslip"
+                                        />
+                                    </HBox>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

@@ -1,0 +1,106 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+>
+    <Dialog
+        id="notificationDetailsDialog"
+        title="Notification Details"
+        contentWidth="500px"
+        draggable="true"
+        resizable="true"
+    >
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <!-- Header -->
+                <HBox
+                    alignItems="Center"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <Avatar
+                        displayShape="Circle"
+                        displaySize="M"
+                        src="{
+                            path:'notification>Type',
+                            formatter:'.formatter.getNotificationIcon'
+                        }"
+                        backgroundColor="{
+                            path:'notification>Type',
+                            formatter:'.formatter.getAvatarColor'
+                        }"
+                    />
+
+                    <VBox class="sapUiSmallMarginBegin">
+                        <Title
+                            text="{notification>Title}"
+                            level="H3"
+                        />
+
+                        <Text
+                            text="{notification>Type}"
+                            class="sapUiTinyMarginTop"
+                        />
+                    </VBox>
+                </HBox>
+
+                <Toolbar />
+
+                <!-- Message -->
+                <Label
+                    text="Message"
+                    design="Bold"
+                />
+
+                <Text
+                    text="{notification>Message}"
+                    wrapping="true"
+                    class="sapUiSmallMarginBottom"
+                />
+
+                <Toolbar />
+
+                <!-- Details -->
+                <form:SimpleForm
+                    editable="false"
+                    layout="ResponsiveGridLayout"
+                    columnsL="1"
+                    columnsM="1"
+                >
+                    <Label text="Notification Type" />
+                    <Text text="{notification>Type}" />
+
+                    <Label text="Status" />
+                    <ObjectStatus
+                        text="{
+        path:'notification>Status',
+        formatter:'.formatter.getNotificationStatusText'
+    }"
+                        state="{
+        path:'notification>Status',
+        formatter:'.formatter.getNotificationStatusState'
+    }"
+                    />
+                    <Label text="Created On" />
+                    <Text
+                        text="{
+                            path:'notification>CreatedOn',
+                            type:'sap.ui.model.type.Date',
+                            formatOptions:{
+                                pattern:'dd MMM yyyy'
+                            }
+                        }"
+                    />
+                </form:SimpleForm>
+            </VBox>
+        </content>
+
+        <endButton>
+            <Button
+                text="Close"
+                type="Emphasized"
+                icon="sap-icon://decline"
+                press="onCloseNotificationDialog"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

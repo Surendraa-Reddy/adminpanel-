@@ -1,0 +1,219 @@
+<mvc:View
+    controllerName="employee.controller.Payslip"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Page
+        title="Monthly Payslips"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <!-- Filter Section -->
+                <Panel
+                    headerText="Search Payslip"
+                    expandable="false"
+                >
+                    <HBox
+                        justifyContent="SpaceBetween"
+                        alignItems="Center"
+                        class="sapUiSmallMargin"
+                    >
+                        <!-- Month -->
+                        <VBox>
+                            <Label text="Month" />
+
+                            <Select
+                                id="monthSelect"
+                                width="200px"
+                            >
+                                <items>
+                                    <core:Item
+                                        key="JANUARY"
+                                        text="January"
+                                    />
+                                    <core:Item
+                                        key="FEBRUARY"
+                                        text="February"
+                                    />
+                                    <core:Item
+                                        key="MARCH"
+                                        text="March"
+                                    />
+                                    <core:Item
+                                        key="APRIL"
+                                        text="April"
+                                    />
+                                    <core:Item
+                                        key="MAY"
+                                        text="May"
+                                    />
+                                    <core:Item
+                                        key="JUNE"
+                                        text="June"
+                                    />
+                                    <core:Item
+                                        key="JULY"
+                                        text="July"
+                                    />
+                                    <core:Item
+                                        key="AUGUST"
+                                        text="August"
+                                    />
+                                    <core:Item
+                                        key="SEPTEMBER"
+                                        text="September"
+                                    />
+                                    <core:Item
+                                        key="OCTOBER"
+                                        text="October"
+                                    />
+                                    <core:Item
+                                        key="NOVEMBER"
+                                        text="November"
+                                    />
+                                    <core:Item
+                                        key="DECEMBER"
+                                        text="December"
+                                    />
+                                </items>
+                            </Select>
+                        </VBox>
+
+                        <!-- Year -->
+
+                        <VBox>
+                            <Label text="Year" />
+
+                            <Select
+                                id="yearSelect"
+                                width="150px"
+                            >
+                                <items>
+                                    <core:Item
+                                        key=""
+                                        text="Select Year"
+                                    />
+                                    <core:Item
+                                        key="2025"
+                                        text="2025"
+                                    />
+
+                                    <core:Item
+                                        key="2026"
+                                        text="2026"
+                                    />
+                                </items>
+                            </Select>
+                        </VBox>
+
+                        <!-- Buttons -->
+
+                        <VBox>
+                            <Label text="" />
+
+                            <HBox>
+                                <Button
+                                    text="Search"
+                                    type="Emphasized"
+                                    icon="sap-icon://search"
+                                    press="onSearch"
+                                    class="sapUiTinyMarginEnd"
+                                />
+
+                                <Button
+                                    text="Reset"
+                                    icon="sap-icon://refresh"
+                                    press="onReset"
+                                />
+                            </HBox>
+                        </VBox>
+                    </HBox>
+                </Panel>
+
+                <!-- Payslip Table -->
+
+                <Panel
+                    headerText="Payslip Details"
+                    class="sapUiSmallMarginTop"
+                >
+                    <Table
+                        id="payslipTable"
+                        items="{/PayslipSet}"
+                        growing="true"
+                        growingScrollToLoad="true"
+                    >
+                        <columns>
+                            <Column>
+                                <Text text="Month" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Year" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Gross Salary" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Net Salary" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Generated Date" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Action" />
+                            </Column>
+                        </columns>
+
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="{PayMonth}" />
+
+                                    <Text text="{PayYear}" />
+
+                                    <Text text="{GrossSalary}" />
+
+                                    <Text text="{NetSalary}" />
+
+                                    <Text
+                                        text="{
+                    path: 'GeneratedOn',
+                    type: 'sap.ui.model.type.Date',
+                    formatOptions: {
+                        pattern: 'dd-MM-yyyy'
+                    }
+                }"
+                                    />
+
+                                    <HBox>
+                                      
+                                        <Button
+                                            icon="sap-icon://pdf-attachment"
+                                            tooltip="Download PDF"
+                                            type="Transparent"
+                                            press="onDownloadPDF"
+                                        />
+
+                                        <Button
+                                            icon="sap-icon://print"
+                                            tooltip="Print"
+                                            type="Transparent"
+                                            press="onPrint"
+                                        />
+                                    </HBox>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

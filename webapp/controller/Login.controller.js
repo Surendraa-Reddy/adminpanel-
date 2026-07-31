@@ -95,9 +95,11 @@ sap.ui.define([
                         empId: oData.EmpId,
 
                         role: oData.Role,
+                        name: oData.Name,
 
                         status: oData.Status,
 
+                        
                         canDashboard: true,
                         canEmployee: true,
                         canDepartment: true,
@@ -105,8 +107,13 @@ sap.ui.define([
                         canAttendance: true,
                         canLeave: true,
                         canReports: true
+                        
 
                     };
+
+
+                         console.log(oData);
+
 
                     oSession.setData(oSessionData);
 
@@ -114,6 +121,7 @@ sap.ui.define([
                         "HR_SESSION",
                         JSON.stringify(oSessionData)
                     );
+                     console.log("Session Model:", oSession.getData());
 
                     MessageToast.show("Login Successful");
 

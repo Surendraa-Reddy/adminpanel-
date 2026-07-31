@@ -7,7 +7,7 @@ sap.ui.define([
     return Controller.extend("employee.controller.Dashboard", {
 
         onInit: function () {
-          
+
             var oDashboardModel = new JSONModel({
                 Employees: 0,
                 Departments: 0,
@@ -26,22 +26,102 @@ sap.ui.define([
             });
             this.getView().setModel(oChartModel, "chart");
 
-           
+
             var oRecentModel = new JSONModel({
                 RecentEmployees: [],
                 RecentLeaves: []
             });
             this.getView().setModel(oRecentModel, "recent");
 
-            
+
             this._loadDashboardData();
             this._loadRecentTablesData();
 
-           
+
             this._configureChartProperties();
+            var oHolidayModel = new sap.ui.model.json.JSONModel();
+
+            this.getView().setModel(oHolidayModel, "holiday");
+
+            this._loadUpcomingHolidays();
+        },
+        _loadUpcomingHolidays: function () {
+
+            var oModel = this.getOwnerComponent().getModel();
+            var oHolidayModel = this.getView().getModel("holiday");
+            var that = this;
+
+            oModel.read("/HolidaySet", {
+
+                success: function (oData) {
+
+                    var oToday = new Date();
+                    oToday.setHours(0, 0, 0, 0);
+
+                    var aUpcoming = [];
+                    var aPast = [];
+
+                    oData.results.forEach(function (oHoliday) {
+
+                        var oDate = new Date(oHoliday.HolidayDate);
+                        oDate.setHours(0, 0, 0, 0);
+
+                        oHoliday._date = oDate;
+
+                        if (oDate >= oToday) {
+                            aUpcoming.push(oHoliday);
+                        } else {
+                            aPast.push(oHoliday);
+                        }
+
+                    });
+
+                    // Past Holidays (Latest First)
+                    aPast.sort(function (a, b) {
+                        return b._date - a._date;
+                    });
+
+                    // Upcoming Holidays (Nearest First)
+                    aUpcoming.sort(function (a, b) {
+                        return a._date - b._date;
+                    });
+
+                    // Combine: Past -> Upcoming
+                    var aDisplay = aPast.concat(aUpcoming);
+
+                    oHolidayModel.setProperty("/UpcomingHolidays", aDisplay);
+
+                    // Default page = First Upcoming Holiday
+                    setTimeout(function () {
+
+                        var oCarousel = that.byId("upcomingCarousel");
+
+                        if (!oCarousel) {
+                            return;
+                        }
+
+                        var aPages = oCarousel.getPages();
+
+                        // Default page = nearest upcoming holiday
+                        if (aPages.length > aPast.length) {
+                            oCarousel.setActivePage(aPages[aPast.length]);
+                        }
+
+                    }, 300);
+
+                },
+
+                error: function () {
+
+                    sap.m.MessageToast.show("Unable to load holidays");
+
+                }
+
+            });
+
         },
 
-        
+
         _configureChartProperties: function () {
             var oVizProperties = {
                 title: { visible: false },
@@ -56,13 +136,13 @@ sap.ui.define([
             this.byId("leaveChart").setVizProperties(oVizProperties);
         },
 
-        
+
         _loadDashboardData: function () {
             var oModel = this.getOwnerComponent().getModel();
             var oDashboard = this.getView().getModel("dashboard");
             var oChart = this.getView().getModel("chart");
 
-            
+
             oModel.read("/EmployeeeSet", {
                 success: function (oData) {
                     var aEmployees = oData.results;
@@ -73,14 +153,14 @@ sap.ui.define([
                     var mGenderGroup = {};
 
                     aEmployees.forEach(function (oEmp) {
-                       
+
                         if (oEmp.Status === "1") { iActiveCount++; }
 
-                        
+
                         if (!mDeptGroup[oEmp.DeptId]) { mDeptGroup[oEmp.DeptId] = 0; }
                         mDeptGroup[oEmp.DeptId]++;
 
-                        
+
                         var sGenderText = oEmp.Gender === "M" ? "Male" : oEmp.Gender === "F" ? "Female" : "Others";
                         if (!mGenderGroup[sGenderText]) { mGenderGroup[sGenderText] = 0; }
                         mGenderGroup[sGenderText]++;
@@ -88,13 +168,13 @@ sap.ui.define([
 
                     oDashboard.setProperty("/ActiveEmployees", iActiveCount);
 
-                    
+
                     var aDeptChartData = Object.keys(mDeptGroup).map(function (sKey) {
                         return { Department: sKey, Count: mDeptGroup[sKey] };
                     });
                     oChart.setProperty("/DepartmentChart", aDeptChartData);
 
-                    
+
                     var aGenderChartData = Object.keys(mGenderGroup).map(function (sKey) {
                         return { Gender: sKey, Count: mGenderGroup[sKey] };
                     });
@@ -102,43 +182,43 @@ sap.ui.define([
                 }
             });
 
-            
+
             oModel.read("/DepartmentSet", {
                 success: function (oData) {
                     oDashboard.setProperty("/Departments", oData.results.length);
                 }
             });
 
-          
+
             oModel.read("/RolesSet", {
                 success: function (oData) {
                     oDashboard.setProperty("/Roles", oData.results.length);
                 }
             });
 
-            
+
             oModel.read("/LeavesSet", {
                 success: function (oData) {
                     oDashboard.setProperty("/Leaves", oData.results.length);
                 }
             });
 
-           
+
             oModel.read("/AttendanceSet", {
                 success: function (oData) {
                     var aAttendance = oData.results;
                     var mAttendanceTrend = {};
                     var iTodayAttendanceCount = 0;
 
-                    
-                    var sTodayStr = new Date().toLocaleDateString('en-GB').replace(/\//g, '-'); 
+
+                    var sTodayStr = new Date().toLocaleDateString('en-GB').replace(/\//g, '-');
 
                     aAttendance.forEach(function (oItem) {
                         if (oItem.Status === "P") {
                             var dDate = new Date(oItem.AttDate);
                             var sDateStr = dDate.getDate().toString().padStart(2, "0") + "-" +
-                                           (dDate.getMonth() + 1).toString().padStart(2, "0") + "-" +
-                                           dDate.getFullYear();
+                                (dDate.getMonth() + 1).toString().padStart(2, "0") + "-" +
+                                dDate.getFullYear();
 
                             if (!mAttendanceTrend[sDateStr]) { mAttendanceTrend[sDateStr] = 0; }
                             mAttendanceTrend[sDateStr]++;
@@ -149,7 +229,7 @@ sap.ui.define([
 
                     oDashboard.setProperty("/Attendance", iTodayAttendanceCount);
 
-                    
+
                     var aAttendanceChartData = Object.keys(mAttendanceTrend).map(function (sDate) {
                         return { Date: sDate, PresentCount: mAttendanceTrend[sDate] };
                     });
@@ -157,7 +237,7 @@ sap.ui.define([
                 }
             });
 
-            
+
             oModel.read("/LeavesSet", {
                 success: function (oData) {
                     var aLeaves = oData.results;
@@ -179,12 +259,12 @@ sap.ui.define([
             });
         },
 
-    
+
         _loadRecentTablesData: function () {
             var oModel = this.getOwnerComponent().getModel();
             var oRecent = this.getView().getModel("recent");
 
-      
+
             oModel.read("/EmployeeeSet", {
                 success: function (oData) {
                     var aEmployees = oData.results || [];
@@ -214,6 +294,58 @@ sap.ui.define([
         onEmployee: function () { this.getOwnerComponent().getRouter().navTo("Employee"); },
         onDepartment: function () { this.getOwnerComponent().getRouter().navTo("Department"); },
         onRole: function () { this.getOwnerComponent().getRouter().navTo("Roles"); },
-        onLeave: function () { this.getOwnerComponent().getRouter().navTo("Leave"); }
+        onLeave: function () { this.getOwnerComponent().getRouter().navTo("Leave"); },
+        onHoliday: function () {
+
+            this.getOwnerComponent()
+                .getRouter()
+                .navTo("Holiday");
+
+        },
+        _loadNotifications: function () {
+
+            var oModel = this.getOwnerComponent().getModel();
+
+            var oNotificationModel = this.getView().getModel("notification");
+
+            var sEmpId = this.getOwnerComponent()
+                .getModel("session")
+                .getProperty("/empId");
+
+            var aFilters = [
+
+                new sap.ui.model.Filter(
+                    "EmpId",
+                    sap.ui.model.FilterOperator.EQ,
+                    sEmpId
+                )
+
+            ];
+
+            oModel.read("/UserNotificationSet", {
+
+                filters: aFilters,
+
+                success: function (oData) {
+
+                    oNotificationModel.setProperty(
+                        "/Notifications",
+                        oData.results
+                    );
+
+                    var iUnread = oData.results.filter(function (o) {
+                        return o.Status === "U";
+                    }).length;
+
+                    oNotificationModel.setProperty(
+                        "/UnreadCount",
+                        iUnread
+                    );
+
+                }
+
+            });
+
+        }
     });
 });

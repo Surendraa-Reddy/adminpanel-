@@ -1,0 +1,154 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+>
+    <Dialog
+        id="jobDetailsDialog"
+        title="Job Details"
+        contentWidth="850px"
+        contentHeight="600px"
+        draggable="true"
+        resizable="true"
+        stretchOnPhone="true"
+    >
+        <content>
+            <VBox class="sapUiResponsiveContentPadding">
+                <!-- Header -->
+
+                <ObjectHeader
+                    title="{JobTitle}"
+                    intro="Recruitment Management"
+                    icon="sap-icon://employee-approvals"
+                >
+                    <attributes>
+                        <ObjectAttribute
+                            title="Department"
+                            text="{Department}"
+                        />
+
+                        <ObjectAttribute
+                            title="Location"
+                            text="{Location}"
+                        />
+                    </attributes>
+
+                    <statuses>
+                        <ObjectStatus
+                            text="{Status}"
+                            state="{= ${Status} === 'OPEN' ? 'Success' : 'Error'}"
+                        />
+                    </statuses>
+                </ObjectHeader>
+
+                <!-- Job Information -->
+
+                <Panel
+                    class="sapUiMediumMarginTop"
+                    expandable="false"
+                >
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title
+                                text="Job Information"
+                                level="H3"
+                            />
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <content>
+                        <f:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                            labelSpanXL="3"
+                            labelSpanL="3"
+                            labelSpanM="3"
+                            emptySpanXL="1"
+                            emptySpanL="1"
+                        >
+                            <Label text="Job ID" />
+                            <Text text="{JobId}" />
+
+                            <Label text="Job Title" />
+                            <Text text="{JobTitle}" />
+
+                            <Label text="Department" />
+                            <Text text="{Department}" />
+
+                            <Label text="Location" />
+                            <Text text="{Location}" />
+
+                            <Label text="Experience" />
+                            <Text text="{Experience}" />
+
+                            <Label text="Vacancies" />
+                            <ObjectNumber
+                                number="{Vacancies}"
+                                unit="Positions"
+                            />
+
+                            <Label text="Job Type" />
+                            <Text text="{JobType}" />
+
+                            <Label text="Status" />
+                            <ObjectStatus
+                                text="{Status}"
+                                state="{= ${Status} === 'OPEN' ? 'Success' : 'Error'}"
+                            />
+
+                            <Label text="Created On" />
+                            <Text text="{CreatedOn}" />
+                        </f:SimpleForm>
+                    </content>
+                </Panel>
+
+                <!-- Description -->
+
+                <Panel
+                    class="sapUiMediumMarginTop"
+                    expandable="false"
+                >
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title
+                                text="Job Description"
+                                level="H3"
+                            />
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <content>
+                        <Text
+                            text="{Description}"
+                            wrapping="true"
+                        />
+                    </content>
+                </Panel>
+            </VBox>
+        </content>
+
+        <buttons>
+            <Button
+                text="Edit Job"
+                type="Emphasized"
+                icon="sap-icon://edit"
+                press="onEditFromDialog"
+            />
+
+            <Button
+                text="Duplicate"
+                icon="sap-icon://copy"
+                press="onDuplicateJob"
+            />
+
+            <Button
+                text="Close"
+                icon="sap-icon://decline"
+                press="onCloseJobDetails"
+            />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

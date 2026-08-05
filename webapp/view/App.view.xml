@@ -149,6 +149,19 @@
                         select="onUsers"
                     />
                     <tnt:NavigationListItem
+                        text="JobOpenings"
+                        icon="sap-icon://person-placeholder"
+                        key="jobopen"
+                        visible="{= ${session>/role} === 'ADMIN' || ${session>/role} === 'HR' }"
+                        select=".onjobopen"
+                    />
+                    <tnt:NavigationListItem
+                        text="Candidate Dashboard"
+                        icon="sap-icon://business-objects-experience"
+                        visible="{= ${session>/role} === 'ADMIN' || ${session>/role} === 'HR' }"
+                        select=".onCandidateDashboard"
+                    />
+                    <tnt:NavigationListItem
                         text="Payroll"
                         icon="sap-icon://money-bills"
                         key="Payroll"

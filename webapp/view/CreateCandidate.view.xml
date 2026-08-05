@@ -1,0 +1,337 @@
+<mvc:View
+    controllerName="employee.controller.recruitment.CreateCandidate"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+>
+    <Page
+        title="Create Candidate"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <headerContent>
+            <Button
+                text="Reset"
+                icon="sap-icon://reset"
+                press="onReset"
+            />
+        </headerContent>
+
+        <content>
+            <VBox class="sapUiResponsiveContentPadding">
+                <!-- Header -->
+
+                <ObjectHeader
+                    title="New Candidate"
+                    intro="Recruitment Management"
+                    icon="sap-icon://employee"
+                >
+                    <statuses>
+                        <ObjectStatus
+                            text="New Candidate"
+                            state="Success"
+                        />
+                    </statuses>
+                </ObjectHeader>
+
+                <!-- ===================================== -->
+                <!-- Personal Information -->
+                <!-- ===================================== -->
+
+                <Panel
+                    expandable="false"
+                    class="sapUiMediumMarginTop"
+                >
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title
+                                text="Personal Information"
+                                level="H3"
+                            />
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <content>
+                        <f:SimpleForm
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                            labelSpanXL="3"
+                            labelSpanL="3"
+                            labelSpanM="3"
+                        >
+                            <Label
+                                text="Candidate Name"
+                                required="true"
+                            />
+                            <Input
+                                id="candidateName"
+                                required="true"
+                            />
+
+                            <Label
+                                text="Gender"
+                                required="true"
+                            />
+                            <Select
+                                id="gender"
+                                required="true"
+                            >
+                                <core:Item
+                                    key="Male"
+                                    text="Male"
+                                />
+                                <core:Item
+                                    key="Female"
+                                    text="Female"
+                                />
+                                <core:Item
+                                    key="Other"
+                                    text="Other"
+                                />
+                            </Select>
+
+                            <Label text="Date of Birth" />
+                            <DatePicker
+                                id="dateOfBirth"
+                                displayFormat="dd-MM-yyyy"
+                                valueFormat="yyyy-MM-dd"
+                            />
+
+                            <Label text="Nationality" />
+                            <Input id="nationality" />
+
+                            <Label
+                                text="Qualification"
+                                required="true"
+                            />
+
+                            <Select
+                                id="qualification"
+                                required="true"
+                            >
+                                <core:Item
+                                    key="B.Tech"
+                                    text="B.Tech"
+                                />
+                                <core:Item
+                                    key="M.Tech"
+                                    text="M.Tech"
+                                />
+                                <core:Item
+                                    key="B.Sc"
+                                    text="B.Sc"
+                                />
+                                <core:Item
+                                    key="MCA"
+                                    text="MCA"
+                                />
+                                <core:Item
+                                    key="MBA"
+                                    text="MBA"
+                                />
+                            </Select>
+
+                            <Label text="Specialization" />
+                            <Input id="specialization" />
+
+                            <Label text="Experience" />
+                            <Input id="experience" />
+
+                            <Label text="Skills" />
+                            <TextArea
+                                id="skills"
+                                rows="3"
+                                growing="true"
+                            />
+                        </f:SimpleForm>
+                    </content>
+                </Panel>
+
+                <!-- ===================================== -->
+                <!-- Contact Information -->
+                <!-- ===================================== -->
+
+                <Panel
+                    expandable="false"
+                    class="sapUiMediumMarginTop"
+                >
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title
+                                text="Contact Information"
+                                level="H3"
+                            />
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <content>
+                        <f:SimpleForm
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                            labelSpanXL="3"
+                            labelSpanL="3"
+                            labelSpanM="3"
+                        >
+                            <Label
+                                text="Email"
+                                required="true"
+                            />
+                            <Input
+                                id="email"
+                                type="Email"
+                                required="true"
+                            />
+
+                            <Label
+                                text="Mobile"
+                                required="true"
+                            />
+                            <Input
+                                id="mobile"
+                                type="Tel"
+                                required="true"
+                            />
+
+                            <Label text="Address" />
+                            <TextArea
+                                id="address"
+                                rows="3"
+                            />
+
+                            <Label text="City" />
+                            <Input id="city" />
+
+                            <Label text="State" />
+                            <Input id="state" />
+
+                            <Label text="Pincode" />
+                            <Input id="pincode" />
+                        </f:SimpleForm>
+                    </content>
+                </Panel>
+
+                <!-- ===================================== -->
+                <!-- Recruitment Details -->
+                <!-- ===================================== -->
+
+                <Panel
+                    expandable="false"
+                    class="sapUiMediumMarginTop"
+                >
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title
+                                text="Recruitment Details"
+                                level="H3"
+                            />
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <content>
+                        <f:SimpleForm
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                            labelSpanXL="3"
+                            labelSpanL="3"
+                            labelSpanM="3"
+                        >
+                            <Label
+                                text="Applied Job"
+                                required="true"
+                            />
+
+                            <Select
+                                id="jobId"
+                                required="true"
+                                items="{/JobOpeningSet}"
+                            >
+                                <core:Item
+                                    key="{JobId}"
+                                    text="{JobTitle}"
+                                />
+                            </Select>
+
+                            <Label text="Applied Date" />
+                            <DatePicker
+                                id="appliedOn"
+                                displayFormat="dd-MM-yyyy"
+                                valueFormat="yyyy-MM-dd"
+                            />
+
+                            <Label
+                                text="Status"
+                                required="true"
+                            />
+
+                            <Select
+                                id="status"
+                                required="true"
+                            >
+                                <core:Item
+                                    key="Applied"
+                                    text="Applied"
+                                />
+                                <core:Item
+                                    key="Shortlisted"
+                                    text="Shortlisted"
+                                />
+                                <core:Item
+                                    key="Interview Scheduled"
+                                    text="Interview Scheduled"
+                                />
+                                <core:Item
+                                    key="Selected"
+                                    text="Selected"
+                                />
+                                <core:Item
+                                    key="Rejected"
+                                    text="Rejected"
+                                />
+                                <core:Item
+                                    key="Joined"
+                                    text="Joined"
+                                />
+                            </Select>
+
+                            <Label text="Remarks" />
+                            <TextArea
+                                id="remarks"
+                                rows="3"
+                                growing="true"
+                            />
+                        </f:SimpleForm>
+                    </content>
+                </Panel>
+            </VBox>
+        </content>
+
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+
+                <Button
+                    text="Cancel"
+                    icon="sap-icon://decline"
+                    press="onCancel"
+                />
+
+                <Button
+                    text="Save Candidate"
+                    type="Emphasized"
+                    icon="sap-icon://save"
+                    press="onSave"
+                />
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

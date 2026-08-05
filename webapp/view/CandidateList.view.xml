@@ -1,0 +1,230 @@
+<mvc:View
+    controllerName="employee.controller.recruitment.CandidateList"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Page
+        title="Candidate Management"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <headerContent />
+
+        <content>
+            <VBox class="sapUiResponsiveContentPadding">
+                <OverflowToolbar>
+                    <Title
+                        text="Candidate List"
+                        level="H2"
+                    />
+
+                    <ToolbarSpacer />
+                    <Button
+                        icon="sap-icon://refresh"
+                        press="onRefresh"
+                    />
+
+                    <Button
+                        text="Create"
+                        type="Emphasized"
+                        icon="sap-icon://add"
+                        press="onCreateCandidate"
+                    />
+                </OverflowToolbar>
+
+                <OverflowToolbar class="sapUiSmallMarginTop">
+                    <SearchField
+                        id="searchCandidate"
+                        width="300px"
+                        placeholder="Search Candidate..."
+                        liveChange="onSearch"
+                    />
+
+                    <ToolbarSpacer />
+
+                    <Label text="Status" />
+
+                    <Select
+                        id="statusFilter"
+                        width="170px"
+                        change="onFilter"
+                    >
+                        <core:Item
+                            key=""
+                            text="All"
+                        />
+
+                        <core:Item
+                            key="APPLIED"
+                            text="Applied"
+                        />
+
+                        <core:Item
+                            key="SHORTLISTED"
+                            text="Shortlisted"
+                        />
+
+                        <core:Item
+                            key="INTERVIEW"
+                            text="Interview"
+                        />
+
+                        <core:Item
+                            key="SELECTED"
+                            text="Selected"
+                        />
+
+                        <core:Item
+                            key="REJECTED"
+                            text="Rejected"
+                        />
+                    </Select>
+
+                    <Label text="Qualification" />
+
+                    <Select
+                        id="qualificationFilter"
+                        width="180px"
+                        change="onFilter"
+                    >
+                        <core:Item
+                            key=""
+                            text="All"
+                        />
+
+                        <core:Item
+                            key="B.Tech"
+                            text="B.Tech"
+                        />
+
+                        <core:Item
+                            key="M.Tech"
+                            text="M.Tech"
+                        />
+
+                        <core:Item
+                            key="MBA"
+                            text="MBA"
+                        />
+
+                        <core:Item
+                            key="MCA"
+                            text="MCA"
+                        />
+                    </Select>
+
+                    <Button
+                        icon="sap-icon://excel-attachment"
+                        press="onExport"
+                    />
+
+                    <Button
+                        icon="sap-icon://clear-filter"
+                        press="onClear"
+                    />
+                </OverflowToolbar>
+
+                <Table
+                    id="candidateTable"
+                    growing="true"
+                    growingThreshold="10"
+                    growingScrollToLoad="false"
+                    items="{candidate>/Candidates}"
+                >
+                    <columns>
+                        <Column width="7rem">
+                            <Text text="ID" />
+                        </Column>
+
+                        <Column width="13rem">
+                            <Text text="Candidate" />
+                        </Column>
+
+                        <Column width="13rem">
+                            <Text text="Job" />
+                        </Column>
+
+                        <Column width="10rem">
+                            <Text text="Qualification" />
+                        </Column>
+
+                        <Column width="8rem">
+                            <Text text="Experience" />
+                        </Column>
+
+                        <Column width="11rem">
+                            <Text text="Mobile" />
+                        </Column>
+
+                        <Column width="10rem">
+                            <Text text="Status" />
+                        </Column>
+
+                        <Column
+                            hAlign="Center"
+                            width="10rem"
+                        >
+                            <Text text="Actions" />
+                        </Column>
+                    </columns>
+
+                    <items>
+                        <ColumnListItem
+                            type="Navigation"
+                            press="onDetails"
+                        >
+                            <cells>
+                                <Text text="{candidate>CandidateId}" />
+
+                                <ObjectIdentifier
+                                    title="{candidate>CandidateName}"
+                                    text="{candidate>Email}"
+                                />
+
+                                <Text text="{candidate>JobTitle}" />
+
+                                <Text text="{candidate>Qualification}" />
+
+                                <Text text="{candidate>Experience}" />
+
+                                <Text text="{candidate>Mobile}" />
+
+                                <ObjectStatus
+                                    text="{candidate>Status}"
+                                    state="{
+                                = ${candidate>Status} === 'SELECTED' ? 'Success' :
+                                  ${candidate>Status} === 'REJECTED' ? 'Error' :
+                                  ${candidate>Status} === 'INTERVIEW' ? 'Warning' :
+                                  'Information'
+                                }"
+                                />
+
+                                <HBox>
+                                    <Button
+                                        icon="sap-icon://display"
+                                        type="Transparent"
+                                        tooltip="View Details"
+                                        press="onViewCandidate"
+                                    />
+
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        press="onEdit"
+                                    />
+
+                                    <Button
+                                        icon="sap-icon://delete"
+                                        type="Transparent"
+                                        press="onDelete"
+                                    />
+                                </HBox>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

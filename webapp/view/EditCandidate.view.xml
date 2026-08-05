@@ -1,0 +1,258 @@
+<mvc:View
+    controllerName="employee.controller.recruitment.EditCandidate"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+>
+    <Page
+        title="Edit Candidate"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <content>
+            <VBox class="sapUiMediumMargin">
+         
+
+                <Panel
+                    headerText="Personal Information"
+                    expandable="true"
+                    expanded="true"
+                >
+                    <f:SimpleForm
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                        columnsXL="2"
+                        columnsL="2"
+                        columnsM="2"
+                        labelSpanL="4"
+                        labelSpanM="4"
+                    >
+                        <Label text="Candidate ID" />
+                        <Input
+                            id="candidateId"
+                            editable="false"
+                        />
+
+                        <Label text="Candidate Name *" />
+                        <Input id="candidateName" />
+
+                        <Label text="Gender" />
+                        <Select id="gender">
+                            <items>
+                                <core:Item
+                                    key="Male"
+                                    text="Male"
+                                />
+                                <core:Item
+                                    key="Female"
+                                    text="Female"
+                                />
+                                <core:Item
+                                    key="Other"
+                                    text="Other"
+                                />
+                            </items>
+                        </Select>
+
+                        <Label text="Date of Birth" />
+                        <DatePicker
+                            id="dob"
+                            displayFormat="dd-MM-yyyy"
+                            valueFormat="yyyy-MM-dd"
+                        />
+
+                        <Label text="Email" />
+                        <Input id="email" />
+
+                        <Label text="Mobile" />
+                        <Input id="mobile" />
+
+                        <Label text="Nationality" />
+                        <Input id="nationality" />
+
+                        <Label text="Address" />
+                        <TextArea
+                            id="address"
+                            rows="2"
+                        />
+
+                        <Label text="City" />
+                        <Input id="city" />
+
+                        <Label text="State" />
+                        <Input id="state" />
+
+                        <Label text="Pincode" />
+                        <Input id="pincode" />
+                    </f:SimpleForm>
+                </Panel>
+
+                <!-- ================= Professional ================= -->
+
+                <Panel
+                    headerText="Professional Information"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiMediumMarginTop"
+                >
+                    <f:SimpleForm
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                        columnsXL="2"
+                        columnsL="2"
+                        columnsM="2"
+                    >
+                        <Label text="Job ID" />
+                        <Input id="jobId" />
+
+                        <Label text="Job Title" />
+                        <Input id="jobTitle" />
+
+                        <Label text="Qualification" />
+                        <Select id="qualification">
+                            <items>
+                                <core:Item
+                                    key="B.Tech"
+                                    text="B.Tech"
+                                />
+                                <core:Item
+                                    key="B.S"
+                                    text="B.S"
+                                />
+                                <core:Item
+                                    key="M.Tech"
+                                    text="M.Tech"
+                                />
+                                <core:Item
+                                    key="MBA"
+                                    text="MBA"
+                                />
+                                <core:Item
+                                    key="MCA"
+                                    text="MCA"
+                                />
+                            </items>
+                        </Select>
+
+                        <Label text="Specialization" />
+                        <Input id="specialization" />
+
+                        <Label text="Experience" />
+                        <Input id="experience" />
+
+                        <Label text="Skills" />
+                        <TextArea
+                            id="skills"
+                            rows="3"
+                        />
+
+                        <Label text="Status" />
+                        <Select id="status">
+                            <items>
+                                <core:Item
+                                    key="APPLIED"
+                                    text="Applied"
+                                />
+                                <core:Item
+                                    key="SHORTLISTED"
+                                    text="Shortlisted"
+                                />
+                                <core:Item
+                                    key="INTERVIEW"
+                                    text="Interview"
+                                />
+                                <core:Item
+                                    key="SELECTED"
+                                    text="Selected"
+                                />
+                                <core:Item
+                                    key="REJECTED"
+                                    text="Rejected"
+                                />
+                            </items>
+                        </Select>
+
+                        <Label text="Applied On" />
+                        <DatePicker
+                            id="appliedOn"
+                            displayFormat="dd-MM-yyyy"
+                            valueFormat="yyyy-MM-dd"
+                        />
+
+                        <Label text="Remarks" />
+                        <TextArea
+                            id="remarks"
+                            rows="3"
+                        />
+                    </f:SimpleForm>
+                </Panel>
+
+                <!-- ================= Audit ================= -->
+
+                <Panel
+                    headerText="Audit Information"
+                    expandable="true"
+                    expanded="false"
+                    class="sapUiMediumMarginTop"
+                >
+                    <f:SimpleForm
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                        columnsXL="2"
+                        columnsL="2"
+                    >
+                        <Label text="Created By" />
+                        <Input
+                            id="createdBy"
+                            editable="false"
+                        />
+
+                        <Label text="Created On" />
+                        <DatePicker
+                            id="createdOn"
+                            editable="false"
+                        />
+
+                        <Label text="Changed By" />
+                        <Input
+                            id="changedBy"
+                            editable="false"
+                        />
+
+                        <Label text="Changed On" />
+                        <DatePicker
+                            id="changedOn"
+                            editable="false"
+                        />
+                    </f:SimpleForm>
+                </Panel>
+            </VBox>
+        </content>
+
+        <footer>
+            <Toolbar>
+                <ToolbarSpacer />
+
+                <Button
+                    text="Reset"
+                    icon="sap-icon://refresh"
+                    press="onReset"
+                />
+
+                <Button
+                    text="Cancel"
+                    icon="sap-icon://decline"
+                    press="onCancel"
+                />
+
+                <Button
+                    text="Update Candidate"
+                    type="Emphasized"
+                    icon="sap-icon://save"
+                    press="onUpdate"
+                />
+            </Toolbar>
+        </footer>
+    </Page>
+</mvc:View>

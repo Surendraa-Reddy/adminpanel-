@@ -1,0 +1,237 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+
+    <Dialog
+        id="candidateDetailsDialog"
+        title="Candidate Details"
+        contentWidth="950px"
+        contentHeight="650px"
+        draggable="true"
+        resizable="true"
+        stretchOnPhone="true">
+
+        <content>
+
+            <ScrollContainer
+                height="100%"
+                vertical="true"
+                horizontal="false">
+
+                <VBox class="sapUiMediumMargin">
+
+                    <!-- Header -->
+
+                    <ObjectHeader
+                        title="{candidate>CandidateName}"
+                        number="{candidate>CandidateId}"
+                        numberUnit="Candidate">
+
+                        <statuses>
+
+                            <ObjectStatus
+                                text="{candidate>Status}"
+                                state="{
+                                    = ${candidate>Status} === 'SELECTED' ? 'Success' :
+                                      ${candidate>Status} === 'REJECTED' ? 'Error' :
+                                      ${candidate>Status} === 'INTERVIEW' ? 'Warning' :
+                                      'Information'
+                                }"/>
+
+                        </statuses>
+
+                    </ObjectHeader>
+
+                    <!-- Personal Information -->
+
+                    <Panel
+                        headerText="Personal Information"
+                        expandable="true"
+                        expanded="true"
+                        class="sapUiMediumMarginTop">
+
+                        <f:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2">
+
+                            <Label text="Candidate ID"/>
+                            <Text text="{candidate>CandidateId}"/>
+
+                            <Label text="Candidate Name"/>
+                            <Text text="{candidate>CandidateName}"/>
+
+                            <Label text="Gender"/>
+                            <Text text="{candidate>Gender}"/>
+
+                            <Label text="Date of Birth"/>
+                            <Text
+                                text="{
+                                    path:'candidate>DateOfBirth',
+                                    type:'sap.ui.model.type.Date',
+                                    formatOptions:{pattern:'dd-MM-yyyy'}
+                                }"/>
+
+                            <Label text="Nationality"/>
+                            <Text text="{candidate>Nationality}"/>
+
+                            <Label text="Email"/>
+                            <Text text="{candidate>Email}"/>
+
+                            <Label text="Mobile"/>
+                            <Text text="{candidate>Mobile}"/>
+
+                        </f:SimpleForm>
+
+                    </Panel>
+
+                    <!-- Professional Information -->
+
+                    <Panel
+                        headerText="Professional Information"
+                        expandable="true"
+                        expanded="true"
+                        class="sapUiMediumMarginTop">
+
+                        <f:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2">
+
+                            <Label text="Job ID"/>
+                            <Text text="{candidate>JobId}"/>
+
+                            <Label text="Job Title"/>
+                            <Text text="{candidate>JobTitle}"/>
+
+                            <Label text="Qualification"/>
+                            <Text text="{candidate>Qualification}"/>
+
+                            <Label text="Specialization"/>
+                            <Text text="{candidate>Specialization}"/>
+
+                            <Label text="Experience"/>
+                            <Text text="{candidate>Experience}"/>
+
+                            <Label text="Skills"/>
+                            <Text text="{candidate>Skills}"/>
+
+                            <Label text="Applied On"/>
+                            <Text
+                                text="{
+                                    path:'candidate>AppliedOn',
+                                    type:'sap.ui.model.type.Date',
+                                    formatOptions:{pattern:'dd-MM-yyyy'}
+                                }"/>
+
+                            <Label text="Status"/>
+                            <ObjectStatus
+                                text="{candidate>Status}"
+                                state="{
+                                    = ${candidate>Status} === 'SELECTED' ? 'Success' :
+                                      ${candidate>Status} === 'REJECTED' ? 'Error' :
+                                      ${candidate>Status} === 'INTERVIEW' ? 'Warning' :
+                                      'Information'
+                                }"/>
+
+                            <Label text="Remarks"/>
+                            <Text text="{candidate>Remarks}"/>
+
+                        </f:SimpleForm>
+
+                    </Panel>
+
+                    <!-- Address Information -->
+
+                    <Panel
+                        headerText="Address Information"
+                        expandable="true"
+                        expanded="false"
+                        class="sapUiMediumMarginTop">
+
+                        <f:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2">
+
+                            <Label text="Address"/>
+                            <Text text="{candidate>Address}"/>
+
+                            <Label text="City"/>
+                            <Text text="{candidate>City}"/>
+
+                            <Label text="State"/>
+                            <Text text="{candidate>State}"/>
+
+                            <Label text="Pincode"/>
+                            <Text text="{candidate>Pincode}"/>
+
+                        </f:SimpleForm>
+
+                    </Panel>
+
+                    <!-- System Information -->
+
+                    <Panel
+                        headerText="System Information"
+                        expandable="true"
+                        expanded="false"
+                        class="sapUiMediumMarginTop">
+
+                        <f:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2">
+
+                            <Label text="Created By"/>
+                            <Text text="{candidate>CreatedBy}"/>
+
+                            <Label text="Created On"/>
+                            <Text
+                                text="{
+                                    path:'candidate>CreatedOn',
+                                    type:'sap.ui.model.type.Date',
+                                    formatOptions:{pattern:'dd-MM-yyyy'}
+                                }"/>
+
+                            <Label text="Changed By"/>
+                            <Text text="{candidate>ChangedBy}"/>
+
+                            <Label text="Changed On"/>
+                            <Text
+                                text="{
+                                    path:'candidate>ChangedOn',
+                                    type:'sap.ui.model.type.Date',
+                                    formatOptions:{pattern:'dd-MM-yyyy'}
+                                }"/>
+
+                        </f:SimpleForm>
+
+                    </Panel>
+
+                </VBox>
+
+            </ScrollContainer>
+
+        </content>
+
+        <beginButton>
+            <Button
+                text="Close"
+                type="Emphasized"
+                icon="sap-icon://decline"
+                press="onCloseCandidateDetails"/>
+        </beginButton>
+
+    </Dialog>
+
+</core:FragmentDefinition>

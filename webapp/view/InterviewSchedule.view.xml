@@ -1,0 +1,181 @@
+<mvc:View
+    controllerName="employee.controller.recruitment.InterviewSchedule"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+>
+    <Page
+        title="Interview Schedule"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <headerContent>
+            <Button
+                icon="sap-icon://refresh"
+                tooltip="Refresh"
+                press="onRefresh"
+            />
+
+            <Button
+                text="Create Interview"
+                type="Emphasized"
+                icon="sap-icon://add"
+                press="onCreateInterview"
+            />
+        </headerContent>
+
+        <content>
+            <VBox class="sapUiResponsiveContentPadding">
+                <!-- Search & Filter -->
+
+                <Panel headerText="Search Interviews">
+                    <OverflowToolbar>
+                        <SearchField
+                            id="searchInterview"
+                            width="250px"
+                            placeholder="Search Candidate"
+                            liveChange="onSearch"
+                        />
+
+                        <ToolbarSpacer />
+
+                        <Label text="Status" />
+
+                        <Select
+                            id="statusFilter"
+                            width="180px"
+                            change="onFilter"
+                        >
+                            <core:Item
+                                key=""
+                                text="All"
+                            />
+
+                            <core:Item
+                                key="SCHEDULED"
+                                text="Scheduled"
+                            />
+
+                            <core:Item
+                                key="COMPLETED"
+                                text="Completed"
+                            />
+
+                            <core:Item
+                                key="CANCELLED"
+                                text="Cancelled"
+                            />
+                        </Select>
+                        
+                    </OverflowToolbar>
+                </Panel>
+
+                <!-- Interview Table -->
+
+                <Table
+                    id="interviewTable"
+                    items="{interview>/Interviews}"
+                    growing="true"
+                    growingThreshold="10"
+                    class="sapUiMediumMarginTop"
+                >
+                    <columns>
+                        <Column>
+                            <Text text="Interview ID" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Candidate" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Job Title" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Interviewer" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Date" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Time" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Mode" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Status" />
+                        </Column>
+
+                        <Column width="10rem">
+                            <Text text="Actions" />
+                        </Column>
+                    </columns>
+
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Text text="{interview>InterviewId}" />
+
+                                <ObjectIdentifier
+                                    title="{interview>CandidateName}"
+                                    text="{interview>CandidateId}"
+                                />
+
+                                <Text text="{interview>JobTitle}" />
+
+                                <Text text="{interview>Interviewer}" />
+
+                                <Text
+                                    text="{
+                                        path:'interview>InterviewDate',
+                                        type:'sap.ui.model.type.Date',
+                                        formatOptions:{pattern:'dd-MM-yyyy'}
+                                    }"
+                                />
+
+                                <Text
+                                    text="{
+                                           path:'interview>InterviewTime',
+                                           formatter:'.formatter.formatTime'
+                                       }"
+                                />
+
+                                <Text text="{interview>InterviewMode}" />
+
+                                <ObjectStatus
+                                    text="{interview>Status}"
+                                    state="{=
+                                        ${interview>Status} === 'SCHEDULED' ? 'Warning' :
+                                        ${interview>Status} === 'COMPLETED' ? 'Success' :
+                                        'Error'
+                                    }"
+                                />
+
+                                <HBox>
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        press="onEditInterview"
+                                    />
+
+                                    <Button
+                                        icon="sap-icon://delete"
+                                        type="Transparent"
+                                        press="onDeleteInterview"
+                                    />
+                                </HBox>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

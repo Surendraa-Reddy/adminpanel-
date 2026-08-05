@@ -1,0 +1,35 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <SelectDialog
+        id="jobSortDialog"
+        title="Sort Jobs"
+        searchPlaceholder="Search"
+
+        confirm="onSortConfirm"
+        cancel="onSortCancel">
+
+        <StandardListItem
+            title="Job Title"
+            description="Sort Alphabetically"/>
+
+        <StandardListItem
+            title="Department"
+            description="Sort by Department"/>
+
+        <StandardListItem
+            title="Status"
+            description="Open / Closed"/>
+
+        <StandardListItem
+            title="Location"
+            description="Sort by Location"/>
+
+        <StandardListItem
+            title="Created Date"
+            description="Newest First"/>
+
+    </SelectDialog>
+
+</core:FragmentDefinition>

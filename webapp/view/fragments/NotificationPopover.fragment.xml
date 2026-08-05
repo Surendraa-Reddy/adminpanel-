@@ -1,21 +1,21 @@
 <core:FragmentDefinition
     xmlns="sap.m"
-    xmlns:core="sap.ui.core"
->
+    xmlns:core="sap.ui.core">
+
     <ResponsivePopover
         id="notificationPopover"
         contentWidth="420px"
         placement="Bottom"
-        class="sapUiResponsivePadding"
-    >
+        class="sapUiResponsivePadding">
+
         <!-- Header -->
         <customHeader>
             <Bar>
+
                 <contentLeft>
                     <Title
                         text="🔔 Notifications"
-                        level="H3"
-                    />
+                        level="H3"/>
                 </contentLeft>
 
                 <contentRight>
@@ -23,43 +23,91 @@
                         icon="sap-icon://accept"
                         text="Mark All Read"
                         type="Transparent"
-                        press="onMarkAllRead"
-                    />
+                        press="onMarkAllRead"/>
                 </contentRight>
+
             </Bar>
         </customHeader>
+
+        <!-- Search + Filter -->
+        <VBox class="sapUiSmallMargin">
+
+            <SearchField
+                width="100%"
+                placeholder="🔍 Search notifications..."
+                liveChange="onNotificationSearch"/>
+
+            <SegmentedButton
+                width="100%"
+                selectedKey="ALL"
+                selectionChange="onNotificationFilter"
+                class="sapUiSmallMarginTop">
+
+                <items>
+
+                    <SegmentedButtonItem
+                        key="ALL"
+                        text="All"/>
+
+                    <SegmentedButtonItem
+                        key="UNREAD"
+                        text="Unread"/>
+
+                    <SegmentedButtonItem
+                        key="PAYROLL"
+                        text="Payroll"/>
+
+                    <SegmentedButtonItem
+                        key="LEAVE"
+                        text="Leave"/>
+
+                    <SegmentedButtonItem
+                        key="HOLIDAY"
+                        text="Holiday"/>
+
+                    <SegmentedButtonItem
+                        key="BIRTHDAY"
+                        text="Birthday"/>
+
+                </items>
+
+            </SegmentedButton>
+
+        </VBox>
 
         <!-- Notification Groups -->
         <List
             items="{notification>/NotificationGroups}"
             showSeparators="None"
-            noDataText="No unread notifications"
-        >
+            noDataText="No notifications found">
+
             <CustomListItem>
+
                 <VBox width="100%">
+
                     <!-- Group Heading -->
                     <Title
                         text="{notification>Title}"
                         level="H4"
-                        class="sapUiSmallMarginTop sapUiTinyMarginBottom"
-                    />
+                        class="sapUiSmallMarginTop sapUiTinyMarginBottom"/>
 
                     <!-- Notifications -->
                     <List
                         items="{
-        path:'notification>Items',
-        templateShareable:false
-    }"
+                            path:'notification>Items',
+                            templateShareable:false
+                        }"
                         mode="SingleSelectMaster"
-                        itemPress="onNotificationSelect"
-                    >
+                        itemPress="onNotificationSelect">
+
                         <CustomListItem type="Active">
+
                             <HBox
                                 width="100%"
                                 alignItems="Center"
-                                class="sapUiSmallMargin"
-                            >
-                                <!-- Icon -->
+                                class="sapUiSmallMargin">
+
+                                <!-- Notification Icon -->
                                 <Avatar
                                     displayShape="Circle"
                                     displaySize="S"
@@ -70,60 +118,68 @@
                                     backgroundColor="{
                                         path:'notification>Type',
                                         formatter:'.formatter.getAvatarColor'
-                                    }"
-                                />
+                                    }"/>
 
-                                <!-- Text -->
+                                <!-- Notification Text -->
                                 <VBox
                                     width="250px"
-                                    class="sapUiTinyMarginBegin"
-                                >
+                                    class="sapUiTinyMarginBegin">
+
                                     <Title
                                         text="{notification>Title}"
                                         level="H5"
-                                        wrapping="true"
-                                    />
+                                        wrapping="true"/>
 
                                     <Text
                                         text="{notification>Message}"
-                                        wrapping="true"
-                                    />
+                                        wrapping="true"/>
 
                                     <ObjectStatus
                                         text="{
                                             path:'notification>CreatedOn',
-                                            type:'sap.ui.model.type.Date',
-                                            formatOptions:{pattern:'dd MMM yyyy'}
+                                            formatter:'.formatter.getRelativeTime'
                                         }"
                                         state="{
                                             path:'notification>MsgType',
                                             formatter:'.formatter.getStatusState'
-                                        }"
-                                    />
+                                        }"/>
+
                                 </VBox>
 
-                                <ToolbarSpacer />
+                                <ToolbarSpacer/>
 
+                                <!-- Right Side -->
                                 <HBox alignItems="Center">
+
+                                    <!-- Unread Indicator -->
                                     <core:Icon
                                         src="sap-icon://notification-2"
                                         color="red"
                                         size="1rem"
                                         visible="{= ${notification>Status} === 'U'}"
-                                        class="sapUiTinyMarginEnd"
-                                    />
+                                        class="sapUiTinyMarginEnd"/>
 
+                                    <!-- Delete -->
                                     <Button
                                         icon="sap-icon://delete"
                                         type="Transparent"
-                                        press="onDeleteNotification"
-                                    />
+                                        tooltip="Delete Notification"
+                                        press="onDeleteNotification"/>
+
                                 </HBox>
+
                             </HBox>
+
                         </CustomListItem>
+
                     </List>
+
                 </VBox>
+
             </CustomListItem>
+
         </List>
+
     </ResponsivePopover>
+
 </core:FragmentDefinition>

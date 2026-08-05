@@ -42,92 +42,92 @@ sap.ui.define([
         },
 
 
-        _loadNotificationsold: function () {
+        // _loadNotificationsold: function () {
 
-            var oModel = this.getOwnerComponent().getModel();
+        //     var oModel = this.getOwnerComponent().getModel();
 
-            var oNotificationModel =
-                this.getOwnerComponent().getModel("notification");
+        //     var oNotificationModel =
+        //         this.getOwnerComponent().getModel("notification");
 
-            if (!oNotificationModel) {
+        //     if (!oNotificationModel) {
 
-                oNotificationModel =
-                    new sap.ui.model.json.JSONModel({
+        //         oNotificationModel =
+        //             new sap.ui.model.json.JSONModel({
 
-                        NotificationGroups: [],
-                        UnreadCount: 0
+        //                 NotificationGroups: [],
+        //                 UnreadCount: 0
 
-                    });
+        //             });
 
-                this.getOwnerComponent().setModel(
-                    oNotificationModel,
-                    "notification"
-                );
+        //         this.getOwnerComponent().setModel(
+        //             oNotificationModel,
+        //             "notification"
+        //         );
 
-            }
+        //     }
 
-            var sEmpId = this.getOwnerComponent()
-                .getModel("session")
-                .getProperty("/empId");
+        //     var sEmpId = this.getOwnerComponent()
+        //         .getModel("session")
+        //         .getProperty("/empId");
 
-            var aFilters = [
+        //     var aFilters = [
 
-                new sap.ui.model.Filter(
-                    "EmpId",
-                    sap.ui.model.FilterOperator.EQ,
-                    sEmpId
-                ),
-                new sap.ui.model.Filter(
-                    "Status",
-                    sap.ui.model.FilterOperator.EQ,
-                    "U"
-                )
+        //         new sap.ui.model.Filter(
+        //             "EmpId",
+        //             sap.ui.model.FilterOperator.EQ,
+        //             sEmpId
+        //         ),
+        //         new sap.ui.model.Filter(
+        //             "Status",
+        //             sap.ui.model.FilterOperator.EQ,
+        //             "U"
+        //         )
 
-            ];
+        //     ];
 
-            oModel.read("/UserNotificationSet", {
+        //     oModel.read("/UserNotificationSet", {
 
-                filters: aFilters,
+        //         filters: aFilters,
 
-                success: function (oData) {
+        //         success: function (oData) {
 
-                    console.log(oData.results);
+        //             console.log(oData.results);
 
-                    oNotificationModel.setProperty(
-                        "/Notifications",
-                        oData.results
-                    );
+        //             oNotificationModel.setProperty(
+        //                 "/Notifications",
+        //                 oData.results
+        //             );
 
-                    var iUnread = oData.results.filter(function (oItem) {
+        //             var iUnread = oData.results.filter(function (oItem) {
 
-                        return oItem.Status === "U";
+        //                 return oItem.Status === "U";
 
-                    }).length;
+        //             }).length;
 
-                    // console.log("Unread Count:", iUnread);
+        //             // console.log("Unread Count:", iUnread);
 
-                    oNotificationModel.setProperty(
-                        "/UnreadCount",
-                        iUnread
-                    );
+        //             oNotificationModel.setProperty(
+        //                 "/UnreadCount",
+        //                 iUnread
+        //             );
 
-                    oNotificationModel.refresh(true);
+        //             oNotificationModel.refresh(true);
 
-                },
+        //         },
 
-                error: function (oError) {
+        //         error: function (oError) {
 
-                    //console.error(oError);
+        //             //console.error(oError);
 
-                    MessageToast.show(
-                        "Unable to load notifications"
-                    );
+        //             MessageToast.show(
+        //                 "Unable to load notifications"
+        //             );
 
-                }
+        //         }
 
-            });
+        //     });
 
-        },
+        // },
         _loadNotifications: function () {
 
             var oModel = this.getOwnerComponent().getModel();
@@ -189,7 +189,10 @@ sap.ui.define([
                         "/NotificationGroups",
                         aGroups
                     );
-
+                    oNotificationModel.setProperty(
+                        "/AllNotificationGroups",
+                        JSON.parse(JSON.stringify(aGroups))
+                    );
                     oNotificationModel.setProperty(
                         "/UnreadCount",
                         oData.results.length
@@ -202,11 +205,7 @@ sap.ui.define([
                 error: function () {
 
                     MessageToast.show("Unable to load notifications");
-                    console.log(
-                        this.getOwnerComponent()
-                            .getModel("notification")
-                            .getData()
-                    );
+
 
                 }
 
@@ -306,6 +305,117 @@ sap.ui.define([
                 this._oNotificationPopover.openBy(oButton);
 
             }
+
+        },
+        onNotificationSearch: function (oEvent) {
+
+            var sValue = (oEvent.getParameter("newValue") || "")
+                .toLowerCase();
+
+            var oModel = this.getOwnerComponent().getModel("notification");
+
+            var aGroups = oModel.getProperty("/AllNotificationGroups") || [];
+
+            if (!sValue) {
+
+                oModel.setProperty("/NotificationGroups", aGroups);
+                return;
+
+            }
+
+            var aFilteredGroups = [];
+
+            aGroups.forEach(function (oGroup) {
+
+                var aItems = oGroup.Items.filter(function (oItem) {
+
+                    return (
+
+                        (oItem.Title || "").toLowerCase().indexOf(sValue) > -1 ||
+
+                        (oItem.Message || "").toLowerCase().indexOf(sValue) > -1 ||
+
+                        (oItem.Type || "").toLowerCase().indexOf(sValue) > -1
+
+                    );
+
+                });
+
+                if (aItems.length > 0) {
+
+                    aFilteredGroups.push({
+
+                        Title: oGroup.Title,
+                        Items: aItems
+
+                    });
+
+                }
+
+            });
+
+            oModel.setProperty("/NotificationGroups", aFilteredGroups);
+
+        },
+        onNotificationFilter: function (oEvent) {
+
+            var sKey = oEvent.getParameter("item").getKey();
+
+            var oModel = this.getOwnerComponent().getModel("notification");
+
+            var aGroups = oModel.getProperty("/AllNotificationGroups") || [];
+
+            if (sKey === "ALL") {
+
+                oModel.setProperty("/NotificationGroups", aGroups);
+                return;
+
+            }
+
+            var aFilteredGroups = [];
+
+            aGroups.forEach(function (oGroup) {
+
+                var aItems = oGroup.Items.filter(function (oItem) {
+
+                    switch (sKey) {
+
+                        case "UNREAD":
+                            return oItem.Status === "U";
+
+                        case "PAYROLL":
+                            return oItem.Type === "PAYROLL";
+
+                        case "LEAVE":
+                            return oItem.Type === "LEAVE_APPROVED" ||
+                                oItem.Type === "LEAVE_REJECTED";
+
+                        case "HOLIDAY":
+                            return oItem.Type === "HOLIDAY";
+
+                        case "BIRTHDAY":
+                            return oItem.Type === "BIRTHDAY";
+
+                        default:
+                            return true;
+                    }
+
+                });
+
+                if (aItems.length > 0) {
+
+                    aFilteredGroups.push({
+
+                        Title: oGroup.Title,
+                        Items: aItems
+
+                    });
+
+                }
+
+            });
+
+            oModel.setProperty("/NotificationGroups", aFilteredGroups);
 
         },
         onNotificationSelect: function (oEvent) {
@@ -785,10 +895,20 @@ sap.ui.define([
             this.getOwnerComponent().getRouter().navTo("Profile");
 
         },
+        onjobopen: function () {
+            this.getOwnerComponent().getRouter().navTo("RecruitmentDashboard");
+        },
 
         onPayroll: function () {
 
             this.getOwnerComponent().getRouter().navTo("Payroll");
+
+        },
+        onCandidateDashboard: function () {
+
+            this.getOwnerComponent()
+                .getRouter()
+                .navTo("CandidateDashboard");
 
         },
 

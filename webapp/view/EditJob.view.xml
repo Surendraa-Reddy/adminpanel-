@@ -1,0 +1,209 @@
+<mvc:View
+    controllerName="employee.controller.recruitment.EditJob"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+
+    <Page
+        title="Edit Job Opening"
+        showNavButton="true"
+        navButtonPress="onNavBack">
+
+        <headerContent>
+
+            <Button
+                text="Refresh"
+                icon="sap-icon://refresh"
+                type="Transparent"
+                press="onRefresh"/>
+
+        </headerContent>
+
+        <content>
+
+            <VBox class="sapUiResponsiveContentPadding">
+
+                <!-- Header -->
+
+                <ObjectHeader
+                    title="Edit Job Opening"
+                    intro="Recruitment Management"
+                    icon="sap-icon://employee-approvals">
+
+                    <statuses>
+
+                        <ObjectStatus
+                            text="{Status}"
+                            state="{= ${Status} === 'OPEN' ? 'Success' : 'Error'}"/>
+
+                    </statuses>
+
+                </ObjectHeader>
+
+                <!-- Basic Information -->
+
+                <Panel
+                    expandable="false"
+                    class="sapUiMediumMarginTop">
+
+                    <headerToolbar>
+
+                        <OverflowToolbar>
+
+                            <Title
+                                text="Basic Information"
+                                level="H3"/>
+
+                        </OverflowToolbar>
+
+                    </headerToolbar>
+
+                    <content>
+
+                        <f:SimpleForm
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                            labelSpanXL="3"
+                            labelSpanL="3"
+                            labelSpanM="3">
+
+                            <Label text="Job ID"/>
+
+                            <Input
+                                id="jobId"
+                                value="{JobId}"
+                                editable="false"/>
+
+                            <Label text="Job Title"/>
+
+                            <Input
+                                id="jobTitle"
+                                value="{JobTitle}"
+                                required="true"/>
+
+                            <Label text="Department"/>
+
+                            <Input
+                                id="department"
+                                value="{Department}"/>
+
+                            <Label text="Location"/>
+
+                            <Input
+                                id="location"
+                                value="{Location}"/>
+
+                            <Label text="Experience"/>
+
+                            <Input
+                                id="experience"
+                                value="{Experience}"/>
+
+                            <Label text="Vacancies"/>
+
+                            <Input
+                                id="vacancies"
+                                type="Number"
+                                value="{Vacancies}"/>
+
+                            <Label text="Job Type"/>
+
+                            <Input
+                                id="jobType"
+                                value="{JobType}"/>
+
+                            <Label text="Status"/>
+
+                            <Select
+                                id="status"
+                                selectedKey="{Status}">
+
+                                <core:Item
+                                    key="OPEN"
+                                    text="Open"/>
+
+                                <core:Item
+                                    key="CLOSED"
+                                    text="Closed"/>
+
+                            </Select>
+                             <Label text="Last Date" />
+                            <DatePicker
+                                id="lastDate"
+                                value="{LastDate}"
+                            />
+
+                        </f:SimpleForm>
+
+                    </content>
+
+                </Panel>
+
+                <!-- Description -->
+
+                <Panel
+                    expandable="false"
+                    class="sapUiMediumMarginTop">
+
+                    <headerToolbar>
+
+                        <OverflowToolbar>
+
+                            <Title
+                                text="Job Description"
+                                level="H3"/>
+
+                        </OverflowToolbar>
+
+                    </headerToolbar>
+
+                    <content>
+
+                        <TextArea
+                            id="description"
+                            rows="8"
+                            width="100%"
+                            growing="true"
+                            value="{Description}"/>
+
+                    </content>
+
+                </Panel>
+
+            </VBox>
+
+        </content>
+
+        <footer>
+
+            <OverflowToolbar>
+
+                <ToolbarSpacer/>
+
+                <Button
+                    text="Reset"
+                    icon="sap-icon://reset"
+                    press="onReset"/>
+
+                <Button
+                    text="Cancel"
+                    icon="sap-icon://decline"
+                    press="onCancel"/>
+
+                <Button
+                    text="Update Job"
+                    type="Emphasized"
+                    icon="sap-icon://save"
+                    press="onUpdate"/>
+
+            </OverflowToolbar>
+
+        </footer>
+
+    </Page>
+
+</mvc:View>

@@ -44,7 +44,8 @@
         "sap.tnt": {},
         "sap.f": {},
         "sap.ui.layout": {},
-        "sap.ui.unified": {}
+        "sap.ui.unified": {},
+        "sap.viz": {}
       }
     },
     "contentDensities": {
@@ -214,6 +215,51 @@
           "name": "EditHoliday",
           "pattern": "EditHoliday/{HolidayId}",
           "target": "EditHoliday"
+        },
+        {
+          "name": "JobOpenings",
+          "pattern": "JobOpenings",
+          "target": "JobOpenings"
+        },
+        {
+          "name": "CreateJob",
+          "pattern": "CreateJob",
+          "target": "CreateJob"
+        },
+        {
+          "name": "EditJob",
+          "pattern": "EditJob/{JobId}",
+          "target": "EditJob"
+        },
+        {
+          "name": "RecruitmentDashboard",
+          "pattern": "RecruitmentDashboard",
+          "target": "RecruitmentDashboard"
+        },
+        {
+          "name": "CandidateList",
+          "pattern": "CandidateList",
+          "target": "CandidateList"
+        },
+        {
+          "name": "CreateCandidate",
+          "pattern": "CreateCandidate",
+          "target": "CreateCandidate"
+        },
+        {
+          "name": "EditCandidate",
+          "pattern": "EditCandidate/{CandidateId}",
+          "target": "EditCandidate"
+        },
+        {
+          "pattern": "CandidateDashboard",
+          "name": "CandidateDashboard",
+          "target": "CandidateDashboard"
+        },
+        {
+          "pattern": "InterviewSchedule",
+          "name": "InterviewSchedule",
+          "target": "InterviewSchedule"
         }
       ],
       "targets": {
@@ -314,6 +360,49 @@
           "viewId": "EditHoliday",
           "controlId": "app",
           "controlAggregation": "pages"
+        },
+        "JobOpenings": {
+          "viewId": "JobOpenings",
+          "viewName": "JobOpenings",
+          "viewType": "XML"
+        },
+        "CreateJob": {
+          "viewId": "CreateJob",
+          "viewName": "CreateJob",
+          "viewType": "XML"
+        },
+        "EditJob": {
+          "viewId": "EditJob",
+          "viewName": "EditJob",
+          "viewType": "XML"
+        },
+        "RecruitmentDashboard": {
+          "viewId": "RecruitmentDashboard",
+          "viewName": "RecruitmentDashboard",
+          "viewType": "XML"
+        },
+        "CandidateList": {
+          "viewName": "CandidateList",
+          "viewType": "XML",
+          "transition": "slide"
+        },
+        "CreateCandidate": {
+          "viewName": "CreateCandidate",
+          "viewType": "XML",
+          "transition": "slide"
+        },
+        "EditCandidate": {
+          "viewName": "EditCandidate",
+          "viewLevel": 2
+        },
+        "CandidateDashboard": {
+          "viewName": "CandidateDashboard",
+          "viewLevel": 2
+        },
+        "InterviewSchedule": {
+          "viewName": "InterviewSchedule",
+          "viewType": "XML",
+          "viewLevel": 3
         }
       }
     },

@@ -1,0 +1,336 @@
+<mvc:View
+    controllerName="employee.controller.recruitment.CandidateDashboard"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+>
+    <Page
+        id="candidateDashboardPage"
+        title="Candidate Dashboard"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <content>
+            <VBox class="sapUiResponsiveContentPadding">
+                <!-- ================================================= -->
+                <!-- HEADER -->
+                <!-- ================================================= -->
+
+                <OverflowToolbar>
+                    <Title
+                        text="Candidate Dashboard"
+                        level="H2"
+                    />
+
+                    <ToolbarSpacer />
+
+                    <Button
+                        text="Refresh"
+                        icon="sap-icon://refresh"
+                        press="onRefresh"
+                    />
+
+                    <Button
+                        text="Export"
+                        icon="sap-icon://excel-attachment"
+                        press="onExport"
+                    />
+                </OverflowToolbar>
+
+                <!-- ================================================= -->
+                <!-- KPI TILES -->
+                <!-- ================================================= -->
+
+                <l:Grid
+                    defaultSpan="XL3 L3 M6 S12"
+                    hSpacing="1"
+                    vSpacing="1"
+                    class="sapUiMediumMarginTop"
+                >
+                    <GenericTile header="Total Candidates">
+                        <TileContent>
+                            <NumericContent
+                                value="{dashboard>/KPI/Total}"
+                                icon="sap-icon://employee"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Applied">
+                        <TileContent>
+                            <NumericContent
+                                value="{dashboard>/KPI/Applied}"
+                                icon="sap-icon://add-contact"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Shortlisted">
+                        <TileContent>
+                            <NumericContent
+                                value="{dashboard>/KPI/Shortlisted}"
+                                icon="sap-icon://accept"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Interview">
+                        <TileContent>
+                            <NumericContent
+                                value="{dashboard>/KPI/Interview}"
+                                icon="sap-icon://appointment-2"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Selected">
+                        <TileContent>
+                            <NumericContent
+                                value="{dashboard>/KPI/Selected}"
+                                icon="sap-icon://employee-pane"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Rejected">
+                        <TileContent>
+                            <NumericContent
+                                value="{dashboard>/KPI/Rejected}"
+                                icon="sap-icon://decline"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Joined">
+                        <TileContent>
+                            <NumericContent
+                                value="{dashboard>/KPI/Joined}"
+                                icon="sap-icon://person-placeholder"
+                            />
+                        </TileContent>
+                    </GenericTile>
+                </l:Grid>
+
+            
+
+                <Panel
+                    headerText="Quick Actions"
+                    class="sapUiMediumMarginTop"
+                   >
+                    <OverflowToolbar>
+                        <Button
+                            text="Manage Candidates"
+                            icon="sap-icon://employee"
+                            press="onManageCandidates"
+                        />
+
+                        <Button
+                            text="Interview Schedule"
+                            icon="sap-icon://calendar"
+                            press="onInterviewSchedule"
+                        />
+
+                        <Button
+                            text="Offer Letters"
+                            icon="sap-icon://document"
+                            press="onOfferLetters"
+                        />
+                    </OverflowToolbar>
+                </Panel>
+
+                <!-- ================================================= -->
+                <!-- ANALYTICS -->
+                <!-- ================================================= -->
+
+                <Panel
+                    headerText="Candidate Analytics"
+                    class="sapUiMediumMarginTop"
+                 >
+                    <l:Grid defaultSpan="XL6 L6 M12 S12">
+                        <!-- STATUS CHART -->
+
+                        <VBox>
+                            <Title
+                                text="Candidate Status"
+                                level="H4"
+                            />
+
+                            <viz:VizFrame
+                                id="candidateStatusChart"
+                                vizType="pie"
+                                width="100%"
+                                height="350px"
+                            >
+                                <viz:dataset>
+                                    <viz.data:FlattenedDataset
+                                        data="{chart>/StatusData}"
+                                    >
+                                        <viz.data:dimensions>
+                                            <viz.data:DimensionDefinition
+                                                name="Status"
+                                                value="{chart>Status}"
+                                            />
+                                        </viz.data:dimensions>
+
+                                        <viz.data:measures>
+                                            <viz.data:MeasureDefinition
+                                                name="Count"
+                                                value="{chart>Count}"
+                                            />
+                                        </viz.data:measures>
+                                    </viz.data:FlattenedDataset>
+                                </viz:dataset>
+
+                                <viz:feeds>
+                                    <viz.feeds:FeedItem
+                                        uid="size"
+                                        type="Measure"
+                                        values="Count"
+                                    />
+
+                                    <viz.feeds:FeedItem
+                                        uid="color"
+                                        type="Dimension"
+                                        values="Status"
+                                    />
+                                </viz:feeds>
+                            </viz:VizFrame>
+                        </VBox>
+
+                        <!-- QUALIFICATION -->
+
+                        <VBox>
+                            <Title
+                                text="Qualification Analysis"
+                                level="H4"
+                            />
+
+                            <viz:VizFrame
+                                id="qualificationChart"
+                                vizType="column"
+                                width="100%"
+                                height="350px"
+                            >
+                                <viz:dataset>
+                                    <viz.data:FlattenedDataset
+                                        data="{chart>/QualificationData}"
+                                    >
+                                        <viz.data:dimensions>
+                                            <viz.data:DimensionDefinition
+                                                name="Qualification"
+                                                value="{chart>Qualification}"
+                                            />
+                                        </viz.data:dimensions>
+
+                                        <viz.data:measures>
+                                            <viz.data:MeasureDefinition
+                                                name="Candidates"
+                                                value="{chart>Count}"
+                                            />
+                                        </viz.data:measures>
+                                    </viz.data:FlattenedDataset>
+                                </viz:dataset>
+
+                                <viz:feeds>
+                                    <viz.feeds:FeedItem
+                                        uid="valueAxis"
+                                        type="Measure"
+                                        values="Candidates"
+                                    />
+
+                                    <viz.feeds:FeedItem
+                                        uid="categoryAxis"
+                                        type="Dimension"
+                                        values="Qualification"
+                                    />
+                                </viz:feeds>
+                            </viz:VizFrame>
+                        </VBox>
+                    </l:Grid>
+                </Panel>
+
+                <!-- ================================================= -->
+                <!-- RECENT CANDIDATES -->
+                <!-- ================================================= -->
+
+                <Panel
+                    headerText="Recent Candidates"
+                    class="sapUiMediumMarginTop"
+                  >
+                    <Table items="{dashboard>/RecentCandidates}">
+                        <columns>
+                            <Column>
+                                <Text text="Candidate" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Job" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Qualification" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Experience" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Status" />
+                            </Column>
+                        </columns>
+
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="{dashboard>CandidateName}" />
+
+                                    <Text text="{dashboard>JobTitle}" />
+
+                                    <Text text="{dashboard>Qualification}" />
+
+                                    <Text text="{dashboard>Experience}" />
+
+                                    <ObjectStatus text="{dashboard>Status}" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel>
+
+                <!-- ================================================= -->
+                <!-- ACTIVITIES -->
+                <!-- ================================================= -->
+
+                <Panel
+                    headerText="Recent Activities"
+                    class="sapUiMediumMarginTop"
+                 >
+                    <List items="{dashboard>/RecentActivities}">
+                        <CustomListItem>
+                            <HBox class="sapUiSmallMargin">
+                                <Avatar
+                                    displayShape="Circle"
+                                    src="sap-icon://employee"
+                                />
+
+                                <VBox class="sapUiSmallMarginBegin">
+                                    <Title
+                                        level="H5"
+                                        text="{dashboard>Title}"
+                                    />
+
+                                    <Text text="{dashboard>Description}" />
+                                </VBox>
+                            </HBox>
+                        </CustomListItem>
+                    </List>
+                </Panel>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

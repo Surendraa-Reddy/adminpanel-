@@ -1,0 +1,146 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+>
+    <Dialog
+        id="createInterviewDialog"
+        title="Schedule Interview"
+        contentWidth="700px"
+        draggable="true"
+        resizable="true"
+    >
+        <content>
+            <f:SimpleForm
+                editable="true"
+                layout="ResponsiveGridLayout"
+                columnsXL="2"
+                columnsL="2"
+                columnsM="2"
+            >
+                <!-- Candidate -->
+                <Label
+                    text="Interview ID"
+                    required="true"
+                />
+
+                <Input
+                    id="txtInterviewId"
+                    placeholder="Enter Interview ID (Ex: IN001)"
+                    maxLength="10"
+                />
+
+                <Label text="Candidate" />
+
+                <ComboBox
+                    id="cbCandidate"
+                    width="100%"
+                    items="{candidate>/Candidates}"
+                    selectionChange="onCandidateSelect"
+                >
+                    <core:Item
+                        key="{candidate>CandidateId}"
+                        text="{candidate>CandidateName}"
+                    />
+                </ComboBox>
+
+                <!-- Candidate ID -->
+
+                <Label text="Candidate ID" />
+
+                <Input
+                    id="txtCandidateId"
+                    editable="false"
+                />
+
+                <!-- Job ID -->
+
+                <Label text="Job ID" />
+
+                <Input
+                    id="txtJobId"
+                    editable="false"
+                />
+
+                <!-- Job Title -->
+
+                <Label text="Job Title" />
+
+                <Input
+                    id="txtJobTitle"
+                    editable="false"
+                />
+
+                <!-- Interviewer -->
+
+                <Label text="Interviewer" />
+
+                <ComboBox
+                    id="cbInterviewer"
+                    width="100%"
+                    items="{employee>/Employees}"
+                >
+                    <core:Item
+                        key="{employee>EmpId}"
+                        text="{employee>FirstName}"
+                    />
+                </ComboBox>
+
+                <!-- Date -->
+
+                <Label text="Interview Date" />
+
+                <DatePicker
+                    id="dpInterviewDate"
+                    width="100%"
+                    valueFormat="yyyyMMdd"
+                    displayFormat="dd-MM-yyyy"
+                />
+
+                <!-- Time -->
+
+                <Label text="Interview Time" />
+
+                <TimePicker
+                    id="tpInterviewTime"
+                    width="100%"
+                    valueFormat="HHmmss"
+                    displayFormat="HH:mm"
+                />
+
+                <!-- Mode -->
+
+                <Label text="Interview Mode" />
+
+                <Select id="slMode">
+                    <core:Item
+                        key="ONLINE"
+                        text="Online"
+                    />
+
+                    <core:Item
+                        key="OFFLINE"
+                        text="Offline"
+                    />
+                </Select>
+            </f:SimpleForm>
+        </content>
+
+        <beginButton>
+            <Button
+                text="Schedule"
+                type="Emphasized"
+                icon="sap-icon://accept"
+                press="onSaveInterview"
+            />
+        </beginButton>
+
+        <endButton>
+            <Button
+                text="Close"
+                icon="sap-icon://decline"
+                press="onCloseInterviewDialog"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

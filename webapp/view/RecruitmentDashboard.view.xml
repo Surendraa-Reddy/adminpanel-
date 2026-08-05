@@ -1,0 +1,652 @@
+<mvc:View
+    controllerName="employee.controller.recruitment.RecruitmentDashboard"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.data="sap.viz.ui5.data"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+>
+    <Page
+        id="recruitmentDashboardPage"
+        title="Recruitment Dashboard"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <content>
+            <VBox class="sapUiResponsiveContentPadding">
+                <!-- ===================================================== -->
+                <!-- Header Toolbar -->
+                <!-- ===================================================== -->
+
+                <OverflowToolbar>
+                    <Title
+                        text="Recruitment Dashboard"
+                        level="H2"
+                    />
+
+                    <ToolbarSpacer />
+
+                    <Button
+                        text="Refresh"
+                        icon="sap-icon://refresh"
+                        press="onRefresh"
+                    />
+                </OverflowToolbar>
+
+                <!-- ===================================================== -->
+                <!-- KPI Tiles -->
+                <!-- ===================================================== -->
+
+                <l:Grid
+                    defaultSpan="XL3 L3 M6 S12"
+                    hSpacing="1"
+                    vSpacing="1"
+                    class="sapUiMediumMarginTop"
+                >
+                    <!-- Open Jobs -->
+
+                    <GenericTile
+                        header="Open Jobs"
+                        press="onOpenJobs"
+                    >
+                        <TileContent>
+                            <NumericContent
+                                value="{dashboard>/OpenJobs}"
+                                icon="sap-icon://suitcase"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <!-- Closed Jobs -->
+
+                    <GenericTile
+                        header="Closed Jobs"
+                        press="onClosedJobs"
+                    >
+                        <TileContent>
+                            <NumericContent
+                                value="{dashboard>/ClosedJobs}"
+                                icon="sap-icon://complete"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <!-- Candidates -->
+
+                    <GenericTile
+                        header="Candidates"
+                        press="onCandidates"
+                    >
+                        <TileContent>
+                            <NumericContent
+                                value="{dashboard>/Candidates}"
+                                icon="sap-icon://employee"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        header="Today's Interviews"
+                        press="onInterviews"
+                    >
+                        <TileContent>
+                            <NumericContent
+                                value="{dashboard>/TodayInterviews}"
+                                icon="sap-icon://appointment-2"
+                            />
+                        </TileContent>
+                    </GenericTile>
+                </l:Grid>
+
+                <Panel
+                    headerText="Quick Actions"
+                    class="sapUiMediumMarginTop"
+                 >
+                    <OverflowToolbar>
+                        <Button
+                            text="Create Job"
+                            type="Emphasized"
+                            icon="sap-icon://add"
+                            press="onCreateJob"
+                        />
+
+                        <Button
+                            text="Manage Jobs"
+                            icon="sap-icon://work-history"
+                            press="onManageJobs"
+                        />
+
+                        <Button
+                            text="Candidates"
+                            icon="sap-icon://employee"
+                            press="onManageCandidates"
+                        />
+
+                        <Button
+                            text="Interview Schedule"
+                            icon="sap-icon://calendar"
+                            press="onInterviewSchedule"
+                        />
+                    </OverflowToolbar>
+                </Panel>
+
+                <Panel
+                    headerText="Dashboard Filters"
+                    class="sapUiMediumMarginTop"
+                 >
+                    <OverflowToolbar>
+                        <SearchField
+                            id="dashboardSearch"
+                            width="250px"
+                            placeholder="Search Job Title..."
+                            liveChange="onDashboardSearch"
+                        />
+
+                        <ToolbarSpacer />
+
+                        <Label text="Department" />
+
+                        <Select
+                            id="dashboardDeptFilter"
+                            width="170px"
+                            change="onDashboardFilter"
+                        >
+                            <core:Item
+                                key=""
+                                text="All"
+                            />
+
+                            <core:Item
+                                key="IT"
+                                text="IT"
+                            />
+
+                            <core:Item
+                                key="HR"
+                                text="HR"
+                            />
+
+                            <core:Item
+                                key="Functional"
+                                text="Functional"
+                            />
+                           <core:Item
+                                key="Finance"
+                                text="Finance"
+                            />
+                            <core:Item
+                                key="Admin"
+                                text="Admin"
+                            />
+                        </Select>
+
+                        <Label text="Status" />
+
+                        <Select
+                            id="dashboardStatusFilter"
+                            width="150px"
+                            change="onDashboardFilter"
+                        >
+                            <core:Item
+                                key=""
+                                text="All"
+                            />
+
+                            <core:Item
+                                key="OPEN"
+                                text="Open"
+                            />
+
+                            <core:Item
+                                key="CLOSED"
+                                text="Closed"
+                            />
+                        </Select>
+                        <Button
+                            icon="sap-icon://excel-attachment"
+                            press="onExportJobs"
+                        />
+                        <Button
+                            text="Sort"
+                            icon="sap-icon://sort"
+                            press="onOpenSortDialog"
+                        />
+
+                        <Button
+                            icon="sap-icon://clear-filter"
+                            text="Clear"
+                            press="onClearDashboardFilter"
+                        />
+                    </OverflowToolbar>
+                </Panel>
+
+                <Panel
+                    headerText="Recruitment Statistics"
+                    class="sapUiMediumMarginTop"
+                >
+                    <l:Grid
+                        defaultSpan="XL3 L3 M6 S12"
+                        hSpacing="1"
+                        vSpacing="1"
+                    >
+                        <GenericTile header="Total Vacancies">
+                            <TileContent>
+                                <NumericContent
+                                    value="{dashboard>/TotalVacancies}"
+                                    icon="sap-icon://group"
+                                />
+                            </TileContent>
+                        </GenericTile>
+
+                        <GenericTile header="Full Time Jobs">
+                            <TileContent>
+                                <NumericContent
+                                    value="{dashboard>/FullTimeJobs}"
+                                    icon="sap-icon://briefcase"
+                                />
+                            </TileContent>
+                        </GenericTile>
+
+                        <GenericTile header="Jobs Created This Month">
+                            <TileContent>
+                                <NumericContent
+                                    value="{dashboard>/JobsCreatedThisMonth}"
+                                    icon="sap-icon://calendar"
+                                />
+                            </TileContent>
+                        </GenericTile>
+
+                        <GenericTile header="Expiring Jobs">
+                            <TileContent>
+                                <NumericContent
+                                    value="{dashboard>/ExpiringJobs}"
+                                    icon="sap-icon://alert"
+                                />
+                            </TileContent>
+                        </GenericTile>
+                    </l:Grid>
+                </Panel>
+                <Panel
+                    headerText="Job Type Distribution"
+                    class="sapUiMediumMarginTop"
+                >
+                    <HBox
+                        justifyContent="SpaceAround"
+                        alignItems="Center"
+                    >
+                        <ObjectNumber
+                            number="{dashboard>/FullTimeJobs}"
+                            unit="Full Time"
+                        />
+
+                        <ObjectNumber
+                            number="{dashboard>/ContractJobs}"
+                            unit="Contract"
+                        />
+
+                        <ObjectNumber
+                            number="{dashboard>/InternshipJobs}"
+                            unit="Internship"
+                        />
+                    </HBox>
+                </Panel>
+
+                <Panel
+                    headerText="Recruitment Activity Timeline"
+                    class="sapUiMediumMarginTop"
+                >
+                    <List items="{dashboard>/RecentActivities}">
+                        <CustomListItem>
+                            <HBox
+                                alignItems="Center"
+                                width="100%"
+                            >
+                                <Avatar
+                                    displayShape="Circle"
+                                    backgroundColor="Accent6"
+                                    src="{path:'dashboard>Type',formatter:'.formatter.getActivityIcon'}"
+                                />
+
+                                <VBox class="sapUiSmallMarginBegin">
+                                    <Title
+                                        level="H5"
+                                        text="{dashboard>Title}"
+                                    />
+
+                                    <Text text="{dashboard>Description}" />
+                                </VBox>
+
+                                <ToolbarSpacer />
+
+                                <ObjectStatus
+                                    text="{path:'dashboard>Time',formatter:'.formatter.formatDate'}"
+                                    state="{path:'dashboard>Type',formatter:'.formatter.getActivityState'}"
+                                />
+                            </HBox>
+                        </CustomListItem>
+                    </List>
+                </Panel>
+                <Panel
+                    headerText="Upcoming Deadlines"
+                    class="sapUiMediumMarginTop"
+                  >
+                    <List
+                        items="{dashboard>/UpcomingDeadlines}"
+                        noDataText="No upcoming deadlines"
+                    >
+                        <CustomListItem>
+                            <HBox
+                                justifyContent="SpaceBetween"
+                                alignItems="Center"
+                                width="100%"
+                            >
+                                <VBox>
+                                    <Title
+                                        level="H5"
+                                        text="{dashboard>JobTitle}"
+                                    />
+
+                                    <Text text="{dashboard>Department}" />
+                                </VBox>
+
+                                <VBox alignItems="End">
+                                    <ObjectStatus
+                                        text="{dashboard>DaysLeft} Days Left"
+                                        state="Warning"
+                                    />
+
+                                    <Text
+                                        text="{path:'dashboard>LastDate', formatter:'.formatter.formatDate'}"
+                                    />
+                                </VBox>
+                            </HBox>
+                        </CustomListItem>
+                    </List>
+                </Panel>
+
+                <Panel
+                    headerText="Recruitment Analytics"
+                    class="sapUiMediumMarginTop"
+                >
+                    <l:Grid
+                        defaultSpan="XL6 L6 M12 S12"
+                        hSpacing="1"
+                        vSpacing="1"
+                    >
+                        <!-- Pie Chart -->
+
+                        <VBox>
+                            <Title
+                                text="Open vs Closed Jobs"
+                                level="H4"
+                            />
+
+                            <Panel
+                                headerText="Job Status Overview"
+                                expandable="true"
+                                expanded="true"
+                                class="sapUiMediumMarginTop"
+                            >
+                                <FlexBox
+                                    justifyContent="Center"
+                                    alignItems="Center"
+                                    renderType="Div"
+                                    width="100%"
+                                    class="sapUiSmallMargin"
+                                >
+                                    <viz:VizFrame
+                                        id="jobStatusChart"
+                                        vizType="pie"
+                                        width="320px"
+                                        height="260px"
+                                        uiConfig="{applicationSet:'fiori'}"
+                                        selectData="onStatusChartSelect"
+                                    >
+                                        <viz:dataset>
+                                            <viz.data:FlattenedDataset
+                                                data="{chart>/JobStatus}"
+                                            >
+                                                <viz.data:dimensions>
+                                                    <viz.data:DimensionDefinition
+                                                        name="Status"
+                                                        value="{chart>Status}"
+                                                    />
+                                                </viz.data:dimensions>
+
+                                                <viz.data:measures>
+                                                    <viz.data:MeasureDefinition
+                                                        name="Jobs"
+                                                        value="{chart>Count}"
+                                                    />
+                                                </viz.data:measures>
+                                            </viz.data:FlattenedDataset>
+                                        </viz:dataset>
+
+                                        <viz:feeds>
+                                            <viz.feeds:FeedItem
+                                                uid="size"
+                                                type="Measure"
+                                                values="Jobs"
+                                            />
+
+                                            <viz.feeds:FeedItem
+                                                uid="color"
+                                                type="Dimension"
+                                                values="Status"
+                                            />
+                                        </viz:feeds>
+                                    </viz:VizFrame>
+                                </FlexBox>
+                            </Panel>
+                        </VBox>
+
+                        <!-- Department Chart -->
+
+                        <VBox>
+                            <Title
+                                text="Jobs by Department"
+                                level="H4"
+                            />
+
+                            <viz:VizFrame
+                                id="departmentChart"
+                                vizType="column"
+                                width="100%"
+                                height="350px"
+                                uiConfig="{applicationSet:'fiori'}"
+                                selectData="onDepartmentChartSelect"
+                            >
+                                <viz:dataset>
+                                    <viz.data:FlattenedDataset
+                                        data="{chart>/DepartmentJobs}"
+                                    >
+                                        <viz.data:dimensions>
+                                            <viz.data:DimensionDefinition
+                                                name="Department"
+                                                value="{chart>Department}"
+                                            />
+                                        </viz.data:dimensions>
+
+                                        <viz.data:measures>
+                                            <viz.data:MeasureDefinition
+                                                name="Jobs"
+                                                value="{chart>Count}"
+                                            />
+                                        </viz.data:measures>
+                                    </viz.data:FlattenedDataset>
+                                </viz:dataset>
+
+                                <viz:feeds>
+                                    <viz.feeds:FeedItem
+                                        uid="valueAxis"
+                                        type="Measure"
+                                        values="Jobs"
+                                    />
+
+                                    <viz.feeds:FeedItem
+                                        uid="categoryAxis"
+                                        type="Dimension"
+                                        values="Department"
+                                    />
+                                </viz:feeds>
+                            </viz:VizFrame>
+                        </VBox>
+                    </l:Grid>
+                </Panel>
+
+                <!-- ===================================================== -->
+                <!-- Recent Job Openings -->
+                <!-- ===================================================== -->
+                <Button
+                    text="Show All Jobs"
+                    icon="sap-icon://clear-filter"
+                    type="Transparent"
+                    press="onShowAllJobs"
+                />
+                <Panel
+                    headerText="Recent Job Openings"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiMediumMarginTop"
+                >
+                    <Table
+                        id="recentJobsTable"
+                        items="{dashboard>/RecentJobs}"
+                    >
+                        <columns>
+                            <Column>
+                                <Text text="Job ID" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Job Title" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Department" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Location" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Status" />
+                            </Column>
+                        </columns>
+
+                        <items>
+                            <ColumnListItem
+                                type="Navigation"
+                                press="onViewJob"
+                            >
+                                <cells>
+                                    <Text text="{dashboard>JobId}" />
+
+                                    <Text text="{dashboard>JobTitle}" />
+
+                                    <Text text="{dashboard>Department}" />
+
+                                    <Text text="{dashboard>Location}" />
+
+                                    <ObjectStatus
+                                        text="{dashboard>Status}"
+                                        state="{= ${dashboard>Status} === 'OPEN' ? 'Success' : 'Error'}"
+                                    />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel>
+
+                <!-- ===================================================== -->
+                <!-- Recent Candidates -->
+                <!-- ===================================================== -->
+
+                <Panel
+                    headerText="Recent Candidates"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiMediumMarginTop"
+                 >
+                    <Table
+                        id="candidateTable"
+                        items="{dashboard>/RecentCandidates}"
+                    >
+                        <columns>
+                            <Column>
+                                <Text text="Candidate" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Applied Job" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Status" />
+                            </Column>
+                        </columns>
+
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="{dashboard>CandidateName}" />
+
+                                    <Text text="{dashboard>JobTitle}" />
+
+                                    <ObjectStatus text="{dashboard>Status}" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel>
+
+                <Panel
+                    headerText="Today's Interviews"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiMediumMarginTop"
+                >
+                    <Table
+                        id="interviewTable"
+                        items="{dashboard>/TodayInterviewList}"
+                    >
+                        <columns>
+                            <Column>
+                                <Text text="Candidate" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Time" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Interviewer" />
+                            </Column>
+
+                            <Column>
+                                <Text text="Status" />
+                            </Column>
+                        </columns>
+
+                        <items>
+                            <ColumnListItem>
+                                <cells>
+                                    <Text text="{dashboard>CandidateName}" />
+
+                                    <Text text="{dashboard>InterviewTime}" />
+
+                                    <Text text="{dashboard>Interviewer}" />
+
+                                    <ObjectStatus text="{dashboard>Status}" />
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </Panel>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

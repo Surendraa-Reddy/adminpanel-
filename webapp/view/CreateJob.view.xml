@@ -1,0 +1,198 @@
+<mvc:View
+    controllerName="employee.controller.recruitment.CreateJob"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+>
+    <Page
+        title="Create Job Opening"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <headerContent>
+            <Button
+                text="Reset"
+                icon="sap-icon://reset"
+                type="Transparent"
+                press="onReset"
+            />
+        </headerContent>
+
+        <content>
+            <VBox class="sapUiResponsiveContentPadding">
+                <!-- Page Header -->
+
+                <ObjectHeader
+                    title="New Job Opening"
+                    intro="Recruitment Management"
+                    icon="sap-icon://employee-approvals"
+                >
+                    <statuses>
+                        <ObjectStatus
+                            text="Draft"
+                            state="Information"
+                        />
+                    </statuses>
+                </ObjectHeader>
+
+                <!-- Basic Information -->
+
+                <Panel
+                    expandable="false"
+                    class="sapUiMediumMarginTop"
+                >
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title
+                                text="Basic Information"
+                                level="H3"
+                            />
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <content>
+                        <f:SimpleForm
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                            labelSpanXL="3"
+                            labelSpanL="3"
+                            labelSpanM="3"
+                            emptySpanXL="1"
+                            emptySpanL="1"
+                            emptySpanM="1"
+                        >
+                            <Label text="Job Title" />
+                            <Input
+                                id="jobTitle"
+                                required="true"
+                                placeholder="SAP ABAP Developer"
+                            />
+
+                            <Label text="Department" />
+
+                            <Input
+                                id="department"
+                                placeholder="e.g. IT, HR, Finance"
+                                showSuggestion="false"
+                                required="true"
+                            />
+
+                            <Label text="Location" />
+                            <Input
+                                id="location"
+                                placeholder="Hyderabad"
+                            />
+
+                            <Label text="Experience" />
+                            <Input
+                                id="experience"
+                                placeholder="2 Years"
+                            />
+                            <Label text="Vacancies" />
+
+                            <Input
+                                id="vacancies"
+                                type="Number"
+                                placeholder="Enter Vacancies"
+                                value="1"
+                                required="true"
+                            />
+
+                            <Label text="Job Type" />
+                            <Select id="jobType">
+                                <core:Item
+                                    key="Full Time"
+                                    text="Full Time"
+                                />
+                                <core:Item
+                                    key="Part Time"
+                                    text="Part Time"
+                                />
+                                <core:Item
+                                    key="Contract"
+                                    text="Contract"
+                                />
+                                <core:Item
+                                    key="Internship"
+                                    text="Internship"
+                                />
+                            </Select>
+
+                            <Label text="Status" />
+                            <Select
+                                id="status"
+                                selectedKey="OPEN"
+                            >
+                                <core:Item
+                                    key="OPEN"
+                                    text="Open"
+                                />
+                                <core:Item
+                                    key="CLOSED"
+                                    text="Closed"
+                                />
+                            </Select>
+                           <Label text="Last Date" />
+                            <DatePicker
+                                id="lastDate"
+                                displayFormat="dd-MM-yyyy"
+                                valueFormat="yyyy-MM-dd"
+                                placeholder="Select Date"
+                            />
+                        </f:SimpleForm>
+                    </content>
+                </Panel>
+
+                <!-- Description -->
+
+                <Panel
+                    expandable="false"
+                    class="sapUiMediumMarginTop"
+                >
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title
+                                text="Job Description"
+                                level="H3"
+                            />
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <content>
+                        <TextArea
+                            id="description"
+                            width="100%"
+                            rows="8"
+                            growing="true"
+                            growingMaxLines="12"
+                            placeholder="Enter detailed job description, required skills, responsibilities, qualifications, and other hiring information."
+                        />
+                    </content>
+                </Panel>
+            </VBox>
+        </content>
+
+        <footer>
+            <OverflowToolbar>
+                <ToolbarSpacer />
+
+                <Button
+                    text="Cancel"
+                    icon="sap-icon://decline"
+                    press="onCancel"
+                />
+
+                <Button
+                    text="Save Job"
+                    type="Emphasized"
+                    icon="sap-icon://save"
+                    press="onSave"
+                />
+            </OverflowToolbar>
+        </footer>
+    </Page>
+</mvc:View>

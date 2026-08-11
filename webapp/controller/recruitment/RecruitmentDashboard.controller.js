@@ -115,6 +115,21 @@ sap.ui.define([
                 }
 
             });
+            oModel.read("/InterviewSet", {
+
+                success: function (oData) {
+
+                    that._processTodayInterviews(oData.results);
+
+                },
+
+                error: function () {
+
+                    MessageToast.show("Unable to load Interviews.");
+
+                }
+
+            });
 
         },
 
@@ -361,6 +376,96 @@ sap.ui.define([
             oDashboard.setProperty(
                 "/RecentCandidates",
                 aCandidates.slice(0, 5)
+            );
+
+        },
+        _processTodayInterviews: function (aInterviews) {
+
+            var oDashboard = this.getView().getModel("dashboard");
+
+            var oToday = new Date();
+
+            var sToday =
+                oToday.getFullYear() +
+                "-" +
+                String(oToday.getMonth() + 1).padStart(2, "0") +
+                "-" +
+                String(oToday.getDate()).padStart(2, "0");
+
+            var aTodayInterviews = [];
+
+            aInterviews.forEach(function (oInterview) {
+
+                if (!oInterview.InterviewDate) {
+                    return;
+                }
+
+                var oDate = new Date(oInterview.InterviewDate);
+
+                var sInterviewDate =
+                    oDate.getFullYear() +
+                    "-" +
+                    String(oDate.getMonth() + 1).padStart(2, "0") +
+                    "-" +
+                    String(oDate.getDate()).padStart(2, "0");
+
+                if (sInterviewDate === sToday) {
+
+                    // Convert OData Time to HH:mm
+                    var sTime = "";
+
+                    if (oInterview.InterviewTime) {
+
+                        if (oInterview.InterviewTime.ms !== undefined) {
+
+                            var d = new Date(oInterview.InterviewTime.ms);
+
+                            sTime =
+                                String(d.getUTCHours()).padStart(2, "0") +
+                                ":" +
+                                String(d.getUTCMinutes()).padStart(2, "0");
+
+                        } else if (typeof oInterview.InterviewTime === "string") {
+
+                            var m = oInterview.InterviewTime.match(/(\d+)H(\d+)M/);
+
+                            if (m) {
+
+                                sTime =
+                                    String(m[1]).padStart(2, "0") +
+                                    ":" +
+                                    String(m[2]).padStart(2, "0");
+
+                            }
+
+                        }
+
+                    }
+
+                    aTodayInterviews.push({
+
+                        CandidateName: oInterview.CandidateName,
+
+                        InterviewTime: sTime,
+
+                        Interviewer: oInterview.Interviewer,
+
+                        Status: oInterview.Status
+
+                    });
+
+                }
+
+            });
+
+            oDashboard.setProperty(
+                "/TodayInterviewList",
+                aTodayInterviews
+            );
+
+            oDashboard.setProperty(
+                "/TodayInterviews",
+                aTodayInterviews.length
             );
 
         },
@@ -697,7 +802,7 @@ sap.ui.define([
 
         onInterviewSchedule: function () {
 
-           this.getOwnerComponent().getRouter().navTo("InterviewSchedule")
+            this.getOwnerComponent().getRouter().navTo("InterviewSchedule")
 
         },
 

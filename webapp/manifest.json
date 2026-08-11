@@ -260,6 +260,21 @@
           "pattern": "InterviewSchedule",
           "name": "InterviewSchedule",
           "target": "InterviewSchedule"
+        },
+        {
+          "pattern": "InterviewFeedback",
+          "name": "InterviewFeedback",
+          "target": "InterviewFeedback"
+        },
+        {
+          "pattern": "offer-letter",
+          "name": "OfferLetter",
+          "target": "OfferLetter"
+        },
+        {
+          "pattern": "joining-confirmation",
+          "name": "JoiningConfirmation",
+          "target": "JoiningConfirmation"
         }
       ],
       "targets": {
@@ -401,6 +416,19 @@
         },
         "InterviewSchedule": {
           "viewName": "InterviewSchedule",
+          "viewType": "XML",
+          "viewLevel": 3
+        },
+        "InterviewFeedback": {
+          "viewName": "InterviewFeedback",
+          "viewType": "XML"
+        },
+        "OfferLetter": {
+          "viewName": "OfferLetter",
+          "viewLevel": 3
+        },
+        "JoiningConfirmation": {
+          "viewName": "JoiningConfirmation",
           "viewType": "XML",
           "viewLevel": 3
         }

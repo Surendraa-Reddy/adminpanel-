@@ -1,0 +1,275 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+>
+   
+    <Dialog
+        id="displayJoiningDialog"
+        title="Joining Confirmation Details"
+        contentWidth="700px"
+        contentHeight="auto"
+        draggable="true"
+        resizable="true"
+        stretchOnPhone="true"
+    >
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <!-- ================================================= -->
+                <!-- HEADER -->
+                <!-- ================================================= -->
+
+                <HBox
+                    alignItems="Center"
+                    justifyContent="SpaceBetween"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <VBox>
+                        <Title
+                            text="{displayJoining>/JoiningId}"
+                            level="H2"
+                        />
+
+                        <Text
+                            text="Joining Confirmation"
+                            class="sapUiTinyMarginTop"
+                        />
+                    </VBox>
+
+                    <ObjectStatus
+                        text="{displayJoining>/JoiningStatus}"
+                        state="{
+                        path: 'displayJoining>/JoiningStatus',
+                        formatter: '.formatStatusState'
+                    }"
+                        class="sapUiSmallMarginBegin"
+                    />
+                </HBox>
+
+                <!-- ================================================= -->
+                <!-- CANDIDATE INFORMATION -->
+                <!-- ================================================= -->
+
+                <Panel
+                    headerText="Candidate Information"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <content>
+                        <f:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            labelSpanXL="4"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            labelSpanS="12"
+                            adjustLabelSpan="false"
+                            emptySpanXL="2"
+                            emptySpanL="2"
+                            emptySpanM="2"
+                            emptySpanS="0"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                        >
+                            <Label text="Candidate ID" />
+
+                            <Text text="{displayJoining>/CandidateId}" />
+
+                            <Label text="Candidate Name" />
+
+                            <Text text="{displayJoining>/CandidateName}" />
+                        </f:SimpleForm>
+                    </content>
+                </Panel>
+
+                <!-- ================================================= -->
+                <!-- JOB INFORMATION -->
+                <!-- ================================================= -->
+
+                <Panel
+                    headerText="Job Information"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <content>
+                        <f:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            labelSpanXL="4"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            labelSpanS="12"
+                            adjustLabelSpan="false"
+                            emptySpanXL="2"
+                            emptySpanL="2"
+                            emptySpanM="2"
+                            emptySpanS="0"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                        >
+                            <Label text="Job ID" />
+
+                            <Text text="{displayJoining>/JobId}" />
+
+                            <Label text="Job Title" />
+
+                            <Text
+                                text="{displayJoining>/JobTitle}"
+                                wrapping="true"
+                            />
+
+                            <Label text="Offer ID" />
+
+                            <Text text="{displayJoining>/OfferId}" />
+                        </f:SimpleForm>
+                    </content>
+                </Panel>
+
+                <!-- ================================================= -->
+                <!-- JOINING INFORMATION -->
+                <!-- ================================================= -->
+
+                <Panel
+                    headerText="Joining Information"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <content>
+                        <f:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            labelSpanXL="4"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            labelSpanS="12"
+                            adjustLabelSpan="false"
+                            emptySpanXL="2"
+                            emptySpanL="2"
+                            emptySpanM="2"
+                            emptySpanS="0"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                        >
+                            <Label text="Joining ID" />
+
+                            <Text text="{displayJoining>/JoiningId}" />
+
+                            <Label text="Joining Date" />
+
+                            <Text
+                                text="{
+                                path: 'displayJoining>/JoiningDate',
+                                formatter: '.formatDate'
+                            }"
+                            />
+
+                            <Label text="Status" />
+
+                            <ObjectStatus
+                                text="{displayJoining>/JoiningStatus}"
+                                state="{
+                                path: 'displayJoining>/JoiningStatus',
+                                formatter: '.formatStatusState'
+                            }"
+                            />
+                        </f:SimpleForm>
+                    </content>
+                </Panel>
+
+                <!-- ================================================= -->
+                <!-- COMMENTS -->
+                <!-- ================================================= -->
+
+                <Panel
+                    headerText="Comments / Remarks"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <content>
+                        <Text
+                            text="{displayJoining>/Comments}"
+                            wrapping="true"
+                            class="sapUiSmallMargin"
+                        />
+                    </content>
+                </Panel>
+
+                <!-- ================================================= -->
+                <!-- STATUS MESSAGE -->
+                <!-- ================================================= -->
+
+                <HBox
+                    visible="{= ${displayJoining>/JoiningStatus} === 'CONFIRMED' }"
+                    alignItems="Center"
+                    class="sapUiSmallMarginTop sapUiSmallMarginBottom"
+                >
+                    <core:Icon
+                        src="sap-icon://accept"
+                        size="1.2rem"
+                        class="sapUiTinyMarginEnd"
+                    />
+
+                    <Text
+                        text="The candidate has confirmed the joining."
+                        wrapping="true"
+                    />
+                </HBox>
+
+                <HBox
+                    visible="{= ${displayJoining>/JoiningStatus} === 'PENDING' }"
+                    alignItems="Center"
+                    class="sapUiSmallMarginTop sapUiSmallMarginBottom"
+                >
+                    <core:Icon
+                        src="sap-icon://pending"
+                        size="1.2rem"
+                        class="sapUiTinyMarginEnd"
+                    />
+
+                    <Text
+                        text="The joining confirmation is currently pending."
+                        wrapping="true"
+                    />
+                </HBox>
+
+                <HBox
+                    visible="{= ${displayJoining>/JoiningStatus} === 'CANCELLED' }"
+                    alignItems="Center"
+                    class="sapUiSmallMarginTop sapUiSmallMarginBottom"
+                >
+                    <core:Icon
+                        src="sap-icon://decline"
+                        size="1.2rem"
+                        class="sapUiTinyMarginEnd"
+                    />
+
+                    <Text
+                        text="This joining confirmation has been cancelled."
+                        wrapping="true"
+                    />
+                </HBox>
+            </VBox>
+        </content>
+
+        <!-- ========================================================= -->
+        <!-- FOOTER -->
+        <!-- ========================================================= -->
+
+        <beginButton>
+            <Button
+                text="Close"
+                icon="sap-icon://decline"
+                type="Emphasized"
+                press=".onCloseDisplayJoining"
+            />
+        </beginButton>
+    </Dialog>
+ 
+</core:FragmentDefinition>

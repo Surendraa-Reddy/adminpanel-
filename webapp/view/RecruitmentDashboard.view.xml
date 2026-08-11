@@ -103,7 +103,7 @@
                 <Panel
                     headerText="Quick Actions"
                     class="sapUiMediumMarginTop"
-                 >
+                >
                     <OverflowToolbar>
                         <Button
                             text="Create Job"
@@ -135,7 +135,7 @@
                 <Panel
                     headerText="Dashboard Filters"
                     class="sapUiMediumMarginTop"
-                 >
+                >
                     <OverflowToolbar>
                         <SearchField
                             id="dashboardSearch"
@@ -172,7 +172,7 @@
                                 key="Functional"
                                 text="Functional"
                             />
-                           <core:Item
+                            <core:Item
                                 key="Finance"
                                 text="Finance"
                             />
@@ -331,7 +331,7 @@
                 <Panel
                     headerText="Upcoming Deadlines"
                     class="sapUiMediumMarginTop"
-                  >
+                >
                     <List
                         items="{dashboard>/UpcomingDeadlines}"
                         noDataText="No upcoming deadlines"
@@ -570,7 +570,7 @@
                     expandable="true"
                     expanded="true"
                     class="sapUiMediumMarginTop"
-                 >
+                >
                     <Table
                         id="candidateTable"
                         items="{dashboard>/RecentCandidates}"
@@ -640,7 +640,15 @@
 
                                     <Text text="{dashboard>Interviewer}" />
 
-                                    <ObjectStatus text="{dashboard>Status}" />
+                                    <ObjectStatus
+                                        text="{dashboard>Status}"
+                                        state="{
+                                                 = ${dashboard>Status} === 'SCHEDULED' ? 'Information' :
+                                                   ${dashboard>Status} === 'COMPLETED' ? 'Success' :
+                                                   ${dashboard>Status} === 'CANCELLED' ? 'Error' :
+                                                   'None'
+                                             }"
+                                    />                                         
                                 </cells>
                             </ColumnListItem>
                         </items>

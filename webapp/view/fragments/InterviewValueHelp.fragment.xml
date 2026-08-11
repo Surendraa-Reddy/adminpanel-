@@ -1,0 +1,20 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <SelectDialog
+        id="InterviewValueHelpDialog"
+        title="Select Interview"
+        search="onInterviewSearch"
+        confirm="onInterviewSelect"
+        cancel="onInterviewValueHelpClose"
+        items="{/InterviewSet}"
+    >
+        <StandardListItem
+            title="{InterviewId}"
+            description="{CandidateName}"
+            info="{JobTitle}"
+            icon="sap-icon://employee"
+        />
+    </SelectDialog>
+</core:FragmentDefinition>

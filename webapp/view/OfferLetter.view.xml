@@ -1,0 +1,528 @@
+<mvc:View
+    controllerName="employee.controller.recruitment.OfferLetter"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Page
+        id="offerLetterPage"
+        title="Offer Letters"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <!-- ===================================================== -->
+        <!-- HEADER -->
+        <!-- ===================================================== -->
+
+        <headerContent>
+            <Button
+                text="Joining Confirmation"
+                icon="sap-icon://employee"
+                type="Emphasized"
+                press=".onNavigateToJoiningConfirmation"
+            />
+            <Button
+                id="btnRefreshOffers"
+                icon="sap-icon://refresh"
+                tooltip="Refresh Offers"
+                type="Transparent"
+                press="onRefresh"
+            />
+
+            <Button
+                id="btnCreateOffer"
+                text="Create Offer"
+                icon="sap-icon://add"
+                type="Emphasized"
+                press="onCreateOffer"
+            />
+        </headerContent>
+
+        <!-- ===================================================== -->
+        <!-- PAGE CONTENT -->
+        <!-- ===================================================== -->
+
+        <content>
+            <VBox
+                width="100%"
+                class="sapUiResponsiveContentPadding"
+            >
+                <!-- ================================================= -->
+                <!-- PAGE INTRO -->
+                <!-- ================================================= -->
+
+                <VBox class="sapUiMediumMarginBottom">
+                    <Title
+                        text="Offer Letter Management"
+                        level="H2"
+                        class="sapUiTinyMarginBottom"
+                    />
+
+                    <Text
+                        text="Create, manage and generate offer letters for selected candidates."
+                        class="sapUiSmallMarginBottom"
+                    />
+                </VBox>
+
+                <!-- ================================================= -->
+                <!-- KPI CARDS -->
+                <!-- ================================================= -->
+
+                <HBox
+                    width="100%"
+                    wrap="Wrap"
+                    justifyContent="SpaceBetween"
+                    class="sapUiMediumMarginBottom"
+                >
+                    <!-- ============================================= -->
+                    <!-- TOTAL OFFERS -->
+                    <!-- ============================================= -->
+
+                    <VBox
+                        width="23%"
+                        class="offerKpiCard sapUiSmallMarginBottom"
+                    >
+                        <HBox alignItems="Center">
+                            <core:Icon
+                                src="sap-icon://document-text"
+                                size="2rem"
+                                class="sapUiSmallMarginEnd"
+                            />
+
+                            <VBox>
+                                <Text
+                                    text="Total Offers"
+                                    class="sapUiTinyMarginBottom"
+                                />
+
+                                <!-- IMPORTANT:
+                                     Bind to kpi model -->
+
+                                <Title
+                                    id="totalOfferKpi"
+                                    text="{kpi>/Total}"
+                                    level="H2"
+                                />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <!-- ============================================= -->
+                    <!-- OFFERED -->
+                    <!-- ============================================= -->
+
+                    <VBox
+                        width="23%"
+                        class="offerKpiCard sapUiSmallMarginBottom"
+                    >
+                        <HBox alignItems="Center">
+                            <core:Icon
+                                src="sap-icon://paper-plane"
+                                size="2rem"
+                                class="sapUiSmallMarginEnd"
+                            />
+
+                            <VBox>
+                                <Text
+                                    text="Offered"
+                                    class="sapUiTinyMarginBottom"
+                                />
+
+                                <Title
+                                    id="offeredKpi"
+                                    text="{kpi>/Offered}"
+                                    level="H2"
+                                />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <!-- ============================================= -->
+                    <!-- ACCEPTED -->
+                    <!-- ============================================= -->
+
+                    <VBox
+                        width="23%"
+                        class="offerKpiCard sapUiSmallMarginBottom"
+                    >
+                        <HBox alignItems="Center">
+                            <core:Icon
+                                src="sap-icon://accept"
+                                size="2rem"
+                                class="sapUiSmallMarginEnd"
+                            />
+
+                            <VBox>
+                                <Text
+                                    text="Accepted"
+                                    class="sapUiTinyMarginBottom"
+                                />
+
+                                <Title
+                                    id="acceptedKpi"
+                                    text="{kpi>/Accepted}"
+                                    level="H2"
+                                />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+
+                    <!-- ============================================= -->
+                    <!-- REJECTED -->
+                    <!-- ============================================= -->
+
+                    <VBox
+                        width="23%"
+                        class="offerKpiCard sapUiSmallMarginBottom"
+                    >
+                        <HBox alignItems="Center">
+                            <core:Icon
+                                src="sap-icon://decline"
+                                size="2rem"
+                                class="sapUiSmallMarginEnd"
+                            />
+
+                            <VBox>
+                                <Text
+                                    text="Rejected"
+                                    class="sapUiTinyMarginBottom"
+                                />
+
+                                <Title
+                                    id="rejectedKpi"
+                                    text="{kpi>/Rejected}"
+                                    level="H2"
+                                />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </HBox>
+
+                <!-- ================================================= -->
+                <!-- SEARCH & FILTER -->
+                <!-- ================================================= -->
+
+                <Panel
+                    id="offerSearchPanel"
+                    expandable="false"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <core:Icon
+                                src="sap-icon://filter"
+                                size="1.2rem"
+                                class="sapUiTinyMarginEnd"
+                            />
+
+                            <Title
+                                text="Search &amp; Filter"
+                                level="H4"
+                            />
+
+                            <ToolbarSpacer />
+
+                            <ObjectStatus
+                                id="offerCountText"
+                                text="0 Offers"
+                                state="Information"
+                            />
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <content>
+                        <OverflowToolbar>
+                            <!-- SEARCH -->
+
+                            <SearchField
+                                id="offerSearchField"
+                                width="360px"
+                                placeholder="Search Offer ID, Candidate or Job Title"
+                                liveChange="onSearch"
+                                search="onSearch"
+                            />
+
+                            <ToolbarSeparator />
+
+                            <!-- STATUS -->
+
+                            <Label
+                                text="Status"
+                                labelFor="offerStatusFilter"
+                                class="sapUiTinyMarginBegin"
+                            />
+
+                            <Select
+                                id="offerStatusFilter"
+                                width="180px"
+                                selectedKey=""
+                                change="onStatusFilter"
+                            >
+                                <core:Item
+                                    key=""
+                                    text="All Statuses"
+                                />
+
+                                <core:Item
+                                    key="DRAFT"
+                                    text="Draft"
+                                />
+
+                                <core:Item
+                                    key="OFFERED"
+                                    text="Offered"
+                                />
+
+                                <core:Item
+                                    key="ACCEPTED"
+                                    text="Accepted"
+                                />
+
+                                <core:Item
+                                    key="REJECTED"
+                                    text="Rejected"
+                                />
+
+                                <core:Item
+                                    key="WITHDRAWN"
+                                    text="Withdrawn"
+                                />
+                            </Select>
+
+                            <ToolbarSpacer />
+
+                            <!-- REFRESH -->
+
+                            <Button
+                                icon="sap-icon://refresh"
+                                text="Refresh"
+                                type="Transparent"
+                                press="onRefresh"
+                            />
+                        </OverflowToolbar>
+                    </content>
+                </Panel>
+
+                <!-- ================================================= -->
+                <!-- OFFER TABLE -->
+                <!-- ================================================= -->
+
+                <Panel
+                    id="offerTablePanel"
+                    expandable="false"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <core:Icon
+                                src="sap-icon://document-text"
+                                size="1.2rem"
+                                class="sapUiTinyMarginEnd"
+                            />
+
+                            <Title
+                                text="Offer Letters"
+                                level="H3"
+                            />
+
+                            <ToolbarSpacer />
+
+                            <ObjectStatus
+                                id="offerTableStatus"
+                                text="0 Offers"
+                                state="Information"
+                            />
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <content>
+                        <Table
+                            id="offerTable"
+                            width="100%"
+                            items="{offer>/Offers}"
+                            growing="true"
+                            growingThreshold="10"
+                            growingScrollToLoad="true"
+                            sticky="ColumnHeaders"
+                            inset="false"
+                            mode="None"
+                            noDataText="No offer letters found"
+                            busyIndicatorDelay="0"
+                        >
+                            <columns>
+                                <Column
+                                    width="9rem"
+                                    demandPopin="true"
+                                    minScreenWidth="Tablet"
+                                >
+                                    <Text text="Offer ID" />
+                                </Column>
+
+                                <Column
+                                    width="14rem"
+                                    demandPopin="true"
+                                    minScreenWidth="Tablet"
+                                >
+                                    <Text text="Candidate" />
+                                </Column>
+
+                                <Column
+                                    width="16rem"
+                                    demandPopin="true"
+                                    minScreenWidth="Tablet"
+                                >
+                                    <Text text="Job Title" />
+                                </Column>
+
+                                <Column
+                                    width="10rem"
+                                    demandPopin="true"
+                                    minScreenWidth="Desktop"
+                                >
+                                    <Text text="Offer Date" />
+                                </Column>
+
+                                <Column
+                                    width="11rem"
+                                    demandPopin="true"
+                                    minScreenWidth="Desktop"
+                                >
+                                    <Text text="Joining Date" />
+                                </Column>
+
+                                <Column
+                                    width="10rem"
+                                    hAlign="End"
+                                    demandPopin="true"
+                                    minScreenWidth="Desktop"
+                                    class="SapUiLargeMargin"
+                                >
+                                    <Text text="Salary" />
+                                </Column>
+
+                                <Column
+                                    width="10rem"
+                                    demandPopin="true"
+                                    minScreenWidth="Tablet"
+                                >
+                                    <Text text="Status" />
+                                </Column>
+
+                                <Column
+                                    width="12rem"
+                                    hAlign="Center"
+                                >
+                                    <Text text="Actions" />
+                                </Column>
+                            </columns>
+
+                            <items>
+                                <ColumnListItem
+                                    type="Inactive"
+                                    vAlign="Middle"
+                                >
+                                    <cells>
+                                        <ObjectIdentifier
+                                            title="{offer>OfferId}"
+                                            text="Offer Letter"
+                                        />
+
+                                        <ObjectIdentifier
+                                            title="{offer>CandidateName}"
+                                            text="{offer>CandidateId}"
+                                        />
+
+                                        <Text
+                                            text="{offer>JobTitle}"
+                                            wrapping="true"
+                                        />
+
+                                        <!-- ===================================== -->
+                                        <!-- OFFER DATE -->
+                                        <!-- ===================================== -->
+
+                                        <Text
+                                            text="{
+                                                path: 'offer>OfferDate',
+                                                formatter: '.formatter.formatDate'
+                                            }"
+                                        />
+
+                                        <Text
+                                            text="{
+                                                path: 'offer>JoiningDate',
+                                                formatter: '.formatter.formatDate'
+                                            }"
+                                        />
+
+                                        <ObjectNumber
+                                            number="{offer>Salary}"
+                                            unit="INR"
+                                        />
+
+                                        <ObjectStatus
+                                            text="{offer>Status}"
+                                            state="{
+                                                path: 'offer>Status',
+                                                formatter: '.formatter.offerStatusState'
+                                            }"
+                                        />
+
+                                        <!-- ===================================== -->
+                                        <!-- ACTIONS -->
+                                        <!-- ===================================== -->
+
+                                        <HBox
+                                            justifyContent="Center"
+                                            alignItems="Center"
+                                            renderType="Bare"
+                                        >
+                                            <!-- VIEW -->
+
+                                            <Button
+                                                icon="sap-icon://display"
+                                                tooltip="View Offer"
+                                                type="Transparent"
+                                                press="onViewOffer"
+                                                class="sapUiTinyMarginEnd"
+                                            />
+
+                                            <!-- EDIT -->
+
+                                            <Button
+                                                icon="sap-icon://edit"
+                                                tooltip="Edit Offer"
+                                                type="Transparent"
+                                                press="onEditOffer"
+                                                class="sapUiTinyMarginEnd"
+                                            />
+
+                                            <!-- DELETE -->
+
+                                            <Button
+                                                icon="sap-icon://delete"
+                                                tooltip="Delete Offer"
+                                                type="Transparent"
+                                                press="onDeleteOffer"
+                                                class="sapUiTinyMarginEnd"
+                                            />
+
+                                            <!-- PDF -->
+
+                                            <Button
+                                                icon="sap-icon://pdf-attachment"
+                                                tooltip="Generate Offer Letter PDF"
+                                                type="Transparent"
+                                                press="onGenerateOfferPDF"
+                                            />
+                                        </HBox>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </content>
+                </Panel>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

@@ -1,0 +1,187 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+>
+    <Dialog
+        id="editJoiningDialog"
+        title="Edit Joining Confirmation"
+        contentWidth="600px"
+        contentHeight="auto"
+        stretchOnPhone="true"
+        draggable="true"
+        resizable="true"
+    >
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <!-- Joining ID -->
+                <Label
+                    text="Joining ID"
+                    required="true"
+                    class="sapUiTinyMarginBottom"
+                />
+
+                <Input
+                    value="{editJoining>/JoiningId}"
+                    editable="false"
+                    width="100%"
+                    class="sapUiSmallMarginBottom"
+                />
+
+                <!-- Offer ID -->
+                <Label
+                    text="Offer ID"
+                    required="true"
+                    class="sapUiTinyMarginBottom"
+                />
+
+                <Input
+                    value="{editJoining>/OfferId}"
+                    editable="false"
+                    width="100%"
+                    class="sapUiSmallMarginBottom"
+                />
+
+                <!-- Candidate ID -->
+                <Label
+                    text="Candidate ID"
+                    required="true"
+                    class="sapUiTinyMarginBottom"
+                />
+
+                <Input
+                    value="{editJoining>/CandidateId}"
+                    editable="false"
+                    width="100%"
+                    class="sapUiSmallMarginBottom"
+                />
+
+                <!-- Candidate Name -->
+                <Label
+                    text="Candidate Name"
+                    class="sapUiTinyMarginBottom"
+                />
+
+                <Input
+                    value="{editJoining>/CandidateName}"
+                    editable="false"
+                    width="100%"
+                    class="sapUiSmallMarginBottom"
+                />
+
+                <!-- Job ID -->
+                <Label
+                    text="Job ID"
+                    class="sapUiTinyMarginBottom"
+                />
+
+                <Input
+                    value="{editJoining>/JobId}"
+                    editable="false"
+                    width="100%"
+                    class="sapUiSmallMarginBottom"
+                />
+
+                <!-- Job Title -->
+                <Label
+                    text="Job Title"
+                    class="sapUiTinyMarginBottom"
+                />
+
+                <Input
+                    value="{editJoining>/JobTitle}"
+                    editable="false"
+                    width="100%"
+                    class="sapUiSmallMarginBottom"
+                />
+
+                <!-- Joining Date -->
+                <Label
+                    text="Joining Date"
+                    required="true"
+                    class="sapUiTinyMarginBottom"
+                />
+
+                <DatePicker
+                    id="editJoiningDate"
+                    value="{
+                        path: 'editJoining>/JoiningDate',
+                        type: 'sap.ui.model.type.Date',
+                        formatOptions: {
+                            pattern: 'dd-MM-yyyy'
+                        }
+                    }"
+                    displayFormat="dd-MM-yyyy"
+                    valueFormat="yyyy-MM-dd"
+                    width="100%"
+                    class="sapUiSmallMarginBottom"
+                />
+
+                <!-- Joining Status -->
+                <Label
+                    text="Joining Status"
+                    required="true"
+                    class="sapUiTinyMarginBottom"
+                />
+
+                <Select
+                    id="editJoiningStatus"
+                    selectedKey="{editJoining>/JoiningStatus}"
+                    width="100%"
+                    change=".onEditJoiningStatusChange"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <items>
+                        <core:Item
+                            key="PENDING"
+                            text="Pending"
+                        />
+
+                        <core:Item
+                            key="CONFIRMED"
+                            text="Confirmed"
+                        />
+
+                        <core:Item
+                            key="CANCELLED"
+                            text="Cancelled"
+                        />
+                    </items>
+                </Select>
+
+                <!-- Comments -->
+                <Label
+                    text="Comments"
+                    id="editCommentsLabel"
+                    class="sapUiTinyMarginBottom"
+                />
+
+                <TextArea
+                    id="editJoiningComments"
+                    value="{editJoining>/Comments}"
+                    rows="4"
+                    maxLength="255"
+                    width="100%"
+                    placeholder="Enter comments or cancellation reason..."
+                    class="sapUiSmallMarginBottom"
+                />
+            </VBox>
+        </content>
+
+        <beginButton>
+            <Button
+                text="Save Changes"
+                type="Emphasized"
+                icon="sap-icon://save"
+                press=".onUpdateJoining"
+            />
+        </beginButton>
+
+        <endButton>
+            <Button
+                text="Cancel"
+                type="Transparent"
+                press=".onCloseEditJoining"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

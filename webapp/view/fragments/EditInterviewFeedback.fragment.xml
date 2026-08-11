@@ -1,0 +1,139 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+>
+    <Dialog
+        id="EditFeedbackDialog"
+        title="Edit Interview Feedback"
+        contentWidth="900px"
+        draggable="true"
+        resizable="true"
+    >
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <f:SimpleForm
+                    editable="true"
+                    layout="ResponsiveGridLayout"
+                    columnsL="2"
+                    columnsM="2"
+                >
+                    <Label text="Feedback ID" />
+                    <Input
+                        value="{edit>/FeedbackId}"
+                        editable="false"
+                    />
+
+                    <Label text="Interview ID" />
+                    <Input
+                        value="{edit>/InterviewId}"
+                        editable="false"
+                    />
+
+                    <Label text="Candidate ID" />
+                    <Input
+                        value="{edit>/CandidateId}"
+                        editable="false"
+                    />
+
+                    <Label text="Candidate Name" />
+                    <Input
+                        value="{edit>/CandidateName}"
+                        editable="false"
+                    />
+
+                    <Label text="Employee ID" />
+                    <Input
+                        value="{edit>/EmpId}"
+                        editable="false"
+                    />
+
+                    <Label text="Technical Rating" />
+                    <RatingIndicator
+                        value="{edit>/TechnicalRating}"
+                        maxValue="5"
+                        editable="true"
+                    />
+
+                    <Label text="Communication Rating" />
+                    <RatingIndicator
+                        value="{edit>/CommunicationRating}"
+                        maxValue="5"
+                        editable="true"
+                    />
+
+                    <Label text="Problem Solving Rating" />
+                    <RatingIndicator
+                        value="{edit>/ProblemSolvingRating}"
+                        maxValue="5"
+                        editable="true"
+                    />
+
+                    <Label text="Overall Rating" />
+                    <RatingIndicator
+                        value="{edit>/OverallRating}"
+                        maxValue="5"
+                        editable="true"
+                    />
+
+                    <Label text="Strengths" />
+                    <TextArea
+                        value="{edit>/Strengths}"
+                        rows="3"
+                    />
+
+                    <Label text="Weaknesses" />
+                    <TextArea
+                        value="{edit>/Weaknesses}"
+                        rows="3"
+                    />
+
+                    <Label text="Comments" />
+                    <TextArea
+                        value="{edit>/Comments}"
+                        rows="4"
+                    />
+
+                    <Label text="Recommendation" />
+                    <Select selectedKey="{edit>/Recommendation}">
+                        <items>
+                            <core:Item
+                                key="SELECTED"
+                                text="Selected"
+                            />
+                            <core:Item
+                                key="REJECTED"
+                                text="Rejected"
+                            />
+                            <core:Item
+                                key="HOLD"
+                                text="Hold"
+                            />
+                            <core:Item
+                                key="NEXT ROUND"
+                                text="Next Round"
+                            />
+                        </items>
+                    </Select>
+                </f:SimpleForm>
+            </VBox>
+        </content>
+
+        <beginButton>
+            <Button
+                text="Update"
+                type="Emphasized"
+                icon="sap-icon://save"
+                press="onUpdateFeedback"
+            />
+        </beginButton>
+
+        <endButton>
+            <Button
+                text="Cancel"
+                icon="sap-icon://decline"
+                press="onCloseEditFeedback"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

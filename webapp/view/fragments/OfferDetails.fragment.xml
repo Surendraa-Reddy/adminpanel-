@@ -1,0 +1,290 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+>
+    <Dialog
+        id="offerDetailsDialog"
+        title="Offer Letter Details"
+        contentWidth="900px"
+        contentHeight="750px"
+        draggable="true"
+        resizable="true"
+        stretchOnPhone="true"
+    >
+        <content>
+            <ScrollContainer
+                width="100%"
+                height="100%"
+                vertical="true"
+                horizontal="false"
+            >
+                <VBox class="sapUiMediumMargin">
+                    <!-- ================================================= -->
+                    <!-- HEADER -->
+                    <!-- ================================================= -->
+
+                    <HBox
+                        justifyContent="SpaceBetween"
+                        alignItems="Center"
+                        class="sapUiMediumMarginBottom"
+                    >
+                        <VBox>
+                            <Title
+                                text="{details>/CandidateName}"
+                                level="H2"
+                            />
+
+                            <Text
+                                text="{details>/JobTitle}"
+                                class="sapUiTinyMarginTop"
+                            />
+                        </VBox>
+
+                        <ObjectStatus
+                            text="{details>/Status}"
+                            state="{
+                                path: 'details>/Status',
+                                formatter: '.formatter.offerStatusState'
+                            }"
+                        />
+                    </HBox>
+
+                    <!-- ================================================= -->
+                    <!-- OFFER INFORMATION -->
+                    <!-- ================================================= -->
+
+                    <Panel
+                        headerText="Offer Information"
+                        expandable="false"
+                        class="sapUiResponsiveMargin"
+                    >
+                        <f:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            columnsL="2"
+                            columnsM="2"
+                            columnsXL="2"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            emptySpanL="0"
+                            emptySpanM="0"
+                            adjustLabelSpan="false"
+                        >
+                            <!-- Offer ID -->
+
+                            <Label text="Offer ID" />
+
+                            <Text text="{details>/OfferId}" />
+
+                            <!-- Mandt -->
+
+                            <Label text="Client" />
+
+                            <Text text="{details>/Mandt}" />
+
+                            <!-- Offer Date -->
+
+                            <Label text="Offer Date" />
+
+                            <Text
+                                text="{
+                                    path: 'details>/OfferDate',
+                                    formatter: '.formatter.formatDate'
+                                }"
+                            />
+
+                            <!-- Joining Date -->
+
+                            <Label text="Joining Date" />
+
+                            <Text
+                                text="{
+                                    path: 'details>/JoiningDate',
+                                    formatter: '.formatter.formatDate'
+                                }"
+                            />
+
+                            <!-- Salary -->
+
+                            <Label text="Salary" />
+
+                            <ObjectNumber
+                                number="{details>/Salary}"
+                                unit="{details>/Waers}"
+                                emphasized="true"
+                            />
+
+                            <!-- Currency -->
+
+                            <Label text="Currency" />
+
+                            <Text text="{details>/Waers}" />
+
+                            <!-- Offer Status -->
+
+                            <Label text="Offer Status" />
+
+                            <ObjectStatus
+                                text="{details>/Status}"
+                                state="{
+                                    path: 'details>/Status',
+                                    formatter: '.formatter.offerStatusState'
+                                }"
+                            />
+
+                            <!-- Offer Type -->
+
+                            <Label text="Offer Type" />
+
+                            <Text text="{details>/OfferType}" />
+                        </f:SimpleForm>
+                    </Panel>
+
+                    <!-- ================================================= -->
+                    <!-- CANDIDATE INFORMATION -->
+                    <!-- ================================================= -->
+
+                    <Panel
+                        headerText="Candidate Information"
+                        expandable="false"
+                        class="sapUiResponsiveMargin"
+                    >
+                        <f:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            columnsL="2"
+                            columnsM="2"
+                            columnsXL="2"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            emptySpanL="0"
+                            emptySpanM="0"
+                            adjustLabelSpan="false"
+                        >
+                            <!-- Candidate ID -->
+
+                            <Label text="Candidate ID" />
+
+                            <Text text="{details>/CandidateId}" />
+
+                            <!-- Candidate Name -->
+
+                            <Label text="Candidate Name" />
+
+                            <Text text="{details>/CandidateName}" />
+                        </f:SimpleForm>
+                    </Panel>
+
+                    <!-- ================================================= -->
+                    <!-- JOB INFORMATION -->
+                    <!-- ================================================= -->
+
+                    <Panel
+                        headerText="Job Information"
+                        expandable="false"
+                        class="sapUiResponsiveMargin"
+                    >
+                        <f:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            columnsL="2"
+                            columnsM="2"
+                            columnsXL="2"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            emptySpanL="0"
+                            emptySpanM="0"
+                            adjustLabelSpan="false"
+                        >
+                            <!-- Job ID -->
+
+                            <Label text="Job ID" />
+
+                            <Text text="{details>/JobId}" />
+
+                            <!-- Job Title -->
+
+                            <Label text="Job Title" />
+
+                            <Text
+                                text="{details>/JobTitle}"
+                                wrapping="true"
+                            />
+                        </f:SimpleForm>
+                    </Panel>
+
+                    <!-- ================================================= -->
+                    <!-- COMMENTS -->
+                    <!-- ================================================= -->
+
+                    <Panel
+                        headerText="Comments"
+                        expandable="false"
+                        class="sapUiResponsiveMargin"
+                    >
+                        <VBox class="sapUiSmallMargin">
+                            <Text
+                                text="{details>/Comments}"
+                                wrapping="true"
+                                width="100%"
+                            />
+                        </VBox>
+                    </Panel>
+
+
+                    <Panel
+                        headerText="Audit Information"
+                        expandable="false"
+                        class="sapUiResponsiveMargin"
+                    >
+                        <f:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            columnsL="2"
+                            columnsM="2"
+                            columnsXL="2"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            emptySpanL="0"
+                            emptySpanM="0"
+                            adjustLabelSpan="false"
+                        >
+                            <!-- Created On -->
+
+                            <Label text="Created On" />
+
+                            <Text
+                                text="{
+                                    path: 'details>/CreatedOn',
+                                    formatter: '.formatter.formatDate'
+                                }"
+                            />
+                        </f:SimpleForm>
+                    </Panel>
+                </VBox>
+            </ScrollContainer>
+        </content>
+
+        <!-- ================================================= -->
+        <!-- FOOTER -->
+        <!-- ================================================= -->
+
+        <beginButton>
+            <Button
+                text="Generate PDF"
+                icon="sap-icon://pdf-attachment"
+                type="Emphasized"
+                press="onGenerateDetailsPDF"
+            />
+        </beginButton>
+
+        <endButton>
+            <Button
+                text="Close"
+                icon="sap-icon://decline"
+                press="onCloseOfferDetails"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,190 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+
+    <Dialog
+        id="InterviewDetailsDialog"
+        title="Interview Details"
+        contentWidth="850px"
+        draggable="true"
+        resizable="true">
+
+        <content>
+
+            <VBox class="sapUiMediumMargin">
+
+                <!-- Header -->
+
+                <HBox
+                    justifyContent="SpaceBetween"
+                    alignItems="Center"
+                    class="sapUiSmallMarginBottom">
+
+                    <VBox>
+
+                        <Title
+                            text="{details>/CandidateName}"
+                            level="H2"/>
+
+                        <Text
+                            text="{details>/JobTitle}"
+                            class="sapUiTinyMarginTop"/>
+
+                    </VBox>
+
+                    <ObjectStatus
+                        text="{details>/Status}"
+                        state="{= ${details>/Status} === 'SCHEDULED' ? 'Warning'
+                        : ${details>/Status} === 'COMPLETED' ? 'Success'
+                        : ${details>/Status} === 'CANCELLED' ? 'Error'
+                        : 'None'}"/>
+
+                </HBox>
+
+                <!-- Interview Information -->
+
+                <Panel
+                    headerText="Interview Information"
+                    expandable="false"
+                    class="sapUiResponsiveMargin">
+
+                    <f:SimpleForm
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                        columnsL="2"
+                        columnsM="2">
+
+                        <Label text="Interview ID"/>
+                        <Text text="{details>/InterviewId}"/>
+
+                        <Label text="Interview Date"/>
+                        <Text
+                            text="{
+                                path:'details>/InterviewDate',
+                                type:'sap.ui.model.type.Date',
+                                formatOptions:{pattern:'dd-MM-yyyy'}
+                            }"/>
+
+                        <Label text="Interview Time"/>
+                        <Text text="{details>/InterviewTime}"/>
+
+                        <Label text="Interview Mode"/>
+                        <ObjectStatus
+                            text="{details>/InterviewMode}"
+                            icon="sap-icon://video"/>
+
+                    </f:SimpleForm>
+
+                </Panel>
+
+                <!-- Candidate Information -->
+
+                <Panel
+                    headerText="Candidate Information"
+                    expandable="false"
+                    class="sapUiResponsiveMargin">
+
+                    <f:SimpleForm
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                        columnsL="2"
+                        columnsM="2">
+
+                        <Label text="Candidate ID"/>
+                        <Text text="{details>/CandidateId}"/>
+
+                        <Label text="Candidate Name"/>
+                        <Text text="{details>/CandidateName}"/>
+
+                        <Label text="Job ID"/>
+                        <Text text="{details>/JobId}"/>
+
+                        <Label text="Job Title"/>
+                        <Text text="{details>/JobTitle}"/>
+
+                    </f:SimpleForm>
+
+                </Panel>
+
+                <!-- Interviewer -->
+
+                <Panel
+                    headerText="Interviewer"
+                    expandable="false"
+                    class="sapUiResponsiveMargin">
+
+                    <HBox
+                        alignItems="Center"
+                        class="sapUiSmallMargin">
+
+                        <Avatar
+                            displayShape="Circle"
+                            icon="sap-icon://employee"/>
+
+                        <VBox class="sapUiSmallMarginBegin">
+
+                            <Title
+                                text="{details>/Interviewer}"
+                                level="H4"/>
+
+                            <Text text="Assigned Interviewer"/>
+
+                        </VBox>
+
+                    </HBox>
+
+                </Panel>
+
+                <!-- Feedback -->
+
+                <Panel
+                    headerText="Interview Feedback"
+                    expandable="false"
+                    class="sapUiResponsiveMargin">
+
+                    <VBox class="sapUiSmallMargin">
+
+                        <HBox
+                            justifyContent="SpaceBetween"
+                            alignItems="Center">
+
+                            <Title
+                                text="Rating"
+                                level="H5"/>
+
+                            <ObjectNumber
+                                number="{details>/Rating}"
+                                unit="/5"/>
+
+                        </HBox>
+
+                        <Label
+                            text="Feedback"
+                            class="sapUiSmallMarginTop"/>
+
+                        <Text
+                            text="{details>/Feedback}"
+                            wrapping="true"/>
+
+                    </VBox>
+
+                </Panel>
+
+            </VBox>
+
+        </content>
+
+        <endButton>
+
+            <Button
+                text="Close"
+                type="Emphasized"
+                icon="sap-icon://decline"
+                press="onCloseInterviewDetails"/>
+
+        </endButton>
+
+    </Dialog>
+
+</core:FragmentDefinition>

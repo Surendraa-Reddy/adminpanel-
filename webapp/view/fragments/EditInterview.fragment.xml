@@ -1,0 +1,129 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+>
+    <Dialog
+        id="EditInterviewDialog"
+        title="Edit Interview"
+        contentWidth="750px"
+        draggable="true"
+        resizable="true"
+    >
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <Panel
+                    headerText="Interview Information"
+                    expandable="false"
+                >
+                    <f:SimpleForm
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                        columnsL="2"
+                        columnsM="2"
+                    >
+                        <Label text="Interview ID" />
+                        <Input
+                            value="{edit>/InterviewId}"
+                            editable="false"
+                        />
+
+                        <Label text="Candidate" />
+                        <Input
+                            value="{edit>/CandidateName}"
+                            editable="false"
+                        />
+
+                        <Label text="Job Title" />
+                        <Input
+                            value="{edit>/JobTitle}"
+                            editable="false"
+                        />
+
+                        <Label text="Interviewer" />
+                        <Input value="{edit>/Interviewer}" />
+
+                        <Label text="Interview Date" />
+
+                        <DatePicker
+                            id="dpEditInterviewDate"
+                            dateValue="{edit>/InterviewDate}"
+                            displayFormat="dd-MM-yyyy"
+                            width="100%"
+                        />
+
+                        <Label text="Interview Time" />
+                        <TimePicker
+                            value="{edit>/InterviewTime}"
+                            valueFormat="HHmmss"
+                            displayFormat="HH:mm"
+                        />
+
+                        <Label text="Mode" />
+                        <Select selectedKey="{edit>/InterviewMode}">
+                            <items>
+                                <core:Item
+                                    key="ONLINE"
+                                    text="Online"
+                                />
+                                <core:Item
+                                    key="OFFLINE"
+                                    text="Offline"
+                                />
+                            </items>
+                        </Select>
+
+                        <Label text="Status" />
+                        <Select selectedKey="{edit>/Status}">
+                            <items>
+                                <core:Item
+                                    key="SCHEDULED"
+                                    text="Scheduled"
+                                />
+                                <core:Item
+                                    key="COMPLETED"
+                                    text="Completed"
+                                />
+                                <core:Item
+                                    key="CANCELLED"
+                                    text="Cancelled"
+                                />
+                            </items>
+                        </Select>
+
+                        <Label text="Rating" />
+                        <StepInput
+                            value="{edit>/Rating}"
+                            min="0"
+                            max="5"
+                            step="1"
+                        />
+
+                        <Label text="Feedback" />
+                        <TextArea
+                            value="{edit>/Feedback}"
+                            rows="5"
+                        />
+                    </f:SimpleForm>
+                </Panel>
+            </VBox>
+        </content>
+
+        <beginButton>
+            <Button
+                text="Save"
+                type="Emphasized"
+                icon="sap-icon://save"
+                press="onUpdateInterview"
+            />
+        </beginButton>
+
+        <endButton>
+            <Button
+                text="Cancel"
+                icon="sap-icon://decline"
+                press="onCloseEditInterview"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

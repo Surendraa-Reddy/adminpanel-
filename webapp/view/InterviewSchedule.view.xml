@@ -10,20 +10,7 @@
         showNavButton="true"
         navButtonPress="onNavBack"
     >
-        <headerContent>
-            <Button
-                icon="sap-icon://refresh"
-                tooltip="Refresh"
-                press="onRefresh"
-            />
-
-            <Button
-                text="Create Interview"
-                type="Emphasized"
-                icon="sap-icon://add"
-                press="onCreateInterview"
-            />
-        </headerContent>
+        <headerContent />
 
         <content>
             <VBox class="sapUiResponsiveContentPadding">
@@ -67,11 +54,22 @@
                                 text="Cancelled"
                             />
                         </Select>
-                        
+                        <Button
+                            icon="sap-icon://refresh"
+                            tooltip="Refresh"
+                            press="onRefresh"
+                        />
+
+                        <Button
+                            text="Create Interview"
+                            type="Emphasized"
+                            icon="sap-icon://add"
+                            press="onCreateInterview"
+                        />
                     </OverflowToolbar>
                 </Panel>
 
-                <!-- Interview Table -->
+                
 
                 <Table
                     id="interviewTable"
@@ -159,6 +157,12 @@
                                 />
 
                                 <HBox>
+                                    <Button
+                                        icon="sap-icon://display"
+                                        tooltip="View Details"
+                                        type="Transparent"
+                                        press="onViewInterview"
+                                    />
                                     <Button
                                         icon="sap-icon://edit"
                                         type="Transparent"

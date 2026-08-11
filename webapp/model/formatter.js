@@ -257,6 +257,133 @@ sap.ui.define([], function () {
             m = m < 10 ? "0" + m : m;
 
             return h + ":" + m;
+        },
+        getRecommendationState: function (sRecommendation) {
+
+            if (!sRecommendation) {
+                return "None";
+            }
+
+            switch (sRecommendation.toUpperCase()) {
+
+                case "SELECTED":
+                    return "Success";
+
+                case "REJECTED":
+                    return "Error";
+
+                case "HOLD":
+                    return "Warning";
+
+                case "NEXT ROUND":
+                    return "Information";
+
+                default:
+                    return "None";
+            }
+        },
+        formatDate: function (vDate) {
+
+            if (!vDate) {
+                return "";
+            }
+
+            var oDate = vDate;
+
+            if (!(oDate instanceof Date)) {
+
+                oDate = new Date(vDate);
+
+            }
+
+            if (isNaN(oDate.getTime())) {
+                return "";
+            }
+
+            return oDate.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+        },
+
+
+        // =====================================================
+        // STATUS TEXT
+        // =====================================================
+
+        offerStatusText: function (sStatus) {
+
+            if (!sStatus) {
+                return "";
+            }
+
+            sStatus =
+                String(sStatus)
+                    .trim()
+                    .toUpperCase();
+
+            switch (sStatus) {
+
+                case "DRAFT":
+                    return "Draft";
+
+                case "OFFERED":
+                    return "Offered";
+
+                case "ACCEPTED":
+                    return "Accepted";
+
+                case "REJECTED":
+                    return "Rejected";
+
+                case "WITHDRAWN":
+                    return "Withdrawn";
+
+                default:
+                    return sStatus;
+            }
+        },
+
+
+        // =====================================================
+        // STATUS STATE
+        // =====================================================
+
+        offerStatusState: function (sStatus) {
+
+            if (!sStatus) {
+                return "None";
+            }
+
+            sStatus =
+                String(sStatus)
+                    .trim()
+                    .toUpperCase();
+
+            switch (sStatus) {
+
+                case "DRAFT":
+                    return "None";
+
+                case "OFFERED":
+                    return "Warning";
+
+                case "ACCEPTED":
+                    return "Success";
+
+                case "REJECTED":
+                    return "Error";
+
+                case "WITHDRAWN":
+                    return "Error";
+
+                default:
+                    return "None";
+            }
         }
 
 

@@ -1,0 +1,403 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+>
+    <Dialog
+        id="createOfferDialog"
+        title="Create Offer Letter"
+        contentWidth="900px"
+        contentHeight="720px"
+        stretchOnPhone="true"
+        draggable="true"
+        resizable="true"
+    >
+        <content>
+            <ScrollContainer
+                width="100%"
+                height="100%"
+                vertical="true"
+                horizontal="false"
+            >
+                <VBox
+                    width="100%"
+                    class="sapUiResponsiveContentPadding"
+                >
+                    <!-- ========================================= -->
+                    <!-- HEADER -->
+                    <!-- ========================================= -->
+
+                    <VBox class="sapUiSmallMarginBottom">
+                        <Title
+                            text="Create New Offer"
+                            level="H2"
+                        />
+
+                        <Text
+                            text="Create an offer letter for a selected candidate."
+                            class="sapUiTinyMarginTop"
+                        />
+                    </VBox>
+
+                    <!-- ========================================= -->
+                    <!-- CANDIDATE INFORMATION -->
+                    <!-- ========================================= -->
+
+                    <Panel
+                        headerText="Candidate Information"
+                        expandable="false"
+                        class="sapUiSmallMarginBottom"
+                    >
+                        <l:Grid
+                            defaultSpan="L6 M6 S12"
+                            hSpacing="1"
+                            vSpacing="1"
+                            width="100%"
+                        >
+                            <!-- Candidate -->
+
+                            <VBox class="sapUiTinyMarginBottom">
+                                <Label
+                                    text="Candidate"
+                                    required="true"
+                                />
+
+                                <Select
+                                    id="createCandidateSelect"
+                                    selectedKey="{create>/CandidateId}"
+                                    width="100%"
+                                    change="onCandidateChange"
+                                    items="{candidate>/Candidates}"
+                                >
+                                    <core:Item
+                                        key="{candidate>CandidateId}"
+                                        text="{candidate>CandidateName}"
+                                    />
+                                </Select>
+                            </VBox>
+
+                            <!-- Candidate ID -->
+
+                            <VBox class="sapUiTinyMarginBottom">
+                                <Label text="Candidate ID" />
+
+                                <Input
+                                    id="createCandidateId"
+                                    value="{create>/CandidateId}"
+                                    editable="false"
+                                    width="100%"
+                                    placeholder="Auto populated"
+                                />
+                            </VBox>
+
+                            <!-- Candidate Name -->
+
+                            <VBox class="sapUiTinyMarginBottom">
+                                <Label text="Candidate Name" />
+
+                                <Input
+                                    id="createCandidateName"
+                                    value="{create>/CandidateName}"
+                                    editable="false"
+                                    width="100%"
+                                    placeholder="Auto populated"
+                                />
+                            </VBox>
+                        </l:Grid>
+                    </Panel>
+
+                    <!-- ========================================= -->
+                    <!-- JOB INFORMATION -->
+                    <!-- ========================================= -->
+
+                    <Panel
+                        headerText="Job Information"
+                        expandable="false"
+                        class="sapUiSmallMarginBottom"
+                    >
+                        <l:Grid
+                            defaultSpan="L6 M6 S12"
+                            hSpacing="1"
+                            vSpacing="1"
+                            width="100%"
+                        >
+                            <!-- Job Opening -->
+
+                            <VBox class="sapUiTinyMarginBottom">
+                                <Label
+                                    text="Job Opening"
+                                    required="true"
+                                />
+
+                                <Select
+                                    id="createJobSelect"
+                                    selectedKey="{create>/JobId}"
+                                    width="100%"
+                                    change="onJobChange"
+                                    items="{job>/Jobs}"
+                                >
+                                    <core:Item
+                                        key="{job>JobId}"
+                                        text="{job>JobTitle}"
+                                    />
+                                </Select>
+                            </VBox>
+
+                            <!-- Job ID -->
+
+                            <VBox class="sapUiTinyMarginBottom">
+                                <Label text="Job ID" />
+
+                                <Input
+                                    id="createJobId"
+                                    value="{create>/JobId}"
+                                    editable="false"
+                                    width="100%"
+                                    placeholder="Auto populated"
+                                />
+                            </VBox>
+
+                            <!-- Job Title -->
+
+                            <VBox class="sapUiTinyMarginBottom">
+                                <Label text="Job Title" />
+
+                                <Input
+                                    id="createJobTitle"
+                                    value="{create>/JobTitle}"
+                                    editable="false"
+                                    width="100%"
+                                    placeholder="Auto populated"
+                                />
+                            </VBox>
+                        </l:Grid>
+                    </Panel>
+
+                    <!-- ========================================= -->
+                    <!-- OFFER INFORMATION -->
+                    <!-- ========================================= -->
+
+                    <Panel
+                        headerText="Offer Information"
+                        expandable="false"
+                        class="sapUiSmallMarginBottom"
+                    >
+                        <l:Grid
+                            defaultSpan="L6 M6 S12"
+                            hSpacing="1"
+                            vSpacing="1"
+                            width="100%"
+                        >
+                            <!-- Offer ID -->
+
+                            <VBox class="sapUiTinyMarginBottom">
+                                <Label
+                                    text="Offer ID"
+                                    required="true"
+                                />
+
+                                <Input
+                                    id="createOfferId"
+                                    value="{create>/OfferId}"
+                                    width="100%"
+                                    placeholder="Example: OF001"
+                                    maxLength="10"
+                                />
+                            </VBox>
+
+                            <!-- Offer Date -->
+
+                            <VBox class="sapUiTinyMarginBottom">
+                                <Label
+                                    text="Offer Date"
+                                    required="true"
+                                />
+
+                                <DatePicker
+                                    id="createOfferDate"
+                                    value="{create>/OfferDate}"
+                                    valueFormat="yyyyMMdd"
+                                    displayFormat="dd MMM yyyy"
+                                    width="100%"
+                                    placeholder="Select offer date"
+                                />
+                            </VBox>
+
+                            <!-- Joining Date -->
+
+                            <VBox class="sapUiTinyMarginBottom">
+                                <Label
+                                    text="Joining Date"
+                                    required="true"
+                                />
+
+                                <DatePicker
+                                    id="createJoiningDate"
+                                    value="{create>/JoiningDate}"
+                                    valueFormat="yyyyMMdd"
+                                    displayFormat="dd MMM yyyy"
+                                    width="100%"
+                                    placeholder="Select joining date"
+                                />
+                            </VBox>
+
+                            <!-- Salary -->
+
+                            <VBox class="sapUiTinyMarginBottom">
+                                <Label
+                                    text="Offered Salary"
+                                    required="true"
+                                />
+
+                                <Input
+                                    id="offerSalaryInput"
+                                    value="{create>/Salary}"
+                                    type="Number"
+                                    width="100%"
+                                    placeholder="Enter offered salary"
+                                    liveChange="onSalaryChange"
+                                />
+                            </VBox>
+
+                            <!-- Currency -->
+
+                            <VBox class="sapUiTinyMarginBottom">
+                                <Label text="Currency" />
+
+                                <Select
+                                    id="createCurrency"
+                                    selectedKey="{create>/Waers}"
+                                    width="100%"
+                                >
+                                    <core:Item
+                                        key="INR"
+                                        text="INR - Indian Rupee"
+                                    />
+
+                                    <core:Item
+                                        key="USD"
+                                        text="USD - US Dollar"
+                                    />
+
+                                    <core:Item
+                                        key="EUR"
+                                        text="EUR - Euro"
+                                    />
+                                </Select>
+                            </VBox>
+
+                            <!-- Status -->
+
+                            <VBox class="sapUiTinyMarginBottom">
+                                <Label
+                                    text="Offer Status"
+                                    required="true"
+                                />
+
+                                <Select
+                                    id="createOfferStatus"
+                                    selectedKey="{create>/OfferStatus}"
+                                    width="100%"
+                                >
+                                    <core:Item
+                                        key="DRAFT"
+                                        text="Draft"
+                                    />
+
+                                    <core:Item
+                                        key="OFFERED"
+                                        text="Offered"
+                                    />
+
+                                    <core:Item
+                                        key="ACCEPTED"
+                                        text="Accepted"
+                                    />
+
+                                    <core:Item
+                                        key="REJECTED"
+                                        text="Rejected"
+                                    />
+                                </Select>
+                            </VBox>
+
+                            <!-- Offer Type -->
+
+                            <VBox class="sapUiTinyMarginBottom">
+                                <Label text="Offer Type" />
+
+                                <Select
+                                    id="createOfferType"
+                                    selectedKey="{create>/OfferType}"
+                                    width="100%"
+                                >
+                                    <core:Item
+                                        key="FULL_TIME"
+                                        text="Full Time"
+                                    />
+
+                                    <core:Item
+                                        key="PART_TIME"
+                                        text="Part Time"
+                                    />
+
+                                    <core:Item
+                                        key="CONTRACT"
+                                        text="Contract"
+                                    />
+
+                                    <core:Item
+                                        key="INTERNSHIP"
+                                        text="Internship"
+                                    />
+                                </Select>
+                            </VBox>
+                        </l:Grid>
+                    </Panel>
+
+                    <!-- ========================================= -->
+                    <!-- COMMENTS -->
+                    <!-- ========================================= -->
+
+                    <Panel
+                        headerText="Comments"
+                        expandable="false"
+                    >
+                        <VBox>
+                            <TextArea
+                                id="createOfferComments"
+                                value="{create>/Comments}"
+                                width="100%"
+                                rows="3"
+                                growing="true"
+                                growingMaxLines="6"
+                                placeholder="Enter additional comments or offer terms..."
+                            />
+                        </VBox>
+                    </Panel>
+                </VBox>
+            </ScrollContainer>
+        </content>
+
+        <!-- ========================================= -->
+        <!-- FOOTER -->
+        <!-- ========================================= -->
+
+        <beginButton>
+            <Button
+                text="Create Offer"
+                icon="sap-icon://accept"
+                type="Emphasized"
+                press="onSaveOffer"
+            />
+        </beginButton>
+
+        <endButton>
+            <Button
+                text="Cancel"
+                icon="sap-icon://decline"
+                press="onCloseCreateOffer"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

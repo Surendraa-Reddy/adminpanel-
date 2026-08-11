@@ -401,6 +401,18 @@ sap.ui.define([
                 this.getOwnerComponent().getRouter().navTo("InterviewSchedule")
 
             },
+            onInterviewFeedback: function () {
+
+                this.getOwnerComponent()
+                    .getRouter()
+                    .navTo("InterviewFeedback");
+
+            },
+            onOfferLetters: function(){
+                 
+                this.getOwnerComponent().getRouter().navTo("OfferLetter")
+
+            },
             onExport: function () {
                 var oData =
                     this.getView()

@@ -1,0 +1,77 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+>
+    <Dialog
+        id="cancelJoiningDialog"
+        title="Cancel Joining Confirmation"
+        contentWidth="550px"
+        draggable="true"
+        resizable="true"
+        stretchOnPhone="true"
+    >
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <MessageStrip
+                    text="Cancelling this joining confirmation will preserve the record and change its status to CANCELLED."
+                    type="Warning"
+                    showIcon="true"
+                    class="sapUiSmallMarginBottom"
+                />
+
+                <f:SimpleForm
+                    editable="false"
+                    layout="ResponsiveGridLayout"
+                    labelSpanXL="4"
+                    labelSpanL="4"
+                    labelSpanM="4"
+                    labelSpanS="12"
+                    columnsXL="1"
+                    columnsL="1"
+                    columnsM="1"
+                >
+                    <Label text="Joining ID" />
+
+                    <Text text="{cancelJoining>/JoiningId}" />
+
+                    <Label text="Candidate" />
+
+                    <Text text="{cancelJoining>/CandidateName}" />
+                </f:SimpleForm>
+
+                <Label
+                    text="Cancellation Reason"
+                    required="true"
+                    class="sapUiSmallMarginTop"
+                />
+
+                <TextArea
+                    id="cancelJoiningComments"
+                    value="{cancelJoining>/Comments}"
+                    width="100%"
+                    rows="5"
+                    maxLength="255"
+                    placeholder="Enter the reason for cancellation..."
+                />
+            </VBox>
+        </content>
+
+        <beginButton>
+            <Button
+                text="Cancel Joining"
+                icon="sap-icon://decline"
+                type="Reject"
+                press=".onSaveCancellation"
+            />
+        </beginButton>
+
+        <endButton>
+            <Button
+                text="Close"
+                type="Transparent"
+                press=".onCloseCancelJoining"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

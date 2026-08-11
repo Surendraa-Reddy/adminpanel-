@@ -1,0 +1,400 @@
+<mvc:View
+    controllerName="employee.controller.recruitment.JoiningConfirmation"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    displayBlock="true"
+>
+    <Page
+        id="joiningPage"
+        title="Joining Confirmation"
+        showHeader="true"
+        enableScrolling="true"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <subHeader>
+            <Toolbar>
+                <Title
+                    text="Joining Confirmation"
+                    level="H2"
+                />
+
+                <ToolbarSpacer />
+
+                <Button
+                    icon="sap-icon://refresh"
+                    tooltip="Refresh"
+                    type="Transparent"
+                    press=".onRefresh"
+                />
+
+                <Button
+                    icon="sap-icon://add"
+                    text="New Joining"
+                    type="Emphasized"
+                    press=".onCreateJoining"
+                />
+            </Toolbar>
+        </subHeader>
+
+        <content>
+            <!-- ===================================================== -->
+            <!-- KPI SECTION -->
+            <!-- ===================================================== -->
+
+            <HBox
+                id="kpiContainer"
+                class="sapUiSmallMargin"
+                wrap="Wrap"
+                justifyContent="SpaceBetween"
+            >
+                <VBox
+                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                    width="22%"
+                >
+                    <GenericTile
+                        header="Total Joinings"
+                        subheader="All confirmations"
+                        press=".onKpiTotalPress"
+                    >
+                        <TileContent>
+                            <NumericContent
+                                value="{joining>/KPI/Total}"
+                                icon="sap-icon://group"
+                                valueColor="Neutral"
+                            />
+                        </TileContent>
+                    </GenericTile>
+                </VBox>
+
+                <VBox
+                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                    width="22%"
+                >
+                    <GenericTile
+                        header="Pending"
+                        subheader="Awaiting joining"
+                        press=".onKpiPendingPress"
+                    >
+                        <TileContent>
+                            <NumericContent
+                                value="{joining>/KPI/Pending}"
+                                icon="sap-icon://pending"
+                                valueColor="Critical"
+                            />
+                        </TileContent>
+                    </GenericTile>
+                </VBox>
+
+                <VBox
+                    class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                    width="22%"
+                >
+                    <GenericTile
+                        header="Confirmed"
+                        subheader="Joining confirmed"
+                        press=".onKpiConfirmedPress"
+                    >
+                        <TileContent>
+                            <NumericContent
+                                value="{joining>/KPI/Confirmed}"
+                                icon="sap-icon://accept"
+                                valueColor="Good"
+                            />
+                        </TileContent>
+                    </GenericTile>
+                </VBox>
+
+                <VBox
+                    class="sapUiSmallMarginBottom"
+                    width="22%"
+                >
+                    <GenericTile
+                        header="Cancelled"
+                        subheader="Cancelled joinings"
+                        press=".onKpiCancelledPress"
+                    >
+                        <TileContent>
+                            <NumericContent
+                                value="{joining>/KPI/Cancelled}"
+                                icon="sap-icon://decline"
+                                valueColor="Error"
+                            />
+                        </TileContent>
+                    </GenericTile>
+                </VBox>
+            </HBox>
+
+            <!-- ===================================================== -->
+            <!-- SEARCH / FILTER -->
+            <!-- ===================================================== -->
+
+            <Panel
+                headerText="Search &amp; Filter"
+                expandable="true"
+                expanded="true"
+                class="sapUiSmallMargin"
+            >
+                <content>
+                    <HBox
+                        width="100%"
+                        wrap="Wrap"
+                        alignItems="Center"
+                    >
+                        <VBox
+                            width="35%"
+                            class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                        >
+                            <Label text="Search" />
+
+                            <SearchField
+                                id="joiningSearch"
+                                width="100%"
+                                placeholder="Search Joining ID, Candidate, Offer ID or Job"
+                                liveChange=".onSearch"
+                                search=".onSearch"
+                            />
+                        </VBox>
+
+                        <VBox
+                            width="22%"
+                            class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                        >
+                            <Label text="Joining Status" />
+
+                            <Select
+                                id="joiningStatusFilter"
+                                width="100%"
+                                selectedKey="ALL"
+                                change=".onStatusFilter"
+                            >
+                                <items>
+                                    <core:Item
+                                        key="ALL"
+                                        text="All Statuses"
+                                    />
+
+                                    <core:Item
+                                        key="PENDING"
+                                        text="Pending"
+                                    />
+
+                                    <core:Item
+                                        key="CONFIRMED"
+                                        text="Confirmed"
+                                    />
+
+                                    <core:Item
+                                        key="CANCELLED"
+                                        text="Cancelled"
+                                    />
+                                </items>
+                            </Select>
+                        </VBox>
+
+                        <VBox class="sapUiSmallMarginBottom">
+                            <Label text=" " />
+
+                            <Button
+                                text="Clear"
+                                icon="sap-icon://clear-filter"
+                                type="Transparent"
+                                press=".onClearFilters"
+                            />
+                        </VBox>
+                    </HBox>
+                </content>
+            </Panel>
+
+            <!-- ===================================================== -->
+            <!-- JOINING TABLE -->
+            <!-- ===================================================== -->
+
+            <Panel
+                headerText="Joining Confirmations"
+                class="sapUiSmallMargin"
+            >
+                <content>
+                    <Table
+                        id="joiningTable"
+                        items="{
+                            path: 'joining>/Items',
+                            sorter: {
+                                path: 'JoiningDate',
+                                descending: false
+                            }
+                        }"
+                        growing="true"
+                        growingThreshold="10"
+                        growingScrollToLoad="true"
+                        sticky="ColumnHeaders,HeaderToolbar"
+                        mode="None"
+                        noDataText="No joining confirmations found."
+                        width="100%"
+                    >
+                        <headerToolbar>
+                            <Toolbar>
+                                <Title
+                                    text="Joining Records"
+                                    level="H3"
+                                />
+
+                                <ToolbarSpacer />
+
+                                <Text
+                                    text="{= ${joining>/Items}.length + ' record(s)' }"
+                                />
+                            </Toolbar>
+                        </headerToolbar>
+
+                        <columns>
+                            <Column width="8rem">
+                                <Text text="Joining ID" />
+                            </Column>
+
+                            <Column width="8rem">
+                                <Text text="Offer ID" />
+                            </Column>
+
+                            <Column width="9rem">
+                                <Text text="Candidate ID" />
+                            </Column>
+
+                            <Column
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                width="13rem"
+                            >
+                                <Text text="Candidate Name" />
+                            </Column>
+
+                            <Column
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                                width="12rem"
+                            >
+                                <Text text="Job Title" />
+                            </Column>
+
+                            <Column
+                                width="10rem"
+                                hAlign="Center"
+                            >
+                                <Text text="Joining Date" />
+                            </Column>
+
+                            <Column
+                                width="10rem"
+                                hAlign="Center"
+                            >
+                                <Text text="Status" />
+                            </Column>
+
+                            <Column
+                                width="9rem"
+                                hAlign="Center"
+                            >
+                                <Text text="Actions" />
+                            </Column>
+                        </columns>
+
+                        <items>
+                            <ColumnListItem type="Inactive">
+                                <cells>
+                                    <!-- Joining ID -->
+
+                                    <ObjectIdentifier
+                                        title="{joining>JoiningId}"
+                                        text="Joining Confirmation"
+                                    />
+
+                                    <!-- Offer ID -->
+
+                                    <ObjectIdentifier
+                                        title="{joining>OfferId}"
+                                        text="Offer"
+                                    />
+
+                                    <!-- Candidate ID -->
+
+                                    <ObjectIdentifier
+                                        title="{joining>CandidateId}"
+                                        text="Candidate"
+                                    />
+
+                                    <!-- Candidate Name -->
+
+                                    <Text
+                                        text="{joining>CandidateName}"
+                                        wrapping="true"
+                                    />
+
+                                    <!-- Job Title -->
+
+                                    <Text
+                                        text="{joining>JobTitle}"
+                                        wrapping="true"
+                                    />
+
+                                    <!-- Joining Date -->
+
+                                    <Text
+                                        text="{
+                                            path: 'joining>JoiningDate',
+                                            formatter: '.formatDate'
+                                        }"
+                                    />
+
+                                    <!-- Status -->
+
+                                    <ObjectStatus
+                                        text="{joining>JoiningStatus}"
+                                        state="{
+                                            path: 'joining>JoiningStatus',
+                                            formatter: '.formatStatusState'
+                                        }"
+                                    />
+
+                                    <!-- Actions -->
+
+                                    <HBox justifyContent="Center">
+                                        <Button
+                                            icon="sap-icon://display"
+                                            tooltip="View Details"
+                                            type="Transparent"
+                                            press=".onDisplayJoining"
+                                        />
+                                        <Button
+                                            icon="sap-icon://edit"
+                                            tooltip="Edit Joining"
+                                            type="Transparent"
+                                            visible="{= ${joining>JoiningStatus} === 'PENDING' || ${joining>JoiningStatus} === 'CONFIRMED' }"
+                                            press=".onEditJoining"
+                                        />
+                                        <!-- Confirm -->
+                                        <Button
+                                            icon="sap-icon://accept"
+                                            tooltip="Confirm Joining"
+                                            type="Transparent"
+                                            visible="{= ${joining>JoiningStatus} === 'PENDING' }"
+                                            press=".onConfirmJoining"
+                                        />
+                                        <!-- Cancel -->
+                                        <Button
+                                            icon="sap-icon://decline"
+                                            tooltip="Cancel Joining"
+                                            type="Transparent"
+                                            visible="{= ${joining>JoiningStatus} === 'PENDING' || ${joining>JoiningStatus} === 'CONFIRMED' }"
+                                            press=".onCancelJoining"
+                                        />
+                                    </HBox>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </content>
+            </Panel>
+        </content>
+    </Page>
+</mvc:View>

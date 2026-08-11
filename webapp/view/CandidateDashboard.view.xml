@@ -115,12 +115,10 @@
                     </GenericTile>
                 </l:Grid>
 
-            
-
                 <Panel
                     headerText="Quick Actions"
                     class="sapUiMediumMarginTop"
-                   >
+                >
                     <OverflowToolbar>
                         <Button
                             text="Manage Candidates"
@@ -133,6 +131,11 @@
                             icon="sap-icon://calendar"
                             press="onInterviewSchedule"
                         />
+                        <Button
+                            text="Interview Feedback"
+                            icon="sap-icon://feedback"
+                            press="onInterviewFeedback"
+                        />
 
                         <Button
                             text="Offer Letters"
@@ -142,14 +145,10 @@
                     </OverflowToolbar>
                 </Panel>
 
-                <!-- ================================================= -->
-                <!-- ANALYTICS -->
-                <!-- ================================================= -->
-
                 <Panel
                     headerText="Candidate Analytics"
                     class="sapUiMediumMarginTop"
-                 >
+                >
                     <l:Grid defaultSpan="XL6 L6 M12 S12">
                         <!-- STATUS CHART -->
 
@@ -260,7 +259,7 @@
                 <Panel
                     headerText="Recent Candidates"
                     class="sapUiMediumMarginTop"
-                  >
+                >
                     <Table items="{dashboard>/RecentCandidates}">
                         <columns>
                             <Column>
@@ -309,7 +308,7 @@
                 <Panel
                     headerText="Recent Activities"
                     class="sapUiMediumMarginTop"
-                 >
+                >
                     <List items="{dashboard>/RecentActivities}">
                         <CustomListItem>
                             <HBox class="sapUiSmallMargin">

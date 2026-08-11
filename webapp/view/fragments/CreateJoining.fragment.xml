@@ -1,0 +1,205 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form">
+
+    <Dialog
+        id="createJoiningDialog"
+        title="Create Joining Confirmation"
+        contentWidth="650px"
+        contentHeight="auto"
+        stretchOnPhone="true"
+        draggable="true"
+        resizable="true">
+
+        <content>
+
+            <VBox
+                class="sapUiMediumMargin">
+
+                <MessageStrip
+                    text="Enter an Offer ID to automatically load candidate, job and joining details."
+                    type="Information"
+                    showIcon="true"
+                    class="sapUiSmallMarginBottom" />
+
+
+                <form:SimpleForm
+                    editable="true"
+                    layout="ResponsiveGridLayout"
+                    labelSpanXL="4"
+                    labelSpanL="4"
+                    labelSpanM="4"
+                    labelSpanS="12"
+                    adjustLabelSpan="false"
+                    emptySpanXL="2"
+                    emptySpanL="2"
+                    emptySpanM="1"
+                    emptySpanS="0"
+                    columnsXL="2"
+                    columnsL="2"
+                    columnsM="2">
+
+                    <!-- Joining ID -->
+
+                    <Label
+                        text="Joining ID"
+                        required="true" />
+
+                    <Input
+                        id="joiningIdInput"
+                        value="{createJoining>/JoiningId}"
+                        placeholder="Example: JN001"
+                        maxLength="10"
+                        valueState="None" />
+
+
+                    <!-- Offer ID -->
+
+                    <Label
+                        text="Offer ID"
+                        required="true" />
+
+                    <Input
+                        id="joiningOfferId"
+                        value="{createJoining>/OfferId}"
+                        placeholder="Example: OF004"
+                        maxLength="10"
+                        showValueHelp="false"
+                        change=".onOfferIdChange"
+                        valueState="None" />
+
+
+                    <!-- Candidate ID -->
+
+                    <Label
+                        text="Candidate ID" />
+
+                    <Input
+                        value="{createJoining>/CandidateId}"
+                        editable="false"
+                        valueState="Success" />
+
+
+                    <!-- Candidate Name -->
+
+                    <Label
+                        text="Candidate Name" />
+
+                    <Input
+                        value="{createJoining>/CandidateName}"
+                        editable="false"
+                        valueState="Success" />
+
+
+                    <!-- Job ID -->
+
+                    <Label
+                        text="Job ID" />
+
+                    <Input
+                        value="{createJoining>/JobId}"
+                        editable="false"
+                        valueState="Success" />
+
+
+                    <!-- Job Title -->
+
+                    <Label
+                        text="Job Title" />
+
+                    <Input
+                        value="{createJoining>/JobTitle}"
+                        editable="false"
+                        valueState="Success" />
+
+
+                    <!-- Joining Date -->
+
+                    <Label
+                        text="Joining Date"
+                        required="true" />
+
+                    <DatePicker
+                        id="joiningDatePicker"
+                        value="{
+                            path: 'createJoining>/JoiningDate',
+                            type: 'sap.ui.model.type.Date',
+                            formatOptions: {
+                                pattern: 'dd-MM-yyyy'
+                            }
+                        }"
+                        editable="false"
+                        width="100%" />
+
+
+                    <!-- Status -->
+
+                    <Label
+                        text="Joining Status" />
+
+                    <Select
+                        selectedKey="{createJoining>/JoiningStatus}"
+                        width="100%">
+
+                        <items>
+
+                            <core:Item
+                                key="PENDING"
+                                text="Pending" />
+
+                            <core:Item
+                                key="CONFIRMED"
+                                text="Confirmed" />
+
+                            <core:Item
+                                key="CANCELLED"
+                                text="Cancelled" />
+
+                        </items>
+
+                    </Select>
+
+
+                    <!-- Comments -->
+
+                    <Label
+                        text="Comments" />
+
+                    <TextArea
+                        value="{createJoining>/Comments}"
+                        rows="4"
+                        maxLength="255"
+                        width="100%"
+                        placeholder="Enter joining comments..." />
+
+                </form:SimpleForm>
+
+            </VBox>
+
+        </content>
+
+
+        <beginButton>
+
+            <Button
+                text="Save Joining"
+                type="Emphasized"
+                icon="sap-icon://save"
+                press=".onSaveJoining" />
+
+        </beginButton>
+
+
+        <endButton>
+
+            <Button
+                text="Cancel"
+                type="Transparent"
+                press=".onCloseCreateJoining" />
+
+        </endButton>
+
+    </Dialog>
+
+</core:FragmentDefinition>

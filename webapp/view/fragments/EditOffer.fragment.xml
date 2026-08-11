@@ -1,0 +1,229 @@
+
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+
+    <Dialog
+        id="editOfferDialog"
+        title="Edit Offer Letter"
+        contentWidth="600px"
+        contentHeight="auto"
+        draggable="true"
+        resizable="true">
+
+        <content>
+
+            <f:SimpleForm
+                id="editOfferForm"
+                editable="true"
+                layout="ResponsiveGridLayout"
+                labelSpanXL="4"
+                labelSpanL="4"
+                labelSpanM="4"
+                labelSpanS="12"
+                adjustLabelSpan="false"
+                emptySpanXL="2"
+                emptySpanL="2"
+                emptySpanM="1"
+                emptySpanS="0"
+                columnsXL="1"
+                columnsL="1"
+                columnsM="1">
+
+                <!-- Offer ID -->
+
+                <Label text="Offer ID"/>
+
+                <Input
+                    value="{edit>/OfferId}"
+                    editable="false"/>
+
+
+                <!-- Candidate ID -->
+
+                <Label text="Candidate ID"/>
+
+                <Input
+                    value="{edit>/CandidateId}"
+                    editable="false"/>
+
+
+                <!-- Candidate Name -->
+
+                <Label text="Candidate Name"/>
+
+                <Input
+                    value="{edit>/CandidateName}"
+                    editable="false"/>
+
+
+                <!-- Job ID -->
+
+                <Label text="Job ID"/>
+
+                <Input
+                    value="{edit>/JobId}"
+                    editable="false"/>
+
+
+                <!-- Job Title -->
+
+                <Label text="Job Title"/>
+
+                <Input
+                    value="{edit>/JobTitle}"
+                    editable="false"/>
+
+
+                <!-- Offer Date -->
+
+                <Label text="Offer Date"/>
+
+                <DatePicker
+                     value="{edit>/OfferDate}"
+                     valueFormat="yyyyMMdd"
+                     displayFormat="dd-MM-yyyy"
+                     width="100%"/>
+
+
+                <!-- Joining Date -->
+
+                <Label text="Joining Date"/>
+
+                <DatePicker
+                     value="{edit>/JoiningDate}"
+                     valueFormat="yyyyMMdd"
+                     displayFormat="dd-MM-yyyy"
+                     width="100%"/>                 
+
+
+                <!-- Salary -->
+
+                <Label text="Salary"/>
+
+                <Input
+                    value="{edit>/Salary}"
+                    type="Number"
+                    width="100%"
+                    placeholder="Enter salary"/>
+
+
+                <!-- Currency -->
+
+                <Label text="Currency"/>
+
+                <Input
+                    value="{edit>/Waers}"
+                    maxLength="5"
+                    width="100%"
+                    placeholder="INR"/>
+
+
+                <!-- Offer Type -->
+
+                <Label text="Offer Type"/>
+
+                <Select
+                    selectedKey="{edit>/OfferType}"
+                    width="100%">
+
+                    <items>
+
+                        <core:Item
+                            key="FULL_TIME"
+                            text="Full Time"/>
+
+                        <core:Item
+                            key="PART_TIME"
+                            text="Part Time"/>
+
+                        <core:Item
+                            key="CONTRACT"
+                            text="Contract"/>
+
+                        <core:Item
+                            key="INTERNSHIP"
+                            text="Internship"/>
+
+                    </items>
+
+                </Select>
+
+
+                <!-- Offer Status -->
+
+                <Label text="Offer Status"/>
+
+                <Select
+                    selectedKey="{edit>/OfferStatus}"
+                    width="100%">
+
+                    <items>
+
+                        <core:Item
+                            key="OFFERED"
+                            text="Offered"/>
+
+                        <core:Item
+                            key="SENT"
+                            text="Sent"/>
+
+                        <core:Item
+                            key="ACCEPTED"
+                            text="Accepted"/>
+
+                        <core:Item
+                            key="REJECTED"
+                            text="Rejected"/>
+
+                        <core:Item
+                            key="EXPIRED"
+                            text="Expired"/>
+
+                    </items>
+
+                </Select>
+
+
+                <!-- Comments -->
+
+                <Label text="Comments"/>
+
+                <TextArea
+                    value="{edit>/Comments}"
+                    rows="4"
+                    width="100%"
+                    growing="true"
+                    growingMaxLines="8"
+                    placeholder="Enter comments"/>
+
+            </f:SimpleForm>
+
+        </content>
+
+
+        <beginButton>
+
+            <Button
+                text="Update Offer"
+                type="Emphasized"
+                icon="sap-icon://save"
+                press=".onUpdateOffer"/>
+
+        </beginButton>
+
+
+        <endButton>
+
+            <Button
+                text="Cancel"
+                icon="sap-icon://decline"
+                press=".onCloseEditOffer"/>
+
+        </endButton>
+
+    </Dialog>
+
+</core:FragmentDefinition>
+

@@ -1,0 +1,225 @@
+<mvc:View
+    controllerName="employee.controller.recruitment.InterviewFeedback"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+>
+    <Page
+        title="Interview Feedback"
+        showNavButton="true"
+        navButtonPress="onNavBack"
+    >
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <Title
+                    text="Interview Feedback Management"
+                    level="H2"
+                />
+
+                <Text text="Manage Interview Assessments and Recommendations" />
+
+                <Toolbar class="sapUiSmallMarginTop">
+                    <SearchField
+                        id="searchFeedback"
+                        width="300px"
+                        placeholder="Search Feedback / Candidate / Interview"
+                        liveChange="onSearch"
+                    />
+
+                    <ToolbarSpacer />
+
+                    <Select
+                        id="recommendationFilter"
+                        width="170px"
+                        change="onRecommendationFilter"
+                    >
+                        <core:Item
+                            key=""
+                            text="All Recommendations"
+                        />
+                        <core:Item
+                            key="SELECTED"
+                            text="Selected"
+                        />
+                        <core:Item
+                            key="REJECTED"
+                            text="Rejected"
+                        />
+                        <core:Item
+                            key="HOLD"
+                            text="Hold"
+                        />
+                        <core:Item
+                            key="NEXT ROUND"
+                            text="Next Round"
+                        />
+                    </Select>
+
+                    <Select
+                        id="ratingFilter"
+                        width="150px"
+                        change="onRatingFilter"
+                    >
+                        <core:Item
+                            key=""
+                            text="All Ratings"
+                        />
+                        <core:Item
+                            key="5"
+                            text="★★★★★"
+                        />
+                        <core:Item
+                            key="4"
+                            text="★★★★"
+                        />
+                        <core:Item
+                            key="3"
+                            text="★★★"
+                        />
+                        <core:Item
+                            key="2"
+                            text="★★"
+                        />
+                        <core:Item
+                            key="1"
+                            text="★"
+                        />
+                    </Select>
+
+                    <Button
+                        icon="sap-icon://refresh"
+                        text="Refresh"
+                        press="onRefresh"
+                    />
+
+                    <Button
+                        icon="sap-icon://add"
+                        text="Create Feedback"
+                        type="Emphasized"
+                        press="onCreateFeedback"
+                    />
+                </Toolbar>
+
+                <!-- KPI -->
+
+                <HBox
+                    class="sapUiMediumMarginTop"
+                    justifyContent="SpaceBetween"
+                >
+                    <GenericTile header="Total Feedback">
+                        <TileContent>
+                            <NumericContent value="{kpi>/Total}" />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Selected">
+                        <TileContent>
+                            <NumericContent value="{kpi>/Selected}" />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Rejected">
+                        <TileContent>
+                            <NumericContent value="{kpi>/Rejected}" />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile header="Average Rating">
+                        <TileContent>
+                            <NumericContent value="{kpi>/Average}" />
+                        </TileContent>
+                    </GenericTile>
+                </HBox>
+
+                <Table
+                    id="feedbackTable"
+                    class="sapUiMediumMarginTop"
+                    items="{feedback>/Feedbacks}"
+                >
+                    <columns>
+                        <Column>
+                            <Text text="Feedback ID" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Interview" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Candidate" />
+                        </Column>
+
+                        <Column hAlign="Center">
+                            <Text text="Overall Rating" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Recommendation" />
+                        </Column>
+
+                        <Column>
+                            <Text text="Employee" />
+                        </Column>
+
+                        <Column hAlign="Center">
+                            <Text text="Actions" />
+                        </Column>
+                    </columns>
+
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <ObjectIdentifier
+                                    title="{feedback>FeedbackId}"
+                                />
+
+                                <Text text="{feedback>InterviewId}" />
+
+                                <ObjectIdentifier
+                                    title="{feedback>CandidateId}"
+                                />
+
+                                <RatingIndicator
+                                    maxValue="5"
+                                    editable="false"
+                                    value="{feedback>OverallRating}"
+                                />
+
+                                <ObjectStatus
+                                    text="{feedback>Recommendation}"
+                                    state="{
+                                              path:'feedback>Recommendation',
+                                              formatter:'.formatter.getRecommendationState'
+                                          }"
+                                />                                      
+
+                                <Text text="{feedback>EmpId}" />
+
+                                <HBox>
+                                    <Button
+                                        icon="sap-icon://display"
+                                        type="Transparent"
+                                        press="onViewFeedback"
+                                    />
+
+                                    <Button
+                                        icon="sap-icon://edit"
+                                        type="Transparent"
+                                        press="onEditFeedback"
+                                    />
+
+                                    <Button
+                                        icon="sap-icon://delete"
+                                        type="Transparent"
+                                        press="onDeleteFeedback"
+                                    />
+                                </HBox>
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+                </Table>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

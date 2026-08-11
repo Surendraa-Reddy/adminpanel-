@@ -1,0 +1,202 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+>
+    <Dialog
+        id="CreateFeedbackDialog"
+        title="Create Interview Feedback"
+        contentWidth="850px"
+        draggable="true"
+        resizable="true"
+    >
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <!-- Interview Information -->
+
+                <Panel
+                    headerText="Interview Information"
+                    expandable="false"
+                >
+                    <f:SimpleForm
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                        columnsL="2"
+                        columnsM="2"
+                    >
+                        <Label text="Feedback ID" />
+
+                        <Input
+                            id="inpFeedbackId"
+                            value="{create>/FeedbackId}"
+                            placeholder="FB001"
+                            maxLength="10"
+                            required="true"
+                        />
+
+                        <Label text="Interview ID" />
+
+                        <Input
+                            id="inpInterviewId"
+                            value="{create>/InterviewId}"
+                            showValueHelp="true"
+                            valueHelpRequest="onInterviewValueHelp"
+                        />
+
+                        <Label text="Candidate ID" />
+
+                        <Input
+                            value="{create>/CandidateId}"
+                            editable="false"
+                        />
+                    </f:SimpleForm>
+                </Panel>
+
+                <!-- Ratings -->
+
+                <Panel
+                    headerText="Interview Ratings"
+                    expandable="false"
+                    class="sapUiSmallMarginTop"
+                >
+                    <f:SimpleForm
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                        columnsL="2"
+                        columnsM="2"
+                    >
+                        <Label text="Technical Rating" />
+
+                        <RatingIndicator
+                            maxValue="5"
+                            value="{create>/TechnicalRating}"
+                            editable="true"
+                        />
+
+                        <Label text="Communication Rating" />
+
+                        <RatingIndicator
+                            maxValue="5"
+                            value="{create>/CommunicationRating}"
+                            editable="true"
+                        />
+
+                        <Label text="Problem Solving" />
+
+                        <RatingIndicator
+                            maxValue="5"
+                            value="{create>/ProblemSolvingRating}"
+                            editable="true"
+                        />
+
+                        <Label text="Overall Rating" />
+
+                        <RatingIndicator
+                            maxValue="5"
+                            value="{create>/OverallRating}"
+                            editable="true"
+                        />
+                    </f:SimpleForm>
+                </Panel>
+
+                <!-- Assessment -->
+
+                <Panel
+                    headerText="Assessment"
+                    expandable="false"
+                    class="sapUiSmallMarginTop"
+                >
+                    <VBox class="sapUiSmallMargin">
+                        <Label text="Strengths" />
+
+                        <TextArea
+                            rows="3"
+                            value="{create>/Strengths}"
+                        />
+
+                        <Label
+                            text="Weaknesses"
+                            class="sapUiSmallMarginTop"
+                        />
+
+                        <TextArea
+                            rows="3"
+                            value="{create>/Weaknesses}"
+                        />
+
+                        <Label
+                            text="Comments"
+                            class="sapUiSmallMarginTop"
+                        />
+
+                        <TextArea
+                            rows="4"
+                            value="{create>/Comments}"
+                        />
+                    </VBox>
+                </Panel>
+
+                <!-- Recommendation -->
+
+                <Panel
+                    headerText="Recommendation"
+                    expandable="false"
+                    class="sapUiSmallMarginTop"
+                >
+                    <f:SimpleForm
+                        editable="true"
+                        layout="ResponsiveGridLayout"
+                    >
+                        <Label text="Recommendation" />
+
+                        <Select selectedKey="{create>/Recommendation}">
+                            <core:Item
+                                key="SELECTED"
+                                text="Selected"
+                            />
+
+                            <core:Item
+                                key="REJECTED"
+                                text="Rejected"
+                            />
+
+                            <core:Item
+                                key="HOLD"
+                                text="Hold"
+                            />
+
+                            <core:Item
+                                key="NEXT ROUND"
+                                text="Next Round"
+                            />
+                        </Select>
+
+                        <Label text="Employee ID" />
+
+                        <Input
+                            value="{create>/EmpId}"
+                            editable="false"
+                        />
+                    </f:SimpleForm>
+                </Panel>
+            </VBox>
+        </content>
+
+        <beginButton>
+            <Button
+                text="Save Feedback"
+                icon="sap-icon://save"
+                type="Emphasized"
+                press="onSaveFeedback"
+            />
+        </beginButton>
+
+        <endButton>
+            <Button
+                text="Cancel"
+                icon="sap-icon://decline"
+                press="onCloseCreateFeedback"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

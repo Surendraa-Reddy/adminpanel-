@@ -275,6 +275,11 @@
           "pattern": "joining-confirmation",
           "name": "JoiningConfirmation",
           "target": "JoiningConfirmation"
+        },
+        {
+          "pattern": "EmployeeOnboarding",
+          "name": "EmployeeOnboarding",
+          "target": "EmployeeOnboarding"
         }
       ],
       "targets": {
@@ -431,6 +436,9 @@
           "viewName": "JoiningConfirmation",
           "viewType": "XML",
           "viewLevel": 3
+        }, 
+        "EmployeeOnboarding": {
+            "viewName": "EmployeeOnboarding"
         }
       }
     },

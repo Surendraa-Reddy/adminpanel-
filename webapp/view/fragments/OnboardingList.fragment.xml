@@ -1,0 +1,428 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:table="sap.ui.table"
+    xmlns:layout="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+>
+    <VBox
+        width="100%"
+        class="sapUiMediumMargin"
+    >
+        <!-- ===================================================== -->
+        <!-- HEADER -->
+        <!-- ===================================================== -->
+
+        <Toolbar class="sapUiSmallMarginBottom">
+            <Title
+                text="Employee Onboarding"
+                level="H2"
+            />
+
+            <ToolbarSpacer />
+
+            <Button
+                text="Refresh"
+                icon="sap-icon://refresh"
+                type="Transparent"
+                press=".onRefresh"
+            />
+
+            <Button
+                text="Create Onboarding"
+                icon="sap-icon://add"
+                type="Emphasized"
+                press=".onCreateOnboarding"
+            />
+        </Toolbar>
+
+        <!-- ===================================================== -->
+        <!-- KPI SECTION -->
+        <!-- ===================================================== -->
+
+        <HBox
+            width="100%"
+            wrap="Wrap"
+            class="sapUiSmallMarginBottom"
+        >
+            <!-- TOTAL -->
+            <GenericTile
+                header="Total Onboarding"
+                subheader="All Records"
+                press=".onKpiTotalPress"
+                class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+            >
+                <TileContent>
+                    <NumericContent
+                        value="{onboarding>/KPI/Total}"
+                        icon="sap-icon://employee"
+                    />
+                </TileContent>
+            </GenericTile>
+
+            <!-- PENDING -->
+            <GenericTile
+                header="Pending"
+                subheader="Awaiting Start"
+                press=".onKpiPendingPress"
+                class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+            >
+                <TileContent>
+                    <NumericContent
+                        value="{onboarding>/KPI/Pending}"
+                        valueColor="Critical"
+                        icon="sap-icon://pending"
+                    />
+                </TileContent>
+            </GenericTile>
+
+            <!-- IN PROGRESS -->
+            <GenericTile
+                header="In Progress"
+                subheader="Currently Onboarding"
+                press=".onKpiInProgressPress"
+                class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+            >
+                <TileContent>
+                    <NumericContent
+                        value="{onboarding>/KPI/InProgress}"
+                        valueColor="Neutral"
+                        icon="sap-icon://process"
+                    />
+                </TileContent>
+            </GenericTile>
+
+            <!-- COMPLETED -->
+            <GenericTile
+                header="Completed"
+                subheader="Successfully Onboarded"
+                press=".onKpiCompletedPress"
+                class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+            >
+                <TileContent>
+                    <NumericContent
+                        value="{onboarding>/KPI/Completed}"
+                        valueColor="Good"
+                        icon="sap-icon://accept"
+                    />
+                </TileContent>
+            </GenericTile>
+
+            <!-- CANCELLED -->
+            <GenericTile
+                header="Cancelled"
+                subheader="Cancelled Records"
+                class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+            >
+                <TileContent>
+                    <NumericContent
+                        value="{onboarding>/KPI/Cancelled}"
+                        valueColor="Error"
+                        icon="sap-icon://decline"
+                    />
+                </TileContent>
+            </GenericTile>
+        </HBox>
+
+        <!-- ===================================================== -->
+        <!-- SEARCH / FILTER TOOLBAR -->
+        <!-- ===================================================== -->
+
+        <Toolbar class="sapUiSmallMarginBottom">
+            <SearchField
+                id="onboardingSearch"
+                width="350px"
+                placeholder="Search Onboarding ID, Joining ID, Candidate..."
+                liveChange=".onSearch"
+                search=".onSearch"
+            />
+
+            <ToolbarSeparator />
+
+            <Label
+                text="Status"
+                class="sapUiSmallMarginBegin sapUiTinyMarginEnd"
+            />
+
+            <Select
+                id="onboardingStatusFilter"
+                width="180px"
+                selectedKey="ALL"
+                change=".onStatusFilter"
+            >
+                <items>
+                    <core:Item
+                        key="ALL"
+                        text="All Status"
+                    />
+
+                    <core:Item
+                        key="PENDING"
+                        text="Pending"
+                    />
+
+                    <core:Item
+                        key="IN_PROGRESS"
+                        text="In Progress"
+                    />
+
+                    <core:Item
+                        key="COMPLETED"
+                        text="Completed"
+                    />
+
+                    <core:Item
+                        key="CANCELLED"
+                        text="Cancelled"
+                    />
+                </items>
+            </Select>
+
+            <ToolbarSpacer />
+
+            <Button
+                text="Clear Filters"
+                icon="sap-icon://clear-filter"
+                type="Transparent"
+                press=".onClearFilters"
+            />
+        </Toolbar>
+
+        <!-- ===================================================== -->
+        <!-- ONBOARDING TABLE -->
+        <!-- ===================================================== -->
+
+        <Table
+            id="onboardingTable"
+            width="100%"
+            growing="true"
+            growingThreshold="10"
+            growingScrollToLoad="true"
+            sticky="ColumnHeaders,HeaderToolbar"
+            inset="false"
+            items="{
+                path: 'onboarding>/Items'
+            }"
+            noDataText="No onboarding records found."
+            mode="None"
+            class="sapUiNoContentPadding"
+        >
+            <!-- ================================================= -->
+            <!-- TABLE HEADER -->
+            <!-- ================================================= -->
+
+            <headerToolbar>
+                <OverflowToolbar>
+                    <Title
+                        text="Onboarding Records"
+                        level="H3"
+                    />
+
+                    <ToolbarSpacer />
+
+                    <ObjectStatus
+                        text="{
+                            = ${onboarding>/Items}.length + ' Records'
+                        }"
+                        icon="sap-icon://list"
+                    />
+                </OverflowToolbar>
+            </headerToolbar>
+
+            <!-- ================================================= -->
+            <!-- COLUMNS -->
+            <!-- ================================================= -->
+
+            <columns>
+                <Column
+                    width="110px"
+                    hAlign="Center"
+                >
+                    <Text text="Onboarding ID" />
+                </Column>
+
+                <Column
+                    width="100px"
+                    hAlign="Center"
+                >
+                    <Text text="Joining ID" />
+                </Column>
+
+                <Column
+                    width="100px"
+                    hAlign="Center"
+                >
+                    <Text text="Offer ID" />
+                </Column>
+
+                <Column width="110px">
+                    <Text text="Candidate" />
+                </Column>
+
+                <Column width="120px">
+                    <Text text="Job Title" />
+                </Column>
+
+                <Column width="110px">
+                    <Text text="Department" />
+                </Column>
+
+                <Column width="110px">
+                    <Text text="Joining Date" />
+                </Column>
+
+                <Column width="150px">
+                    <Text text="Reporting Manager" />
+                </Column>
+
+                <Column
+                    width="140px"
+                    hAlign="Center"
+                >
+                    <Text text="Status" />
+                </Column>
+
+                <Column
+                    width="150px"
+                    hAlign="Center"
+                >
+                    <Text text="Actions" />
+                </Column>
+            </columns>
+
+            <!-- ================================================= -->
+            <!-- TABLE ROW -->
+            <!-- ================================================= -->
+
+            <items>
+                <ColumnListItem
+                    type="Active"
+                    highlight="{path: 'onboarding>OnboardingStatus', formatter: '.formatStatusState'}"
+                    press=".onViewOnboarding"
+                >
+                    <cells>
+                        <!-- ONBOARDING ID -->
+
+                        <ObjectIdentifier
+                            title="{onboarding>OnboardId}"
+                            text="Onboarding"
+                        />
+
+                        <!-- JOINING ID -->
+
+                        <ObjectIdentifier
+                            title="{onboarding>JoiningId}"
+                            text="Joining"
+                        />
+
+                        <!-- OFFER ID -->
+
+                        <ObjectIdentifier
+                            title="{onboarding>OfferId}"
+                            text="Offer"
+                        />
+
+                        <!-- CANDIDATE -->
+
+                        <VBox>
+                            <Text
+                                text="{onboarding>CandidateName}"
+                                wrapping="true"
+                            />
+
+                            <Text
+                                text="{onboarding>CandidateId}"
+                                class="sapUiTinyMarginTop"
+                                wrapping="false"
+                            />
+                        </VBox>
+
+                        <!-- JOB TITLE -->
+
+                        <Text
+                            text="{onboarding>JobTitle}"
+                            wrapping="true"
+                        />
+
+                        <!-- DEPARTMENT -->
+
+                        <Text
+                            text="{onboarding>Department}"
+                            wrapping="true"
+                        />
+
+                        <!-- JOINING DATE -->
+
+                        <Text
+                            text="{
+                                path: 'onboarding>JoiningDate',
+                                formatter: '.formatDate'
+                            }"
+                        />
+
+                        <!-- REPORTING MANAGER -->
+
+                        <Text
+                            text="{onboarding>ReportingManager}"
+                            wrapping="true"
+                        />
+
+                        <!-- STATUS -->
+
+                        <ObjectStatus
+                            text="{onboarding>OnboardingStatus}"
+                            state="{
+                                path: 'onboarding>OnboardingStatus',
+                                formatter: '.formatStatusState'
+                            }"
+                            icon="{
+                                path: 'onboarding>OnboardingStatus',
+                                formatter: '.formatStatusIcon'
+                            }"
+                        />
+
+                        <!-- ACTIONS -->
+
+                        <HBox
+                            justifyContent="Center"
+                            alignItems="Center"
+                        >
+                            <!-- VIEW -->
+
+                            <Button
+                                icon="sap-icon://display"
+                                tooltip="View Onboarding"
+                                type="Transparent"
+                                press=".onViewOnboarding"
+                            />
+
+                            <!-- START -->
+
+                            <Button
+                                icon="sap-icon://begin"
+                                tooltip="Start Onboarding"
+                                type="Transparent"
+                                visible="{
+                                    = ${onboarding>OnboardingStatus} === 'PENDING'
+                                }"
+                                press=".onStartOnboarding"
+                            />
+
+                            <!-- COMPLETE -->
+
+                            <Button
+                                icon="sap-icon://complete"
+                                tooltip="Complete Onboarding"
+                                type="Transparent"
+                                visible="{
+                                    = ${onboarding>OnboardingStatus} === 'IN_PROGRESS'
+                                }"
+                                press=".onCompleteOnboarding"
+                            />
+                        </HBox>
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </VBox>
+</core:FragmentDefinition>

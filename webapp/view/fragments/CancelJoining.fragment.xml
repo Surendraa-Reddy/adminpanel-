@@ -1,57 +1,68 @@
 <core:FragmentDefinition
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
-    xmlns:f="sap.ui.layout.form"
 >
     <Dialog
         id="cancelJoiningDialog"
-        title="Cancel Joining Confirmation"
-        contentWidth="550px"
+        title="Cancel Joining"
+        contentWidth="500px"
+        stretchOnPhone="true"
         draggable="true"
         resizable="true"
-        stretchOnPhone="true"
     >
         <content>
             <VBox class="sapUiMediumMargin">
                 <MessageStrip
-                    text="Cancelling this joining confirmation will preserve the record and change its status to CANCELLED."
+                    text="Cancellation will permanently change this joining confirmation to CANCELLED."
                     type="Warning"
                     showIcon="true"
                     class="sapUiSmallMarginBottom"
                 />
 
-                <f:SimpleForm
+                <Label
+                    text="Joining ID"
+                    class="sapUiTinyMarginBottom"
+                />
+
+                <Input
+                    value="{cancelJoining>/JoiningId}"
                     editable="false"
-                    layout="ResponsiveGridLayout"
-                    labelSpanXL="4"
-                    labelSpanL="4"
-                    labelSpanM="4"
-                    labelSpanS="12"
-                    columnsXL="1"
-                    columnsL="1"
-                    columnsM="1"
-                >
-                    <Label text="Joining ID" />
+                    class="sapUiSmallMarginBottom"
+                />
 
-                    <Text text="{cancelJoining>/JoiningId}" />
+                <Label
+                    text="Candidate"
+                    class="sapUiTinyMarginBottom"
+                />
 
-                    <Label text="Candidate" />
+                <Input
+                    value="{cancelJoining>/CandidateName}"
+                    editable="false"
+                    class="sapUiSmallMarginBottom"
+                />
 
-                    <Text text="{cancelJoining>/CandidateName}" />
-                </f:SimpleForm>
+                <Label
+                    text="Current Status"
+                    class="sapUiTinyMarginBottom"
+                />
+
+                <ObjectStatus
+                    text="{cancelJoining>/CurrentStatus}"
+                    state="Warning"
+                    class="sapUiSmallMarginBottom"
+                />
 
                 <Label
                     text="Cancellation Reason"
                     required="true"
-                    class="sapUiSmallMarginTop"
+                    class="sapUiTinyMarginBottom"
                 />
 
                 <TextArea
-                    id="cancelJoiningComments"
                     value="{cancelJoining>/Comments}"
-                    width="100%"
                     rows="5"
                     maxLength="255"
+                    width="100%"
                     placeholder="Enter the reason for cancellation..."
                 />
             </VBox>
@@ -60,9 +71,9 @@
         <beginButton>
             <Button
                 text="Cancel Joining"
-                icon="sap-icon://decline"
                 type="Reject"
-                press=".onSaveCancellation"
+                icon="sap-icon://decline"
+                press=".onSaveCancelJoining"
             />
         </beginButton>
 

@@ -1,0 +1,325 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+>
+    <Dialog
+        id="viewOnboardingDialog"
+        title="Employee Onboarding Details"
+        contentWidth="70rem"
+        contentHeight="auto"
+        draggable="true"
+        resizable="true"
+        stretchOnPhone="true"
+    >
+        <content>
+            <VBox
+                width="100%"
+                class="sapUiMediumMargin"
+            >
+                <Panel class="sapUiSmallMarginBottom">
+                    <content>
+                        <HBox
+                            width="100%"
+                            alignItems="Center"
+                            justifyContent="SpaceBetween"
+                            wrap="NoWrap"
+                        >
+                            <HBox
+                                alignItems="Center"
+                                width="70%"
+                            >
+                                <core:Icon
+                                    src="sap-icon://employee"
+                                    size="2rem"
+                                    class="sapUiSmallMarginEnd"
+                                />
+
+                                <VBox>
+                                    <Title
+                                        text="{viewOnboarding>/CandidateName}"
+                                        level="H2"
+                                    />
+
+                                    <Text
+                                        text="{viewOnboarding>/CandidateId}"
+                                        class="sapUiTinyMarginTop"
+                                    />
+                                </VBox>
+                            </HBox>
+
+                            <!-- <HBox
+                                alignItems="Center"
+                                justifyContent="End"
+                                width="10px"
+                                class="SapUiTinyMargint"
+                             
+                                <ObjectStatus
+                                    text="{viewOnboarding>/OnboardingStatus}"
+                                    state="{
+                                path: 'viewOnboarding>/OnboardingStatus',
+                                    formatter: '.formatStatusState'
+                                     }"
+                                    icon="{
+                                     path: 'viewOnboarding>/OnboardingStatus',
+                                       formatter: '.formatStatusIcon'
+                                          }"
+                                />
+                            </HBox> -->
+                        </HBox>
+                    </content>
+                </Panel>
+
+                <Panel
+                    headerText="Candidate Information"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <headerToolbar>
+                        <Toolbar>
+                            <core:Icon
+                                src="sap-icon://person-placeholder"
+                                size="1.2rem"
+                                class="sapUiTinyMarginEnd"
+                            />
+
+                            <Title
+                                text="Candidate Information"
+                                level="H3"
+                            />
+                        </Toolbar>
+                    </headerToolbar>
+
+                    <content>
+                        <form:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            labelSpanXL="4"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            labelSpanS="12"
+                            emptySpanXL="2"
+                            emptySpanL="2"
+                            emptySpanM="1"
+                            emptySpanS="0"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                        >
+                            <Label text="Candidate ID" />
+
+                            <ObjectIdentifier
+                                title="{viewOnboarding>/CandidateId}"
+                            />
+
+                            <Label text="Candidate Name" />
+
+                            <Text text="{viewOnboarding>/CandidateName}" />
+
+                            <Label text="Email" />
+
+                            <Text text="{viewOnboarding>/Email}" />
+
+                            <Label text="Mobile" />
+
+                            <Text text="{viewOnboarding>/Mobile}" />
+                        </form:SimpleForm>
+                    </content>
+                </Panel>
+
+                <Panel
+                    headerText="Job Information"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <headerToolbar>
+                        <Toolbar>
+                            <core:Icon
+                                src="sap-icon://business-objects-experience"
+                                size="1.2rem"
+                                class="sapUiTinyMarginEnd"
+                            />
+
+                            <Title
+                                text="Job Information"
+                                level="H3"
+                            />
+                        </Toolbar>
+                    </headerToolbar>
+
+                    <content>
+                        <form:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            labelSpanXL="4"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            labelSpanS="12"
+                            emptySpanXL="2"
+                            emptySpanL="2"
+                            emptySpanM="1"
+                            emptySpanS="0"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                        >
+                            <Label text="Job ID" />
+
+                            <ObjectIdentifier title="{viewOnboarding>/JobId}" />
+
+                            <Label text="Job Title" />
+
+                            <Text
+                                text="{viewOnboarding>/JobTitle}"
+                                wrapping="true"
+                            />
+
+                            <Label text="Department" />
+
+                            <Text text="{viewOnboarding>/Department}" />
+
+                            <Label text="Location" />
+
+                            <Text text="{viewOnboarding>/Location}" />
+
+                            <Label text="Employment Type" />
+
+                            <Text text="{viewOnboarding>/EmploymentType}" />
+                        </form:SimpleForm>
+                    </content>
+                </Panel>
+
+                <!-- ================================================= -->
+                <!-- JOINING INFORMATION -->
+                <!-- ================================================= -->
+
+                <Panel
+                    headerText="Joining Information"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <headerToolbar>
+                        <Toolbar>
+                            <core:Icon
+                                src="sap-icon://calendar"
+                                size="1.2rem"
+                                class="sapUiTinyMarginEnd"
+                            />
+
+                            <Title
+                                text="Joining Information"
+                                level="H3"
+                            />
+                        </Toolbar>
+                    </headerToolbar>
+
+                    <content>
+                        <form:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            labelSpanXL="4"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            labelSpanS="12"
+                            emptySpanXL="2"
+                            emptySpanL="2"
+                            emptySpanM="1"
+                            emptySpanS="0"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                        >
+                            <Label text="Joining Date" />
+
+                            <Text
+                                text="{
+                                    path: 'viewOnboarding>/JoiningDate',
+                                    formatter: '.formatDate'
+                                }"
+                            />
+
+                            <Label text="Reporting Manager" />
+
+                            <Text text="{viewOnboarding>/ReportingManager}" />
+                        </form:SimpleForm>
+                    </content>
+                </Panel>
+
+                <!-- ================================================= -->
+                <!-- STATUS -->
+                <!-- ================================================= -->
+
+                <Panel
+                    headerText="Onboarding Status"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <content>
+                        <HBox
+                            alignItems="Center"
+                            class="sapUiMediumMargin"
+                        >
+                            <core:Icon
+                                src="sap-icon://pending"
+                                size="2rem"
+                                class="sapUiSmallMarginEnd"
+                            />
+
+                            <VBox>
+                                <Label text="Current Status" />
+
+                                <ObjectStatus
+                                    text="{viewOnboarding>/OnboardingStatus}"
+                                    state="{
+                                        path: 'viewOnboarding>/OnboardingStatus',
+                                        formatter: '.formatStatusState'
+                                    }"
+                                    icon="{
+                                        path: 'viewOnboarding>/OnboardingStatus',
+                                        formatter: '.formatStatusIcon'
+                                    }"
+                                />
+                            </VBox>
+                        </HBox>
+                    </content>
+                </Panel>
+
+                <!-- ================================================= -->
+                <!-- COMMENTS -->
+                <!-- ================================================= -->
+
+                <Panel
+                    headerText="Comments"
+                    expandable="true"
+                    expanded="true"
+                >
+                    <content>
+                        <VBox class="sapUiMediumMargin">
+                            <Text
+                                text="{viewOnboarding>/Comments}"
+                                wrapping="true"
+                            />
+                        </VBox>
+                    </content>
+                </Panel>
+            </VBox>
+        </content>
+
+        <!-- ================================================= -->
+        <!-- FOOTER -->
+        <!-- ================================================= -->
+
+        <endButton>
+            <Button
+                text="Close"
+                icon="sap-icon://decline"
+                type="Transparent"
+                press=".onCloseViewOnboarding"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

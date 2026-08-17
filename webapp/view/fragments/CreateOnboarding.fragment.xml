@@ -1,0 +1,267 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+>
+    <Dialog
+        id="createOnboardingDialog"
+        title="Create Employee Onboarding"
+        contentWidth="700px"
+        contentHeight="auto"
+        draggable="true"
+        resizable="true"
+        stretchOnPhone="true"
+    >
+        <content>
+            <VBox class="sapUiMediumMargin">
+                <!-- ================================================= -->
+                <!-- INFORMATION -->
+                <!-- ================================================= -->
+
+                <MessageStrip
+                    text="Only confirmed joining records can be onboarded. Enter the Joining ID to load the candidate details."
+                    type="Information"
+                    showIcon="true"
+                    class="sapUiSmallMarginBottom"
+                />
+
+                <!-- ================================================= -->
+                <!-- JOINING ID -->
+                <!-- ================================================= -->
+
+                <Panel
+                    headerText="Joining Confirmation"
+                    expandable="false"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <content>
+                        <VBox class="sapUiSmallMargin">
+                            <Label
+                                text="Joining ID"
+                                required="true"
+                                labelFor="createJoiningId"
+                            />
+
+                            <HBox
+                                width="100%"
+                                alignItems="Center"
+                            >
+                                <Input
+                                    id="createJoiningId"
+                                    value="{createOnboarding>/JoiningId}"
+                                    placeholder="Enter Joining ID e.g. JN004"
+                                    width="75%"
+                                    maxLength="10"
+                                    valueState="{createOnboarding>/JoiningIdState}"
+                                    valueStateText="{createOnboarding>/JoiningIdStateText}"
+                                    change=".onJoiningIdChange"
+                                />
+
+                                <Button
+                                    text="Load Details"
+                                    icon="sap-icon://search"
+                                    type="Emphasized"
+                                    press=".onLoadJoiningDetails"
+                                    class="sapUiSmallMarginBegin"
+                                />
+                            </HBox>
+
+                            <Text
+                                text="Example: JN001"
+                                class="sapUiTinyMarginTop"
+                                wrapping="true"
+                            />
+                        </VBox>
+                    </content>
+                </Panel>
+
+                <!-- ================================================= -->
+                <!-- JOINING DETAILS -->
+                <!-- ================================================= -->
+
+                <Panel
+                    headerText="Joining Details"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <content>
+                        <f:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            labelSpanXL="4"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            labelSpanS="12"
+                            adjustLabelSpan="false"
+                            emptySpanXL="2"
+                            emptySpanL="2"
+                            emptySpanM="2"
+                            emptySpanS="0"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                        >
+                            <Label text="Onboarding ID" />
+
+                            <ObjectIdentifier
+                                title="{createOnboarding>/OnboardId}"
+                                text="Generated automatically"
+                            />
+
+                            <Label text="Joining ID" />
+
+                            <ObjectIdentifier
+                                title="{createOnboarding>/JoiningId}"
+                            />
+
+                            <Label text="Offer ID" />
+
+                            <ObjectIdentifier
+                                title="{createOnboarding>/OfferId}"
+                            />
+
+                            <Label text="Candidate ID" />
+
+                            <ObjectIdentifier
+                                title="{createOnboarding>/CandidateId}"
+                            />
+
+                            <Label text="Candidate Name" />
+
+                            <Text text="{createOnboarding>/CandidateName}" />
+
+                            <Label text="Job ID" />
+
+                            <Text text="{createOnboarding>/JobId}" />
+
+                            <Label text="Job Title" />
+
+                            <Text
+                                text="{createOnboarding>/JobTitle}"
+                                wrapping="true"
+                            />
+
+                            <Label text="Department" />
+
+                            <Text text="{createOnboarding>/Department}" />
+
+                            <Label text="Joining Date" />
+
+                            <Text
+                                text="{createOnboarding>/JoiningDateDisplay}"
+                            />
+
+                            <Label text="Email" />
+
+                            <Text text="{createOnboarding>/Email}" />
+
+                            <Label text="Mobile" />
+
+                            <Text text="{createOnboarding>/Mobile}" />
+
+                            <Label text="Location" />
+
+                            <Text text="{createOnboarding>/Location}" />
+
+                            <Label text="Employment Type" />
+
+                            <Text text="{createOnboarding>/EmploymentType}" />
+
+                            <Label
+                                text="Reporting Manager"
+                                required="true"
+                                labelFor="createReportingManager"
+                            />
+
+                            <Input
+                                id="createReportingManager"
+                                value="{createOnboarding>/ReportingManager}"
+                                placeholder="Enter Reporting Manager name"
+                                width="100%"
+                                maxLength="50"
+                                valueState="{createOnboarding>/ReportingManagerState}"
+                                valueStateText="{createOnboarding>/ReportingManagerStateText}"
+                                liveChange=".onReportingManagerChange"
+                            />
+                        </f:SimpleForm>
+                    </content>
+                </Panel>
+
+                <!-- ================================================= -->
+                <!-- ONBOARDING STATUS -->
+                <!-- ================================================= -->
+
+                <Panel
+                    headerText="Onboarding Information"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <content>
+                        <VBox class="sapUiSmallMargin">
+                            <Label text="Initial Status" />
+
+                            <ObjectStatus
+                                text="{createOnboarding>/OnboardingStatus}"
+                                state="Warning"
+                                icon="sap-icon://pending"
+                            />
+
+                            <Text
+                                text="New onboarding records start with PENDING status."
+                                class="sapUiTinyMarginTop"
+                                wrapping="true"
+                            />
+                        </VBox>
+                    </content>
+                </Panel>
+
+                <!-- ================================================= -->
+                <!-- COMMENTS -->
+                <!-- ================================================= -->
+
+                <Panel headerText="Comments">
+                    <content>
+                        <VBox class="sapUiSmallMargin">
+                            <Label
+                                text="Comments"
+                                labelFor="createOnboardingComments"
+                            />
+
+                            <TextArea
+                                id="createOnboardingComments"
+                                value="{createOnboarding>/Comments}"
+                                rows="3"
+                                maxLength="255"
+                                width="100%"
+                                placeholder="Enter onboarding comments if required..."
+                            />
+                        </VBox>
+                    </content>
+                </Panel>
+            </VBox>
+        </content>
+
+        <!-- ===================================================== -->
+        <!-- FOOTER -->
+        <!-- ===================================================== -->
+
+        <beginButton>
+            <Button
+                text="Create Onboarding"
+                icon="sap-icon://add"
+                type="Emphasized"
+                press=".onSaveOnboarding"
+                enabled="{createOnboarding>/CanCreate}"
+            />
+        </beginButton>
+
+        <endButton>
+            <Button
+                text="Cancel"
+                icon="sap-icon://decline"
+                type="Transparent"
+                press=".onCloseCreateOnboarding"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

@@ -1,0 +1,383 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+>
+    <Dialog
+        id="startOnboardingDialog"
+        title="Start Employee Onboarding"
+        contentWidth="900px"
+        contentHeight="auto"
+        draggable="true"
+        resizable="true"
+        stretchOnPhone="true"
+    >
+        <content>
+            <VBox
+                width="100%"
+                class="sapUiMediumMargin"
+            >
+          
+                <Panel class="sapUiSmallMarginBottom">
+                    <headerToolbar>
+                        <Toolbar>
+                            <ObjectStatus
+                                icon="sap-icon://employee"
+                                text="Employee Onboarding"
+                                state="Information"
+                            />
+
+                            <ToolbarSpacer />
+
+                            <ObjectStatus
+                                text="{startOnboarding>/OnboardingStatus}"
+                                state="Information"
+                                icon="sap-icon://process"
+                            />
+                        </Toolbar>
+                    </headerToolbar>
+
+                    <content>
+                        <VBox class="sapUiSmallMargin">
+                            <Title
+                                text="{startOnboarding>/CandidateName}"
+                                level="H2"
+                            />
+
+                            <Text
+                                text="{startOnboarding>/CandidateId}"
+                                class="sapUiTinyMarginTop"
+                            />
+                        </VBox>
+                    </content>
+                </Panel>
+
+                <Panel
+                    headerText="Joining and Job Information"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <content>
+                        <form:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            labelSpanXL="4"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            labelSpanS="12"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                        >
+                            <Label text="Onboarding ID" />
+
+                            <ObjectIdentifier
+                                title="{startOnboarding>/OnboardId}"
+                            />
+
+                            <Label text="Joining ID" />
+
+                            <ObjectIdentifier
+                                title="{startOnboarding>/JoiningId}"
+                            />
+
+                            <Label text="Offer ID" />
+
+                            <ObjectIdentifier
+                                title="{startOnboarding>/OfferId}"
+                            />
+
+                            <Label text="Candidate" />
+
+                            <Text text="{startOnboarding>/CandidateName}" />
+
+                            <Label text="Job ID" />
+
+                            <Text text="{startOnboarding>/JobId}" />
+
+                            <Label text="Job Title" />
+
+                            <Text
+                                text="{startOnboarding>/JobTitle}"
+                                wrapping="true"
+                            />
+
+                            <Label text="Joining Date" />
+
+                            <Text
+                                text="{startOnboarding>/JoiningDateDisplay}"
+                            />
+
+                            <Label text="Reporting Manager" />
+
+                            <Text text="{startOnboarding>/ReportingManager}" />
+                        </form:SimpleForm>
+                    </content>
+                </Panel>
+
+               
+
+                <Panel
+                    headerText="Onboarding Progress"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <content>
+                        <VBox class="sapUiSmallMargin">
+                            <HBox
+                                width="100%"
+                                alignItems="Center"
+                            >
+                                <Title
+                                    text="Completion Progress"
+                                    level="H4"
+                                />
+
+                                <ToolbarSpacer />
+
+                                <ObjectNumber
+                                    number="{startOnboarding>/Progress}"
+                                    unit="%"
+                                    state="Information"
+                                />
+                            </HBox>
+
+                            <ProgressIndicator
+                                percentValue="{startOnboarding>/Progress}"
+                                displayValue="{startOnboarding>/ProgressText}"
+                                state="Information"
+                                width="100%"
+                                class="sapUiSmallMarginTop"
+                            />
+                        </VBox>
+                    </content>
+                </Panel>
+
+             
+
+                <Panel
+                    headerText="Employee Onboarding Checklist"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <content>
+                        <VBox class="sapUiSmallMargin">
+                            
+
+                            <HBox
+                                width="100%"
+                                alignItems="Center"
+                                class="sapUiSmallMarginBottom"
+                            >
+                                <CheckBox
+                                    selected="{startOnboarding>/Checklist/PersonalInfo}"
+                                    select=".onChecklistChange"
+                                />
+
+                                <VBox class="sapUiTinyMarginBegin">
+                                    <Text
+                                        text="Personal Information"
+                                        class="sapUiTinyMarginBottom"
+                                    />
+
+                                    <Text
+                                        text="Verify employee personal and contact information."
+                                        wrapping="true"
+                                    />
+                                </VBox>
+                            </HBox>
+
+                        
+                            <HBox
+                                width="100%"
+                                alignItems="Center"
+                                class="sapUiSmallMarginBottom"
+                            >
+                                <CheckBox
+                                    selected="{startOnboarding>/Checklist/Documents}"
+                                    select=".onChecklistChange"
+                                />
+
+                                <VBox class="sapUiTinyMarginBegin">
+                                    <Text
+                                        text="Document Verification"
+                                        class="sapUiTinyMarginBottom"
+                                    />
+
+                                    <Text
+                                        text="Verify identity, education and employment documents."
+                                        wrapping="true"
+                                    />
+                                </VBox>
+                            </HBox>
+
+                         
+
+                            <HBox
+                                width="100%"
+                                alignItems="Center"
+                                class="sapUiSmallMarginBottom"
+                            >
+                                <CheckBox
+                                    selected="{startOnboarding>/Checklist/BankDetails}"
+                                    select=".onChecklistChange"
+                                />
+
+                                <VBox class="sapUiTinyMarginBegin">
+                                    <Text
+                                        text="Bank Details"
+                                        class="sapUiTinyMarginBottom"
+                                    />
+
+                                    <Text
+                                        text="Verify employee bank account information for payroll."
+                                        wrapping="true"
+                                    />
+                                </VBox>
+                            </HBox>
+
+                            
+
+                            <HBox
+                                width="100%"
+                                alignItems="Center"
+                                class="sapUiSmallMarginBottom"
+                            >
+                                <CheckBox
+                                    selected="{startOnboarding>/Checklist/EmergencyContact}"
+                                    select=".onChecklistChange"
+                                />
+
+                                <VBox class="sapUiTinyMarginBegin">
+                                    <Text
+                                        text="Emergency Contact"
+                                        class="sapUiTinyMarginBottom"
+                                    />
+
+                                    <Text
+                                        text="Capture emergency contact information."
+                                        wrapping="true"
+                                    />
+                                </VBox>
+                            </HBox>
+
+                          
+
+                            <HBox
+                                width="100%"
+                                alignItems="Center"
+                                class="sapUiSmallMarginBottom"
+                            >
+                                <CheckBox
+                                    selected="{startOnboarding>/Checklist/ITAssets}"
+                                    select=".onChecklistChange"
+                                />
+
+                                <VBox class="sapUiTinyMarginBegin">
+                                    <Text
+                                        text="IT and Asset Allocation"
+                                        class="sapUiSmallMarginBottom"
+                                    />
+
+                                    <Text
+                                        text="Allocate laptop, email account, access and other IT assets."
+                                        wrapping="true"
+                                    />
+                                </VBox>
+                            </HBox>
+
+                          
+
+                            <HBox
+                                width="100%"
+                                alignItems="Center"
+                                class="sapUiSmallMarginBottom"
+                            >
+                                <CheckBox
+                                    selected="{startOnboarding>/Checklist/HRFormalities}"
+                                    select=".onChecklistChange"
+                                />
+
+                                <VBox class="sapUiTinyMarginBegin">
+                                    <Text
+                                        text="HR Formalities"
+                                        class="sapUiSmallMarginBottom"
+                                    />
+
+                                    <Text
+                                        text="Complete HR policies, forms and employee registration."
+                                        wrapping="true"
+                                    />
+                                </VBox>
+                            </HBox>
+
+                        
+
+                            <HBox
+                                width="100%"
+                                alignItems="Center"
+                            >
+                                <CheckBox
+                                    selected="{startOnboarding>/Checklist/Orientation}"
+                                    select=".onChecklistChange"
+                                />
+
+                                <VBox class="sapUiTinyMarginBegin">
+                                    <Text
+                                        text="Employee Orientation"
+                                        class="sapUiSmallMarginBottom"
+                                    />
+
+                                    <Text
+                                        text="Complete induction and employee orientation."
+                                        wrapping="true"
+                                    />
+                                </VBox>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </Panel>
+
+
+                <Panel
+                    headerText="Onboarding Notes"
+                    expandable="true"
+                    expanded="true"
+                >
+                    <content>
+                        <VBox class="sapUiSmallMargin">
+                            <TextArea
+                                value="{startOnboarding>/Comments}"
+                                rows="4"
+                                maxLength="255"
+                                width="100%"
+                                placeholder="Enter onboarding notes..."
+                            />
+                        </VBox>
+                    </content>
+                </Panel>
+            </VBox>
+        </content>
+
+        
+
+        <beginButton>
+            <Button
+                text="Save Progress"
+                icon="sap-icon://save"
+                type="Emphasized"
+                press=".onSaveOnboardingProgress"
+            />
+        </beginButton>
+
+        <endButton>
+            <Button
+                text="Cancel"
+                icon="sap-icon://decline"
+                type="Transparent"
+                press=".onCloseStartOnboarding"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

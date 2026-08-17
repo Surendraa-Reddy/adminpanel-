@@ -21,9 +21,7 @@ sap.ui.define([
         "employee.controller.recruitment.JoiningConfirmation",
         {
 
-            /* ========================================================= */
-            /* INIT */
-            /* ========================================================= */
+           
 
             onInit: function () {
 
@@ -46,9 +44,6 @@ sap.ui.define([
             },
 
 
-            /* ========================================================= */
-            /* LOAD JOININGS */
-            /* ========================================================= */
 
             _loadJoinings: function () {
 
@@ -1890,7 +1885,6 @@ sap.ui.define([
             },
             onConfirmJoining: function (oEvent) {
 
-
                 var oContext =
                     oEvent.getSource()
                         .getBindingContext("joining");
@@ -1898,7 +1892,7 @@ sap.ui.define([
                 if (!oContext) {
 
                     MessageBox.error(
-                        "Joining confirmation record not found."
+                        "Joining record not found."
                     );
 
                     return;
@@ -1910,11 +1904,6 @@ sap.ui.define([
                 var sJoiningId =
                     String(
                         oData.JoiningId || ""
-                    ).trim();
-
-                var sCandidateName =
-                    String(
-                        oData.CandidateName || ""
                     ).trim();
 
                 var sStatus =
@@ -1933,6 +1922,10 @@ sap.ui.define([
                     return;
                 }
 
+                /* ----------------------------------------------------- */
+                /* Only PENDING can be confirmed */
+                /* ----------------------------------------------------- */
+
                 if (sStatus !== "PENDING") {
 
                     MessageBox.warning(
@@ -1944,11 +1937,11 @@ sap.ui.define([
 
                 MessageBox.confirm(
 
-                    "Are you sure you want to confirm the joining for " +
-                    sCandidateName +
-                    " (" +
+                    "Are you sure you want to confirm joining " +
                     sJoiningId +
-                    ")?",
+                    " for " +
+                    (oData.CandidateName || "this candidate") +
+                    "?",
 
                     {
 
@@ -1972,22 +1965,22 @@ sap.ui.define([
                             }
 
                             this._updateJoiningStatus(
-                                oData,
+                                sJoiningId,
                                 "CONFIRMED",
                                 oData.Comments || ""
                             );
 
                         }.bind(this)
+
                     }
                 );
             },
 
             _updateJoiningStatus: function (
-                oData,
+                sJoiningId,
                 sNewStatus,
                 sComments
             ) {
-
 
                 var oModel =
                     this.getOwnerComponent()
@@ -1997,20 +1990,6 @@ sap.ui.define([
 
                     MessageBox.error(
                         "OData model is not available."
-                    );
-
-                    return;
-                }
-
-                var sJoiningId =
-                    String(
-                        oData.JoiningId || ""
-                    ).trim();
-
-                if (!sJoiningId) {
-
-                    MessageBox.error(
-                        "Joining ID is required."
                     );
 
                     return;
@@ -2028,16 +2007,10 @@ sap.ui.define([
                 var oPayload = {
 
                     JoiningStatus:
-                        String(
-                            sNewStatus || ""
-                        )
-                            .trim()
-                            .toUpperCase(),
+                        sNewStatus,
 
                     Comments:
-                        String(
-                            sComments || ""
-                        ).trim()
+                        sComments || ""
 
                 };
 
@@ -2062,24 +2035,11 @@ sap.ui.define([
                             this.getView()
                                 .setBusy(false);
 
-                            if (
-                                sNewStatus ===
-                                "CONFIRMED"
-                            ) {
-
-                                MessageToast.show(
-                                    "Joining confirmed successfully."
-                                );
-
-                            } else if (
-                                sNewStatus ===
-                                "CANCELLED"
-                            ) {
-
-                                MessageToast.show(
-                                    "Joining cancelled successfully."
-                                );
-                            }
+                            MessageToast.show(
+                                "Joining status updated to " +
+                                sNewStatus +
+                                "."
+                            );
 
                             this._loadJoinings();
 
@@ -2116,8 +2076,7 @@ sap.ui.define([
                                     ) {
 
                                         if (
-                                            typeof
-                                            oResponse.error.message ===
+                                            typeof oResponse.error.message ===
                                             "string"
                                         ) {
 
@@ -2137,7 +2096,7 @@ sap.ui.define([
                             } catch (e) {
 
                                 console.error(
-                                    "Status update response parsing error:",
+                                    "Error response parsing:",
                                     e
                                 );
                             }
@@ -2147,14 +2106,11 @@ sap.ui.define([
                             );
 
                         }.bind(this)
+
                     }
                 );
-
-
             },
-
             onCancelJoining: function (oEvent) {
-
 
                 var oContext =
                     oEvent.getSource()
@@ -2163,17 +2119,19 @@ sap.ui.define([
                 if (!oContext) {
 
                     MessageBox.error(
-                        "Joining confirmation record not found."
+                        "Joining record not found."
                     );
 
                     return;
                 }
 
                 var oData =
-                    Object.assign(
-                        {},
-                        oContext.getObject()
-                    );
+                    oContext.getObject();
+
+                var sJoiningId =
+                    String(
+                        oData.JoiningId || ""
+                    ).trim();
 
                 var sStatus =
                     String(
@@ -2181,6 +2139,19 @@ sap.ui.define([
                     )
                         .trim()
                         .toUpperCase();
+
+                if (!sJoiningId) {
+
+                    MessageBox.error(
+                        "Joining ID is missing."
+                    );
+
+                    return;
+                }
+
+                /* ----------------------------------------------------- */
+                /* Only PENDING / CONFIRMED can be cancelled */
+                /* ----------------------------------------------------- */
 
                 if (
                     sStatus !== "PENDING" &&
@@ -2194,18 +2165,29 @@ sap.ui.define([
                     return;
                 }
 
+                /* ----------------------------------------------------- */
+                /* Create cancellation model */
+                /* ----------------------------------------------------- */
+
                 var oCancelModel =
                     new JSONModel({
 
                         JoiningId:
-                            oData.JoiningId || "",
+                            sJoiningId,
 
                         CandidateName:
                             oData.CandidateName || "",
 
+                        CurrentStatus:
+                            sStatus,
+
                         Comments: ""
 
                     });
+
+                /* ----------------------------------------------------- */
+                /* Load cancellation fragment */
+                /* ----------------------------------------------------- */
 
                 if (!this._oCancelJoiningDialog) {
 
@@ -2228,7 +2210,9 @@ sap.ui.define([
                                 oDialog;
 
                             this.getView()
-                                .addDependent(oDialog);
+                                .addDependent(
+                                    oDialog
+                                );
 
                             oDialog.setModel(
                                 oCancelModel,
@@ -2265,11 +2249,8 @@ sap.ui.define([
 
                     this._oCancelJoiningDialog.open();
                 }
-
-
             },
-            onSaveCancellation: function () {
-
+            onSaveCancelJoining: function () {
 
                 if (!this._oCancelJoiningDialog) {
                     return;
@@ -2301,19 +2282,23 @@ sap.ui.define([
                         oData.Comments || ""
                     ).trim();
 
-                if (!sJoiningId) {
+                /* ----------------------------------------------------- */
+                /* Validate comment */
+                /* ----------------------------------------------------- */
 
-                    MessageBox.error(
-                        "Joining ID is missing."
+                if (!sComments) {
+
+                    MessageBox.warning(
+                        "Cancellation reason is required."
                     );
 
                     return;
                 }
 
-                if (!sComments) {
+                if (sComments.length < 5) {
 
                     MessageBox.warning(
-                        "Please enter a cancellation reason."
+                        "Please enter a meaningful cancellation reason."
                     );
 
                     return;
@@ -2336,7 +2321,7 @@ sap.ui.define([
 
                     {
 
-                        title: "Confirm Cancellation",
+                        title: "Cancel Joining",
 
                         actions: [
                             MessageBox.Action.YES,
@@ -2356,7 +2341,7 @@ sap.ui.define([
                             }
 
                             this._updateJoiningStatus(
-                                oData,
+                                sJoiningId,
                                 "CANCELLED",
                                 sComments
                             );
@@ -2364,10 +2349,9 @@ sap.ui.define([
                             this._oCancelJoiningDialog.close();
 
                         }.bind(this)
+
                     }
                 );
-
-
             },
 
             onCloseCancelJoining: function () {
@@ -2375,13 +2359,128 @@ sap.ui.define([
                 if (this._oCancelJoiningDialog) {
 
                     this._oCancelJoiningDialog.close();
+
                 }
-
-
             },
 
 
+            onViewJoining: function (oEvent) {
 
+                var oContext =
+                    oEvent.getSource()
+                        .getBindingContext("joining");
+
+                if (!oContext) {
+
+                    MessageBox.error(
+                        "Joining record not found."
+                    );
+
+                    return;
+                }
+
+                var oData =
+                    Object.assign(
+                        {},
+                        oContext.getObject()
+                    );
+
+                var oViewModel =
+                    new JSONModel(oData);
+
+                if (!this._oViewJoiningDialog) {
+
+                    Fragment.load({
+
+                        id:
+                            this.getView().getId(),
+
+                        name:
+                            "employee.view.fragments.ViewJoining",
+
+                        controller:
+                            this
+
+                    }).then(
+
+                        function (oDialog) {
+
+                            this._oViewJoiningDialog =
+                                oDialog;
+
+                            this.getView()
+                                .addDependent(
+                                    oDialog
+                                );
+
+                            oDialog.setModel(
+                                oViewModel,
+                                "viewJoining"
+                            );
+
+                            oDialog.open();
+
+                        }.bind(this)
+
+                    ).catch(
+
+                        function (oError) {
+
+                            console.error(
+                                "View Joining Fragment Error:",
+                                oError
+                            );
+
+                            MessageBox.error(
+                                "Unable to display joining details."
+                            );
+
+                        }.bind(this)
+                    );
+
+                } else {
+
+                    this._oViewJoiningDialog
+                        .setModel(
+                            oViewModel,
+                            "viewJoining"
+                        );
+
+                    this._oViewJoiningDialog.open();
+                }
+            },
+            onCloseViewJoining: function () {
+
+                if (this._oViewJoiningDialog) {
+
+                    this._oViewJoiningDialog.close();
+
+                }
+            },
+            isPending: function (sStatus) {
+
+                return String(
+                    sStatus || ""
+                )
+                    .trim()
+                    .toUpperCase() === "PENDING";
+            },
+
+
+            isCancellable: function (sStatus) {
+
+                var sValue =
+                    String(
+                        sStatus || ""
+                    )
+                        .trim()
+                        .toUpperCase();
+
+                return (
+                    sValue === "PENDING" ||
+                    sValue === "CONFIRMED"
+                );
+            },
 
             onKpiTotalPress: function () {
 
@@ -2576,6 +2675,72 @@ sap.ui.define([
             },
 
 
+            formatJoiningStatusState: function (sStatus) {
+
+                if (!sStatus) {
+                    return "None";
+                }
+
+                switch (String(sStatus).toUpperCase()) {
+
+                    case "CONFIRMED":
+                        return "Success";
+
+                    case "PENDING":
+                        return "Warning";
+
+                    case "REJECTED":
+                        return "Error";
+
+                    case "CANCELLED":
+                        return "Error";
+
+                    case "JOINED":
+                        return "Success";
+
+                    case "IN_PROGRESS":
+                        return "Information";
+
+                    default:
+                        return "None";
+                }
+            },
+
+
+        
+
+            formatJoiningStatusIcon: function (sStatus) {
+
+                if (!sStatus) {
+                    return "sap-icon://status-inactive";
+                }
+
+                switch (String(sStatus).toUpperCase()) {
+
+                    case "CONFIRMED":
+                        return "sap-icon://accept";
+
+                    case "PENDING":
+                        return "sap-icon://pending";
+
+                    case "REJECTED":
+                        return "sap-icon://decline";
+
+                    case "CANCELLED":
+                        return "sap-icon://decline";
+
+                    case "JOINED":
+                        return "sap-icon://employee";
+
+                    case "IN_PROGRESS":
+                        return "sap-icon://process";
+
+                    default:
+                        return "sap-icon://status-inactive";
+                }
+            },
+
+
 
             onExit: function () {
 
@@ -2588,6 +2753,13 @@ sap.ui.define([
                     this._oCreateJoiningDialog =
                         null;
                 }
+            },
+            onNavigateToOnboarding: function () {
+
+                this.getOwnerComponent()
+                    .getRouter()
+                    .navTo("EmployeeOnboarding");
+
             },
             onNavBack: function () {
                 this.getOwnerComponent()

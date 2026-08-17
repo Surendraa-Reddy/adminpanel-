@@ -21,6 +21,12 @@
                 />
 
                 <ToolbarSpacer />
+                <Button
+                    icon="sap-icon://employee"
+                    text="Employee Onboarding"
+                    type="Emphasized"
+                    press=".onNavigateToOnboarding"
+                />
 
                 <Button
                     icon="sap-icon://refresh"
@@ -358,35 +364,52 @@
 
                                     <!-- Actions -->
 
-                                    <HBox justifyContent="Center">
+                                    <HBox
+                                        justifyContent="Center"
+                                        renderType="Bare"
+                                    >
+                                        <!-- View -->
                                         <Button
                                             icon="sap-icon://display"
                                             tooltip="View Details"
                                             type="Transparent"
-                                            press=".onDisplayJoining"
+                                            press=".onViewJoining"
                                         />
+
+                                        <!-- Edit -->
                                         <Button
                                             icon="sap-icon://edit"
-                                            tooltip="Edit Joining"
+                                            tooltip="Edit"
                                             type="Transparent"
-                                            visible="{= ${joining>JoiningStatus} === 'PENDING' || ${joining>JoiningStatus} === 'CONFIRMED' }"
                                             press=".onEditJoining"
+                                            visible="{
+                                                        path: 'joining>JoiningStatus',
+                                                        formatter: '.isPending'
+                                                    }"
                                         />
+
                                         <!-- Confirm -->
                                         <Button
                                             icon="sap-icon://accept"
                                             tooltip="Confirm Joining"
                                             type="Transparent"
-                                            visible="{= ${joining>JoiningStatus} === 'PENDING' }"
                                             press=".onConfirmJoining"
+                                            visible="{
+                                                 path: 'joining>JoiningStatus',
+                                                 formatter: '.isPending'
+                                               }"
                                         />
+
                                         <!-- Cancel -->
                                         <Button
                                             icon="sap-icon://decline"
                                             tooltip="Cancel Joining"
                                             type="Transparent"
-                                            visible="{= ${joining>JoiningStatus} === 'PENDING' || ${joining>JoiningStatus} === 'CONFIRMED' }"
                                             press=".onCancelJoining"
+                                            visible="{
+                                                 path: 'joining>JoiningStatus',
+                                                 formatter: '.isCancellable'
+                                             }"
                                         />
                                     </HBox>
                                 </cells>

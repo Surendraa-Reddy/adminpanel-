@@ -1249,31 +1249,7 @@ sap.ui.define([
                         oFormData.Comments || ""
                     ).trim();
 
-                // =========================================================
-                // ODATA PAYLOAD
-                // =========================================================
-                //
-                // Based exactly on your metadata:
-                //
-                // OfferId
-                // CandidateId
-                // CandidateName
-                // JobId
-                // JobTitle
-                // OfferDate
-                // JoiningDate
-                // Salary
-                // Waers
-                // OfferStatus
-                // OfferType
-                // Comments
-                //
-                // Do NOT send:
-                // Mandt
-                // CreatedOn
-                // EmpId
-                // Status
-                // =========================================================
+                
 
                 var oPayload = {
 
@@ -1302,9 +1278,7 @@ sap.ui.define([
                     Comments: sComments
                 };
 
-                // =========================================================
-                // LOG PAYLOAD
-                // =========================================================
+       
 
                 console.log(
                     "========================================"
@@ -3553,8 +3527,9 @@ sap.ui.define([
             },
             onNavBack: function () {
 
-              onNavBack
+              this.getOwnerComponent().getRouter().navTo("CandidateDashboard")
             }
+        
 
         }
     );

@@ -1,0 +1,480 @@
+<mvc:View
+    controllerName="employee.controller.recruitment.EmployeeOnboarding"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    displayBlock="true"
+  >
+    <Page
+        id="employeeOnboardingPage"
+        title="Employee Onboarding"
+        showHeader="true"
+        enableScrolling="true"
+        class="sapUiResponsiveContentPadding"
+        showNavButton="true"
+        navButtonPress="OnnavBack"
+    >
+            <OverflowToolbar>
+               
+
+                <ToolbarSpacer />
+
+                <ObjectStatus
+                    text="{= ${onboarding>/Items}.length + ' record(s)' }"
+                    state="Information"
+                    class="sapUiSmallMarginEnd"
+                />
+
+                <Button
+                    icon="sap-icon://refresh"
+                    tooltip="Refresh"
+                    type="Transparent"
+                    press=".onRefresh"
+                />
+
+                <Button
+                    icon="sap-icon://add"
+                    text="New Onboarding"
+                    type="Emphasized"
+                    press=".onCreateOnboarding"
+                />
+            </OverflowToolbar>
+      
+
+
+        <content>
+        
+
+            <HBox
+                id="kpiContainer"
+                width="100%"
+                wrap="Wrap"
+                justifyContent="SpaceBetween"
+                alignItems="Stretch"
+                class="sapUiSmallMarginBottom"
+            >
+           
+
+                <VBox
+                    width="24%"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <GenericTile
+                        header="Total Onboarding"
+                        subheader="All onboarding records"
+                        frameType="TwoByOne"
+                        press=".onKpiTotalPress"
+                    >
+                        <TileContent>
+                            <NumericContent
+                                value="{onboarding>/KPI/Total}"
+                                icon="sap-icon://group"
+                                valueColor="Neutral"
+                                truncateValueTo="5"
+                            />
+                        </TileContent>
+                    </GenericTile>
+                </VBox>
+
+       
+                <VBox
+                    width="24%"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <GenericTile
+                        header="Pending"
+                        subheader="Waiting to start"
+                        frameType="TwoByOne"
+                        press=".onKpiPendingPress"
+                    >
+                        <TileContent>
+                            <NumericContent
+                                value="{onboarding>/KPI/Pending}"
+                                icon="sap-icon://pending"
+                                valueColor="Critical"
+                                truncateValueTo="5"
+                            />
+                        </TileContent>
+                    </GenericTile>
+                </VBox>
+
+
+
+                <VBox
+                    width="24%"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <GenericTile
+                        header="In Progress"
+                        subheader="Currently onboarding"
+                        frameType="TwoByOne"
+                        press=".onKpiInProgressPress"
+                    >
+                        <TileContent>
+                            <NumericContent
+                                value="{onboarding>/KPI/InProgress}"
+                                icon="sap-icon://process"
+                                valueColor="Critical"
+                                truncateValueTo="5"
+                            />
+                        </TileContent>
+                    </GenericTile>
+                </VBox>
+
+
+
+                <VBox
+                    width="24%"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <GenericTile
+                        header="Completed"
+                        subheader="Employees onboarded"
+                        frameType="TwoByOne"
+                        press=".onKpiCompletedPress"
+                    >
+                        <TileContent>
+                            <NumericContent
+                                value="{onboarding>/KPI/Completed}"
+                                icon="sap-icon://accept"
+                                valueColor="Good"
+                                truncateValueTo="5"
+                            />
+                        </TileContent>
+                    </GenericTile>
+                </VBox>
+            </HBox>
+
+
+            <Panel
+                id="filterPanel"
+                headerText="Search &amp; Filter"
+                expandable="true"
+                expanded="true"
+                class="sapUiSmallMarginBottom"
+            >
+                <content>
+                    <HBox
+                        width="100%"
+                        wrap="Wrap"
+                        alignItems="End"
+                    >
+            
+                        <VBox
+                            width="40%"
+                            class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                        >
+                            <Label
+                                text="Search"
+                                labelFor="onboardingSearch"
+                            />
+
+                            <SearchField
+                                id="onboardingSearch"
+                                width="100%"
+                                placeholder="Search Candidate, Joining ID or Employee ID"
+                                liveChange=".onSearch"
+                                search=".onSearch"
+                            />
+                        </VBox>
+
+                  
+                        <VBox
+                            width="22%"
+                            class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
+                        >
+                            <Label
+                                text="Onboarding Status"
+                                labelFor="onboardingStatusFilter"
+                            />
+
+                            <Select
+                                id="onboardingStatusFilter"
+                                width="100%"
+                                selectedKey="ALL"
+                                change=".onStatusFilter"
+                            >
+                                <items>
+                                    <core:Item
+                                        key="ALL"
+                                        text="All Statuses"
+                                    />
+
+                                    <core:Item
+                                        key="PENDING"
+                                        text="Pending"
+                                    />
+
+                                    <core:Item
+                                        key="IN_PROGRESS"
+                                        text="In Progress"
+                                    />
+
+                                    <core:Item
+                                        key="COMPLETED"
+                                        text="Completed"
+                                    />
+
+                                    <core:Item
+                                        key="CANCELLED"
+                                        text="Cancelled"
+                                    />
+                                </items>
+                            </Select>
+                        </VBox>
+
+     
+
+                        <VBox class="sapUiSmallMarginBottom">
+                            <Button
+                                text="Clear Filters"
+                                icon="sap-icon://clear-filter"
+                                type="Transparent"
+                                press=".onClearFilters"
+                            />
+                        </VBox>
+                    </HBox>
+                </content>
+            </Panel>
+
+
+            <Panel
+                id="onboardingTablePanel"
+                headerText="Onboarding Records"
+                class="sapUiSmallMarginBottom"
+            >
+                <content>
+                    <Table
+                        id="onboardingTable"
+                        width="100%"
+                        growing="true"
+                        growingThreshold="10"
+                        growingScrollToLoad="true"
+                        sticky="ColumnHeaders,HeaderToolbar"
+                        mode="None"
+                        noDataText="No onboarding records found."
+                        alternateRowColors="true"
+                        items="{
+                            path: 'onboarding>/Items',
+                            sorter: {
+                                path: 'JoiningDate',
+                                descending: false
+                            }
+                        }"
+                    >
+           
+
+                        <headerToolbar>
+                            <OverflowToolbar>
+                                <Title
+                                    text="Employee Onboarding"
+                                    level="H3"
+                                />
+
+                                <ToolbarSpacer />
+
+                                <ObjectStatus
+                                    text="{= ${onboarding>/Items}.length + ' record(s)' }"
+                                    state="Information"
+                                />
+                            </OverflowToolbar>
+                        </headerToolbar>
+
+                 
+
+                        <columns>
+                      
+
+                            <Column
+                                width="10rem"
+                                demandPopin="true"
+                                popinDisplay="Inline"
+                            >
+                                <Text text="Onboarding ID" />
+                            </Column>
+
+
+                            <Column
+                                width="10rem"
+                                demandPopin="true"
+                                popinDisplay="Inline"
+                            >
+                                <Text text="Joining ID" />
+                            </Column>
+
+                   
+
+                            <Column
+                                width="15rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                            >
+                                <Text text="Candidate" />
+                            </Column>
+
+                         
+
+                            <Column
+                                width="17rem"
+                                minScreenWidth="Tablet"
+                                demandPopin="true"
+                            >
+                                <Text text="Job Title" />
+                            </Column>
+
+                        
+                            <Column
+                                width="12rem"
+                                hAlign="Center"
+                                demandPopin="true"
+                                popinDisplay="Inline"
+                            >
+                                <Text text="Joining Date" />
+                            </Column>
+
+                   
+
+                            <Column
+                                width="13rem"
+                                hAlign="Center"
+                                demandPopin="true"
+                                popinDisplay="Inline"
+                            >
+                                <Text text="Status" />
+                            </Column>
+
+                            <!-- EMPLOYEE ID -->
+
+                            <!-- <Column
+                                width="12rem"
+                                demandPopin="true"
+                                popinDisplay="Inline"
+                            >
+                                <Text text="Employee ID" />
+                            </Column> -->
+
+                      
+
+                            <Column
+                                width="13rem"
+                                hAlign="Center"
+                            >
+                                <Text text="Actions" />
+                            </Column>
+                        </columns>
+
+                       
+                        <items>
+                            <ColumnListItem
+                                type="Inactive"
+                                vAlign="Middle"
+                            >
+                                <cells>
+                             
+
+                                    <ObjectIdentifier
+                                        title="{onboarding>OnboardId}"
+                                        text="Onboarding Record"
+                                    />
+
+                              
+
+                                    <ObjectIdentifier
+                                        title="{onboarding>JoiningId}"
+                                        text="Joining Confirmation"
+                                    />
+
+                           
+                                    <ObjectIdentifier
+                                        title="{onboarding>CandidateName}"
+                                        text="{onboarding>CandidateId}"
+                                    />
+
+
+                                    <VBox>
+                                        <Text
+                                            text="{onboarding>JobTitle}"
+                                            wrapping="true"
+                                        />
+
+                                        <Text
+                                            text="{onboarding>JobId}"
+                                            class="sapUiTinyMarginTop"
+                                            wrapping="false"
+                                        />
+                                    </VBox>
+
+
+                                    <ObjectStatus
+                                        text="{
+                                            path: 'onboarding>JoiningDate',
+                                            formatter: '.formatDate'
+                                        }"
+                                        icon="sap-icon://calendar"
+                                        state="None"
+                                    />
+
+                                
+
+                                    <ObjectStatus
+                                        text="{onboarding>OnboardingStatus}"
+                                        state="{
+                                            path: 'onboarding>OnboardingStatus',
+                                            formatter: '.formatStatusState'
+                                        }"
+                                        icon="{
+                                            path: 'onboarding>OnboardingStatus',
+                                            formatter: '.formatStatusIcon'
+                                        }"
+                                    />
+
+
+                                    <!-- <ObjectIdentifier
+                                     title="{onboarding>EmpId}"
+                                        
+                                        text="Employee ID"
+                                    /> -->
+
+
+                                    <OverflowToolbar design="Transparent">
+                                    
+
+                                        <Button
+                                            icon="sap-icon://display"
+                                            tooltip="View Onboarding"
+                                            type="Transparent"
+                                            press=".onViewOnboarding"
+                                        />
+
+
+                                        <Button
+                                            icon="sap-icon://play"
+                                            tooltip="Start Onboarding"
+                                            type="Transparent"
+                                            press=".onStartOnboarding"
+                                            visible="{
+                                                = ${onboarding>OnboardingStatus} === 'PENDING'
+                                            }"
+                                        />
+
+
+                                        <Button
+                                            icon="sap-icon://accept"
+                                            tooltip="Complete Onboarding"
+                                            type="Transparent"
+                                            press=".onCompleteOnboarding"
+                                            visible="{
+                                                = ${onboarding>OnboardingStatus} === 'IN_PROGRESS'
+                                            }"
+                                        />
+                                    </OverflowToolbar>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                    </Table>
+                </content>
+            </Panel>
+        </content>
+    </Page>
+</mvc:View>

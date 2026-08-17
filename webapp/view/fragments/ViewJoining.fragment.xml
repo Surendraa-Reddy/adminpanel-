@@ -1,0 +1,301 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+>
+    <Dialog
+        id="viewJoiningDialog"
+        title="Joining Confirmation Details"
+        contentWidth="850px"
+        contentHeight="auto"
+        draggable="true"
+        resizable="true"
+        stretchOnPhone="true"
+    >
+        <content>
+            <VBox
+                width="100%"
+                class="sapUiMediumMargin"
+            >
+                <Panel class="sapUiSmallMarginBottom">
+                    <headerToolbar>
+                        <Toolbar>
+                            <ObjectStatus
+                                icon="sap-icon://employee"
+                                text="Joining Confirmation"
+                                state="Information"
+                            />
+
+                            <ToolbarSpacer />
+
+                            <!-- <ObjectStatus
+                                text="{viewJoining>/JoiningStatus}"
+                                state="{
+                                    path: 'viewJoining>/JoiningStatus',
+                                    formatter: '.formatJoiningStatusState'
+                                }"
+                                icon="{
+                                    path: 'viewJoining>/JoiningStatus',
+                                    formatter: '.formatJoiningStatusIcon'
+                                }"
+                            /> -->
+                        </Toolbar>
+                    </headerToolbar>
+
+                    <content>
+                        <VBox class="sapUiSmallMargin">
+                            <Title
+                                text="{viewJoining>/CandidateName}"
+                                level="H2"
+                            />
+
+                            <Text
+                                text="{viewJoining>/CandidateId}"
+                                class="sapUiTinyMarginTop"
+                            />
+                        </VBox>
+                    </content>
+                </Panel>
+
+                <Panel
+                    headerText="Joining Information"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <content>
+                        <form:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            labelSpanXL="4"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            labelSpanS="12"
+                            emptySpanXL="2"
+                            emptySpanL="2"
+                            emptySpanM="2"
+                            emptySpanS="0"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                            adjustLabelSpan="false"
+                        >
+                            <Label text="Joining ID" />
+
+                            <ObjectIdentifier
+                                title="{viewJoining>/JoiningId}"
+                                text="Joining Confirmation"
+                            />
+
+                            <Label text="Offer ID" />
+
+                            <ObjectIdentifier
+                                title="{viewJoining>/OfferId}"
+                                text="Offer"
+                            />
+
+                            <Label text="Candidate ID" />
+
+                            <ObjectIdentifier
+                                title="{viewJoining>/CandidateId}"
+                                text="Candidate"
+                            />
+
+                            <Label text="Employee ID" />
+
+                            <ObjectIdentifier
+                                title="{viewJoining>/EmpId}"
+                                text="Employee"
+                            />
+
+                            <Label text="Joining Date" />
+
+                            <Text
+                                text="{
+                                    path: 'viewJoining>/JoiningDate',
+                                    formatter: '.formatDate'
+                                }"
+                            />
+
+                            <Label text="Joining Status" />
+
+                            <ObjectStatus
+                                text="{viewJoining>/JoiningStatus}"
+                                state="{
+                                    path: 'viewJoining>/JoiningStatus',
+                                    formatter: '.formatJoiningStatusState'
+                                }"
+                                icon="{
+                                    path: 'viewJoining>/JoiningStatus',
+                                    formatter: '.formatJoiningStatusIcon'
+                                }"
+                            />
+                        </form:SimpleForm>
+                    </content>
+                </Panel>
+
+                <Panel
+                    headerText="Candidate Information"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <content>
+                        <form:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            labelSpanXL="4"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            labelSpanS="12"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                        >
+                            <Label text="Candidate ID" />
+
+                            <Text text="{viewJoining>/CandidateId}" />
+
+                            <Label text="Candidate Name" />
+
+                            <Text text="{viewJoining>/CandidateName}" />
+                        </form:SimpleForm>
+                    </content>
+                </Panel>
+
+                <Panel
+                    headerText="Job Information"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <content>
+                        <form:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            labelSpanXL="4"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            labelSpanS="12"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                        >
+                            <Label text="Job ID" />
+
+                            <ObjectIdentifier title="{viewJoining>/JobId}" />
+
+                            <Label text="Job Title" />
+
+                            <Text
+                                text="{viewJoining>/JobTitle}"
+                                wrapping="true"
+                            />
+                        </form:SimpleForm>
+                    </content>
+                </Panel>
+
+                <Panel
+                    headerText="Confirmation Information"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <content>
+                        <form:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            labelSpanXL="4"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            labelSpanS="12"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                        >
+                            <Label text="Confirmed Date" />
+
+                            <Text
+                                text="{
+                                    path: 'viewJoining>/ConfirmedDate',
+                                    formatter: '.formatDate'
+                                }"
+                            />
+
+                            <Label text="Current Status" />
+
+                            <ObjectStatus
+                                text="{viewJoining>/JoiningStatus}"
+                                state="{
+                                    path: 'viewJoining>/JoiningStatus',
+                                    formatter: '.formatJoiningStatusState'
+                                }"
+                                icon="{
+                                    path: 'viewJoining>/JoiningStatus',
+                                    formatter: '.formatJoiningStatusIcon'
+                                }"
+                            />
+                        </form:SimpleForm>
+                    </content>
+                </Panel>
+
+                <Panel
+                    headerText="Record Information"
+                    expandable="true"
+                    expanded="false"
+                >
+                    <content>
+                        <form:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            labelSpanXL="4"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            labelSpanS="12"
+                            columnsXL="2"
+                            columnsL="2"
+                            columnsM="2"
+                        >
+                            <Label text="Created On" />
+
+                            <Text
+                                text="{
+                                    path: 'viewJoining>/CreatedOn',
+                                    formatter: '.formatDate'
+                                }"
+                            />
+
+                            <Label text="Client" />
+
+                            <Text text="{viewJoining>/Mandt}" />
+                        </form:SimpleForm>
+                    </content>
+                </Panel>
+
+                <Panel
+                    headerText="Comments"
+                    expandable="true"
+                    expanded="true"
+                >
+                    <content>
+                        <VBox class="sapUiSmallMargin">
+                            <Text
+                                text="{viewJoining>/Comments}"
+                                wrapping="true"
+                            />
+                        </VBox>
+                    </content>
+                </Panel>
+            </VBox>
+        </content>
+
+        <endButton>
+            <Button
+                text="Close"
+                icon="sap-icon://decline"
+                type="Transparent"
+                press=".onCloseViewJoining"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

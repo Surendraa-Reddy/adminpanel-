@@ -3144,22 +3144,17 @@ sap.ui.define([
                     ""
                 ).toUpperCase();
 
-
-                if (sStatus !== "PENDING") {
-
+                // Allow both PENDING and IN_PROGRESS to open the dialog
+                if (sStatus !== "PENDING" && sStatus !== "IN_PROGRESS") {
                     MessageBox.information(
-                        "This onboarding cannot be started because its current status is " +
+                        "This onboarding cannot be started or resumed because its current status is " +
                         (oData.OnboardingStatus || "UNKNOWN") +
                         "."
                     );
-
                     return;
                 }
 
 
-                /*
-                 * Create checklist model
-                 */
 
                 var oStartModel = new JSONModel({
 
@@ -3228,9 +3223,7 @@ sap.ui.define([
                 });
 
 
-                /*
-                 * Open dialog
-                 */
+
 
                 if (!this._oStartOnboardingDialog) {
 
@@ -3635,24 +3628,77 @@ sap.ui.define([
                                 );
 
 
-                                MessageBox.success(
+                                /*
+                                 * If an employee is already linked
+                                 * to this onboarding record, don't
+                                 * offer to create another one.
+                                 */
+                                if (oData.EmpId) {
 
-                                    "Onboarding completed successfully." +
-                                    "\n\nCandidate: " +
-                                    (
-                                        oData.CandidateName ||
-                                        ""
-                                    ),
+                                    MessageBox.information(
+
+                                        "Onboarding completed successfully." +
+                                        "\n\nEmployee already created: " +
+                                        oData.EmpId,
+
+                                        {
+
+                                            title:
+                                                "Onboarding Completed",
+
+                                            onClose:
+                                                function () {
+
+                                                    this._loadOnboarding();
+
+                                                }.bind(this)
+
+                                        }
+
+                                    );
+
+                                    return;
+
+                                }
+
+
+                                MessageBox.confirm(
+
+                                    "Onboarding completed successfully for " +
+                                    (oData.CandidateName || "") +
+                                    ".\n\nDo you want to create the employee record now?",
 
                                     {
 
                                         title:
-                                            "Onboarding Completed",
+                                            "Create Employee",
+
+                                        actions: [
+                                            MessageBox.Action.YES,
+                                            MessageBox.Action.NO
+                                        ],
+
+                                        emphasizedAction:
+                                            MessageBox.Action.YES,
 
                                         onClose:
-                                            function () {
+                                            function (sAction) {
 
-                                                this._loadOnboarding();
+                                                if (
+                                                    sAction !==
+                                                    MessageBox.Action.YES
+                                                ) {
+
+                                                    this._loadOnboarding();
+
+                                                    return;
+
+                                                }
+
+
+                                                this._navigateToCreateEmployee(
+                                                    oData
+                                                );
 
                                             }.bind(this)
 
@@ -3661,7 +3707,6 @@ sap.ui.define([
                                 );
 
                             }.bind(this),
-
 
                         error:
                             function (
@@ -3690,6 +3735,78 @@ sap.ui.define([
                     }
 
                 );
+
+            },
+            _navigateToCreateEmployee: function (oData) {
+
+                var oComponent =
+                    this.getOwnerComponent();
+
+                var oHandoffModel =
+                    oComponent.getModel(
+                        "onboardingHandoff"
+                    );
+
+
+                if (!oHandoffModel) {
+
+                    oHandoffModel =
+                        new JSONModel();
+
+
+                    oComponent.setModel(
+                        oHandoffModel,
+                        "onboardingHandoff"
+                    );
+
+                }
+
+
+                oHandoffModel.setData({
+
+                    Source:
+                        "ONBOARDING",
+
+                    OnboardId:
+                        oData.OnboardId || "",
+
+                    JoiningId:
+                        oData.JoiningId || "",
+
+                    OfferId:
+                        oData.OfferId || "",
+
+                    CandidateId:
+                        oData.CandidateId || "",
+
+                    CandidateName:
+                        oData.CandidateName || "",
+
+                    JobId:
+                        oData.JobId || "",
+
+                    JobTitle:
+                        oData.JobTitle || "",
+
+                    Department:
+                        oData.Department || "",
+
+                    JoiningDate:
+                        oData.JoiningDate || null,
+
+                    Email:
+                        oData.Email || "",
+
+                    Mobile:
+                        oData.Mobile || ""
+
+                });
+
+
+                oComponent.getRouter()
+                    .navTo(
+                        "CreateEmployee"
+                    );
 
             },
 
@@ -4234,6 +4351,148 @@ sap.ui.define([
 
                 return sMessage;
 
+            },
+
+            onCancelOnboarding: function (oEvent) {
+
+                var oContext =
+                    oEvent.getSource()
+                        .getBindingContext(
+                            "onboarding"
+                        );
+
+                if (!oContext) {
+                    MessageBox.error(
+                        "Onboarding record not found."
+                    );
+                    return;
+                }
+
+                var oData =
+                    oContext.getObject();
+
+                var sOnboardId =
+                    oData.OnboardId;
+
+                if (!sOnboardId) {
+                    MessageBox.error(
+                        "Onboarding ID is missing."
+                    );
+                    return;
+                }
+
+                var sStatus = String(oData.OnboardingStatus).toUpperCase();
+                if (sStatus !== "IN_PROGRESS" && sStatus !== "PENDING") {
+                    MessageBox.warning(
+                        "Only onboarding records in progress or pending can be cancelled."
+                    );
+                    return;
+                }
+
+                MessageBox.confirm(
+                    "Are you sure you want to cancel onboarding for " +
+                    (oData.CandidateName || "") +
+                    "?",
+                    {
+                        title:
+                            "Cancel Onboarding",
+                        actions: [
+                            MessageBox.Action.YES,
+                            MessageBox.Action.NO
+                        ],
+                        emphasizedAction:
+                            MessageBox.Action.NO,
+                        onClose:
+                            function (sAction) {
+                                if (
+                                    sAction !==
+                                    MessageBox.Action.YES
+                                ) {
+                                    return;
+                                }
+
+                                this._cancelOnboarding(
+                                    oData
+                                );
+                            }.bind(this)
+                    }
+                );
+            },
+
+            _cancelOnboarding: function (
+                oData
+            ) {
+                var oModel =
+                    this.getOwnerComponent()
+                        .getModel();
+
+                var sOnboardId =
+                    oData.OnboardId;
+
+                var sPath =
+                    oModel.createKey(
+                        this.ONBOARDING_ENTITY_SET,
+                        {
+                            OnboardId:
+                                sOnboardId
+                        }
+                    );
+
+                var oPayload = {
+                    OnboardingStatus:
+                        "CANCELLED"
+                };
+
+                this.getView()
+                    .setBusy(true);
+
+                oModel.update(
+                    sPath,
+                    oPayload,
+                    {
+                        merge:
+                            true,
+                        success:
+                            function (
+                                oUpdatedData
+                            ) {
+                                this.getView()
+                                    .setBusy(false);
+
+                                MessageBox.success(
+                                    "Onboarding cancelled successfully." +
+                                    "\n\nCandidate: " +
+                                    (
+                                        oData.CandidateName ||
+                                        ""
+                                    ),
+                                    {
+                                        title:
+                                            "Onboarding Cancelled",
+                                        onClose:
+                                            function () {
+                                                this._loadOnboarding();
+                                            }.bind(this)
+                                    }
+                                );
+                            }.bind(this),
+
+                        error:
+                            function (
+                                oError
+                            ) {
+                                this.getView()
+                                    .setBusy(false);
+
+                                MessageBox.error(
+                                    this._getODataErrorMessage(
+                                        oError,
+                                        "Unable to cancel onboarding."
+                                    )
+                                );
+                            }.bind(this)
+                    }
+                );
             },
 
 

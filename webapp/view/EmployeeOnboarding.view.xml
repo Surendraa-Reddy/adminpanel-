@@ -5,7 +5,7 @@
     xmlns:core="sap.ui.core"
     xmlns:f="sap.f"
     displayBlock="true"
-  >
+>
     <Page
         id="employeeOnboardingPage"
         title="Employee Onboarding"
@@ -15,37 +15,31 @@
         showNavButton="true"
         navButtonPress="OnnavBack"
     >
-            <OverflowToolbar>
-               
+        <OverflowToolbar>
+            <ToolbarSpacer />
 
-                <ToolbarSpacer />
+            <ObjectStatus
+                text="{= ${onboarding>/Items}.length + ' record(s)' }"
+                state="Information"
+                class="sapUiSmallMarginEnd"
+            />
 
-                <ObjectStatus
-                    text="{= ${onboarding>/Items}.length + ' record(s)' }"
-                    state="Information"
-                    class="sapUiSmallMarginEnd"
-                />
+            <Button
+                icon="sap-icon://refresh"
+                tooltip="Refresh"
+                type="Transparent"
+                press=".onRefresh"
+            />
 
-                <Button
-                    icon="sap-icon://refresh"
-                    tooltip="Refresh"
-                    type="Transparent"
-                    press=".onRefresh"
-                />
-
-                <Button
-                    icon="sap-icon://add"
-                    text="New Onboarding"
-                    type="Emphasized"
-                    press=".onCreateOnboarding"
-                />
-            </OverflowToolbar>
-      
-
+            <Button
+                icon="sap-icon://add"
+                text="New Onboarding"
+                type="Emphasized"
+                press=".onCreateOnboarding"
+            />
+        </OverflowToolbar>
 
         <content>
-        
-
             <HBox
                 id="kpiContainer"
                 width="100%"
@@ -54,8 +48,6 @@
                 alignItems="Stretch"
                 class="sapUiSmallMarginBottom"
             >
-           
-
                 <VBox
                     width="24%"
                     class="sapUiSmallMarginBottom"
@@ -77,7 +69,6 @@
                     </GenericTile>
                 </VBox>
 
-       
                 <VBox
                     width="24%"
                     class="sapUiSmallMarginBottom"
@@ -99,8 +90,6 @@
                     </GenericTile>
                 </VBox>
 
-
-
                 <VBox
                     width="24%"
                     class="sapUiSmallMarginBottom"
@@ -121,8 +110,6 @@
                         </TileContent>
                     </GenericTile>
                 </VBox>
-
-
 
                 <VBox
                     width="24%"
@@ -146,7 +133,6 @@
                 </VBox>
             </HBox>
 
-
             <Panel
                 id="filterPanel"
                 headerText="Search &amp; Filter"
@@ -160,7 +146,6 @@
                         wrap="Wrap"
                         alignItems="End"
                     >
-            
                         <VBox
                             width="40%"
                             class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
@@ -179,7 +164,6 @@
                             />
                         </VBox>
 
-                  
                         <VBox
                             width="22%"
                             class="sapUiSmallMarginEnd sapUiSmallMarginBottom"
@@ -224,8 +208,6 @@
                             </Select>
                         </VBox>
 
-     
-
                         <VBox class="sapUiSmallMarginBottom">
                             <Button
                                 text="Clear Filters"
@@ -237,7 +219,6 @@
                     </HBox>
                 </content>
             </Panel>
-
 
             <Panel
                 id="onboardingTablePanel"
@@ -263,8 +244,6 @@
                             }
                         }"
                     >
-           
-
                         <headerToolbar>
                             <OverflowToolbar>
                                 <Title
@@ -281,11 +260,7 @@
                             </OverflowToolbar>
                         </headerToolbar>
 
-                 
-
                         <columns>
-                      
-
                             <Column
                                 width="10rem"
                                 demandPopin="true"
@@ -293,7 +268,6 @@
                             >
                                 <Text text="Onboarding ID" />
                             </Column>
-
 
                             <Column
                                 width="10rem"
@@ -303,8 +277,6 @@
                                 <Text text="Joining ID" />
                             </Column>
 
-                   
-
                             <Column
                                 width="15rem"
                                 minScreenWidth="Tablet"
@@ -312,8 +284,6 @@
                             >
                                 <Text text="Candidate" />
                             </Column>
-
-                         
 
                             <Column
                                 width="17rem"
@@ -323,7 +293,6 @@
                                 <Text text="Job Title" />
                             </Column>
 
-                        
                             <Column
                                 width="12rem"
                                 hAlign="Center"
@@ -332,8 +301,6 @@
                             >
                                 <Text text="Joining Date" />
                             </Column>
-
-                   
 
                             <Column
                                 width="13rem"
@@ -354,8 +321,6 @@
                                 <Text text="Employee ID" />
                             </Column> -->
 
-                      
-
                             <Column
                                 width="13rem"
                                 hAlign="Center"
@@ -364,33 +329,26 @@
                             </Column>
                         </columns>
 
-                       
                         <items>
                             <ColumnListItem
                                 type="Inactive"
                                 vAlign="Middle"
                             >
                                 <cells>
-                             
-
                                     <ObjectIdentifier
                                         title="{onboarding>OnboardId}"
                                         text="Onboarding Record"
                                     />
-
-                              
 
                                     <ObjectIdentifier
                                         title="{onboarding>JoiningId}"
                                         text="Joining Confirmation"
                                     />
 
-                           
                                     <ObjectIdentifier
                                         title="{onboarding>CandidateName}"
                                         text="{onboarding>CandidateId}"
                                     />
-
 
                                     <VBox>
                                         <Text
@@ -405,7 +363,6 @@
                                         />
                                     </VBox>
 
-
                                     <ObjectStatus
                                         text="{
                                             path: 'onboarding>JoiningDate',
@@ -414,8 +371,6 @@
                                         icon="sap-icon://calendar"
                                         state="None"
                                     />
-
-                                
 
                                     <ObjectStatus
                                         text="{onboarding>OnboardingStatus}"
@@ -429,17 +384,13 @@
                                         }"
                                     />
 
-
                                     <!-- <ObjectIdentifier
                                      title="{onboarding>EmpId}"
                                         
                                         text="Employee ID"
                                     /> -->
 
-
                                     <OverflowToolbar design="Transparent">
-                                    
-
                                         <Button
                                             icon="sap-icon://display"
                                             tooltip="View Onboarding"
@@ -447,26 +398,27 @@
                                             press=".onViewOnboarding"
                                         />
 
-
                                         <Button
-                                            icon="sap-icon://play"
-                                            tooltip="Start Onboarding"
+                                            icon="{= ${onboarding>OnboardingStatus} === 'IN_PROGRESS' ? 'sap-icon://feeder-arrow' : 'sap-icon://play' }"
+                                            tooltip="{= ${onboarding>OnboardingStatus} === 'IN_PROGRESS' ? 'Resume Onboarding' : 'Start Onboarding' }"
                                             type="Transparent"
                                             press=".onStartOnboarding"
-                                            visible="{
-                                                = ${onboarding>OnboardingStatus} === 'PENDING'
-                                            }"
+                                            visible="{= ${onboarding>OnboardingStatus} === 'PENDING' || ${onboarding>OnboardingStatus} === 'IN_PROGRESS' }"
                                         />
-
 
                                         <Button
                                             icon="sap-icon://accept"
                                             tooltip="Complete Onboarding"
                                             type="Transparent"
                                             press=".onCompleteOnboarding"
-                                            visible="{
-                                                = ${onboarding>OnboardingStatus} === 'IN_PROGRESS'
-                                            }"
+                                            visible="{= ${onboarding>OnboardingStatus} === 'IN_PROGRESS' }"
+                                        />
+                                        <Button
+                                            icon="sap-icon://decline"
+                                            tooltip="Cancel Onboarding"
+                                            type="Transparent"
+                                            press=".onCancelOnboarding"
+                                            visible="{= ${onboarding>OnboardingStatus} === 'PENDING' || ${onboarding>OnboardingStatus} === 'IN_PROGRESS' }"
                                         />
                                     </OverflowToolbar>
                                 </cells>

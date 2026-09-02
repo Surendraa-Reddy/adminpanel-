@@ -263,10 +263,10 @@
                                     text="All Statuses"
                                 />
 
-                                <core:Item
+                                <!-- <core:Item
                                     key="DRAFT"
                                     text="Draft"
-                                />
+                                /> -->
 
                                 <core:Item
                                     key="OFFERED"
@@ -284,8 +284,8 @@
                                 />
 
                                 <core:Item
-                                    key="WITHDRAWN"
-                                    text="Withdrawn"
+                                    key="EXPIRED"
+                                    text="Expired"
                                 />
                             </Select>
 

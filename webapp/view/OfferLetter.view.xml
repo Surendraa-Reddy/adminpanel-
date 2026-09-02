@@ -10,9 +10,7 @@
         showNavButton="true"
         navButtonPress="onNavBack"
     >
-        <!-- ===================================================== -->
-        <!-- HEADER -->
-        <!-- ===================================================== -->
+        
 
         <headerContent>
             <Button
@@ -38,18 +36,14 @@
             />
         </headerContent>
 
-        <!-- ===================================================== -->
-        <!-- PAGE CONTENT -->
-        <!-- ===================================================== -->
+       
 
         <content>
             <VBox
                 width="100%"
                 class="sapUiResponsiveContentPadding"
             >
-                <!-- ================================================= -->
-                <!-- PAGE INTRO -->
-                <!-- ================================================= -->
+              
 
                 <VBox class="sapUiMediumMarginBottom">
                     <Title
@@ -64,9 +58,7 @@
                     />
                 </VBox>
 
-                <!-- ================================================= -->
-                <!-- KPI CARDS -->
-                <!-- ================================================= -->
+          
 
                 <HBox
                     width="100%"
@@ -74,10 +66,7 @@
                     justifyContent="SpaceBetween"
                     class="sapUiMediumMarginBottom"
                 >
-                    <!-- ============================================= -->
-                    <!-- TOTAL OFFERS -->
-                    <!-- ============================================= -->
-
+                   
                     <VBox
                         width="23%"
                         class="offerKpiCard sapUiSmallMarginBottom"
@@ -95,8 +84,7 @@
                                     class="sapUiTinyMarginBottom"
                                 />
 
-                                <!-- IMPORTANT:
-                                     Bind to kpi model -->
+                             
 
                                 <Title
                                     id="totalOfferKpi"
@@ -106,10 +94,6 @@
                             </VBox>
                         </HBox>
                     </VBox>
-
-                    <!-- ============================================= -->
-                    <!-- OFFERED -->
-                    <!-- ============================================= -->
 
                     <VBox
                         width="23%"
@@ -137,9 +121,6 @@
                         </HBox>
                     </VBox>
 
-                    <!-- ============================================= -->
-                    <!-- ACCEPTED -->
-                    <!-- ============================================= -->
 
                     <VBox
                         width="23%"
@@ -167,9 +148,7 @@
                         </HBox>
                     </VBox>
 
-                    <!-- ============================================= -->
-                    <!-- REJECTED -->
-                    <!-- ============================================= -->
+                 
 
                     <VBox
                         width="23%"
@@ -197,11 +176,6 @@
                         </HBox>
                     </VBox>
                 </HBox>
-
-                <!-- ================================================= -->
-                <!-- SEARCH & FILTER -->
-                <!-- ================================================= -->
-
                 <Panel
                     id="offerSearchPanel"
                     expandable="false"
@@ -244,7 +218,7 @@
 
                             <ToolbarSeparator />
 
-                            <!-- STATUS -->
+                           
 
                             <Label
                                 text="Status"
@@ -303,9 +277,7 @@
                     </content>
                 </Panel>
 
-                <!-- ================================================= -->
-                <!-- OFFER TABLE -->
-                <!-- ================================================= -->
+               
 
                 <Panel
                     id="offerTablePanel"
@@ -437,10 +409,7 @@
                                             wrapping="true"
                                         />
 
-                                        <!-- ===================================== -->
-                                        <!-- OFFER DATE -->
-                                        <!-- ===================================== -->
-
+                                       
                                         <Text
                                             text="{
                                                 path: 'offer>OfferDate',
@@ -468,9 +437,7 @@
                                             }"
                                         />
 
-                                        <!-- ===================================== -->
-                                        <!-- ACTIONS -->
-                                        <!-- ===================================== -->
+                                   
 
                                         <HBox
                                             justifyContent="Center"
@@ -487,8 +454,7 @@
                                                 class="sapUiTinyMarginEnd"
                                             />
 
-                                            <!-- EDIT -->
-
+                                         
                                             <Button
                                                 icon="sap-icon://edit"
                                                 tooltip="Edit Offer"
@@ -497,7 +463,7 @@
                                                 class="sapUiTinyMarginEnd"
                                             />
 
-                                            <!-- DELETE -->
+                                           
 
                                             <Button
                                                 icon="sap-icon://delete"
@@ -507,7 +473,7 @@
                                                 class="sapUiTinyMarginEnd"
                                             />
 
-                                            <!-- PDF -->
+                                         
 
                                             <Button
                                                 icon="sap-icon://pdf-attachment"

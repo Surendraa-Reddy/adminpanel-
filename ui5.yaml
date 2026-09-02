@@ -15,7 +15,7 @@ server:
 
         backend:
           - path: /sap
-            destination: sapHana
+            destination: SapHana
 
         ui5:
           path:

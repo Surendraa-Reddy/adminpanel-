@@ -36,7 +36,7 @@ sap.ui.define([
 
             var oModel = this.getView().getModel();
 
-            // Get logged-in employee ID
+            
             var oSession = this.getOwnerComponent().getModel("session");
             var sEmpId = oSession.getProperty("/empId");
 
@@ -108,10 +108,10 @@ sap.ui.define([
 
             var oModel = this.getView().getModel();
 
-            // Reload data from backend
+     
             oModel.refresh(true);
 
-            // Clear filters
+            
             var oBinding = this.byId("employeeTable").getBinding("items");
             if (oBinding) {
                 oBinding.filter([]);
@@ -237,7 +237,7 @@ sap.ui.define([
 
                                     MessageBox.success("Employee deleted successfully.");
 
-                                    // Refresh the table
+                                   
                                     oModel.refresh(true);
 
                                 },

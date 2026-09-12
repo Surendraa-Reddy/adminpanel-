@@ -76,22 +76,22 @@ sap.ui.define([
 
                     });
 
-                    // Past Holidays (Latest First)
+                  
                     aPast.sort(function (a, b) {
                         return b._date - a._date;
                     });
 
-                    // Upcoming Holidays (Nearest First)
+                    
                     aUpcoming.sort(function (a, b) {
                         return a._date - b._date;
                     });
 
-                    // Combine: Past -> Upcoming
+                    
                     var aDisplay = aPast.concat(aUpcoming);
 
                     oHolidayModel.setProperty("/UpcomingHolidays", aDisplay);
 
-                    // Default page = First Upcoming Holiday
+                  
                     setTimeout(function () {
 
                         var oCarousel = that.byId("upcomingCarousel");
@@ -102,7 +102,7 @@ sap.ui.define([
 
                         var aPages = oCarousel.getPages();
 
-                        // Default page = nearest upcoming holiday
+                        
                         if (aPages.length > aPast.length) {
                             oCarousel.setActivePage(aPages[aPast.length]);
                         }

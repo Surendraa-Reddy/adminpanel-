@@ -751,7 +751,7 @@ sap.ui.define([
 
             this._oNotificationPopup.open();
 
-            // Auto close after 5 seconds
+            
             setTimeout(function () {
 
                 if (this._oNotificationPopup &&
@@ -931,10 +931,6 @@ sap.ui.define([
             this.getOwnerComponent().getRouter().navTo(sKey);
 
         },
-
-        /*==========================================================*/
-        /* Logout */
-        /*==========================================================*/
 
         onLogout: function () {
 
